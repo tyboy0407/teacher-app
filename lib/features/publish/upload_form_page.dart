@@ -2,9 +2,9 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../core/navigation.dart';
 import '../../data/curriculum_service.dart';
 import '../../models/resource.dart';
 import '../../models/resource_draft.dart';
@@ -187,7 +187,7 @@ class _UploadFormPageState extends ConsumerState<UploadFormPage> {
           ],
         ),
       );
-      if (mounted) context.pop();
+      if (mounted) popPage(context);
     } catch (error) {
       if (mounted) _showMessage('送出失敗:$error');
     } finally {
@@ -199,7 +199,10 @@ class _UploadFormPageState extends ConsumerState<UploadFormPage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(title: const Text('新增投稿')),
+      appBar: AppBar(
+        leading: const AppBackButton(),
+        title: const Text('新增投稿'),
+      ),
       body: Form(
         key: _formKey,
         child: ListView(

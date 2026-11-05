@@ -15,6 +15,9 @@ import '../widgets/shell_scaffold.dart';
 
 /// 每次呼叫建立一個新的 router,測試之間才不會共用導覽狀態。
 GoRouter createAppRouter() {
+  // 讓 push 出來的頁面(詳情、登入、投稿)也反映在網址列:瀏覽器「上一頁」才會
+  // 正確回到前一頁,而不是跳到更早的分頁;詳情頁網址也能直接分享。
+  GoRouter.optionURLReflectsImperativeAPIs = true;
   final rootNavigatorKey = GlobalKey<NavigatorState>();
   return GoRouter(
     navigatorKey: rootNavigatorKey,

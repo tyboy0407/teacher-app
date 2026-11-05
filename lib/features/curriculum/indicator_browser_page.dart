@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/navigation.dart';
 import '../../data/curriculum_service.dart';
 import '../../models/taxonomy.dart';
 
@@ -23,7 +24,10 @@ class _IndicatorBrowserPageState extends State<IndicatorBrowserPage> {
     final goals = CurriculumService.goalsOf(_domain);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('課綱指標查詢')),
+      appBar: AppBar(
+        leading: const AppBackButton(),
+        title: const Text('課綱指標查詢'),
+      ),
       body: Column(
         children: [
           Padding(

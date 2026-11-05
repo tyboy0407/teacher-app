@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/navigation.dart';
 import '../../data/curriculum_service.dart';
 import '../../providers.dart';
 import '../../widgets/empty_state.dart';
@@ -22,7 +23,10 @@ class IndicatorResourcesPage extends ConsumerWidget {
     final results = ref.watch(indicatorResourcesProvider(indicatorCode));
 
     return Scaffold(
-      appBar: AppBar(title: Text(indicatorCode)),
+      appBar: AppBar(
+        leading: const AppBackButton(),
+        title: Text(indicatorCode),
+      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

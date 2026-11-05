@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' show AuthException;
 
+import '../../core/navigation.dart';
 import '../../providers.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
@@ -47,7 +47,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         await auth.signInWithPassword(email: email, password: password);
         if (!mounted) return;
         _showMessage('登入成功');
-        context.pop();
+        popPage(context);
       }
     } on AuthException catch (error) {
       if (mounted) _showMessage('操作失敗:${error.message}');
@@ -76,7 +76,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text(_isRegister ? '註冊帳號' : '登入')),
+      appBar: AppBar(
+        leading: const AppBackButton(),
+        title: Text(_isRegister ? '註冊帳號' : '登入'),
+      ),
       body: SafeArea(
         child: Form(
           key: _formKey,

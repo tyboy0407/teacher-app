@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../core/navigation.dart';
 import '../../data/curriculum_service.dart';
 import '../../models/resource.dart';
 import '../../models/taxonomy.dart';
@@ -24,11 +24,11 @@ class ResourceDetailPage extends ConsumerWidget {
     final resourceAsync = ref.watch(resourceByIdProvider(resourceId));
     return resourceAsync.when(
       loading: () => Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(leading: const AppBackButton()),
         body: const Center(child: CircularProgressIndicator()),
       ),
       error: (_, _) => Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(leading: const AppBackButton()),
         body: ErrorRetry(
           onRetry: () => ref.invalidate(resourceByIdProvider(resourceId)),
         ),
@@ -36,7 +36,7 @@ class ResourceDetailPage extends ConsumerWidget {
       data: (resource) {
         if (resource == null) {
           return Scaffold(
-            appBar: AppBar(),
+            appBar: AppBar(leading: const AppBackButton()),
             body: const EmptyState(
               icon: Icons.search_off,
               title: '找不到這筆資源',
@@ -93,7 +93,7 @@ class _DetailView extends StatelessWidget {
                   tooltip: '返回',
                   icon: const Icon(Icons.arrow_back,
                       color: Colors.white, size: 20),
-                  onPressed: () => context.pop(),
+                  onPressed: () => popPage(context),
                 ),
               ),
             ),
