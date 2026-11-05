@@ -4,6 +4,13 @@ import 'package:go_router/go_router.dart';
 
 import 'browser_history_stub.dart'
     if (dart.library.js_interop) 'browser_history_web.dart';
+import 'browser_navigation.dart';
+
+/// 網頁版啟動時呼叫一次:開始分辨瀏覽器發起與 App 發起的返回。
+void installBrowserNavigationSync() {
+  if (!kIsWeb) return;
+  installPopStateListener(BrowserNavigation.onPopState);
+}
 
 /// 關閉目前的全螢幕頁(詳情、登入、投稿、指標查詢)。
 ///
@@ -16,7 +23,10 @@ void popPage(BuildContext context) {
     router.go('/home');
     return;
   }
-  if (kIsWeb && browserHistoryBack()) return;
+  if (kIsWeb) {
+    BrowserNavigation.markOwnBack();
+    if (browserHistoryBack()) return;
+  }
   router.pop();
 }
 
