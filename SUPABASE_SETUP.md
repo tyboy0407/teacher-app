@@ -15,7 +15,8 @@ App 預設使用**內建示範資料**,不用任何設定就能跑起來。
 2. 打開本專案的 [`supabase/schema.sql`](supabase/schema.sql),整份複製貼上 → 按 **Run**
 3. 再貼上 [`supabase/curriculum.sql`](supabase/curriculum.sql) 執行,匯入課綱課程目標與學習指標(後台錄入時參照用)
 4. 再貼上 [`supabase/schema_v2.sql`](supabase/schema_v2.sql) 執行,啟用**帳號與投稿**(審核欄位、權限、投稿函式、圖片儲存桶)
-5. (選用)再貼上 [`supabase/seed.sql`](supabase/seed.sql) 執行,會匯入與 App 內建相同的 14 筆種子內容
+5. 再貼上 [`supabase/schema_v3.sql`](supabase/schema_v3.sql) 執行,啟用 **App 內審核**(管理者名單與審核函式;指定管理者的方法見第 8 節)
+6. (選用)再貼上 [`supabase/seed.sql`](supabase/seed.sql) 執行,會匯入與 App 內建相同的 14 筆種子內容
 
 > 註冊流程預設會寄 Email 驗證信;測試期想省略,可到 **Authentication → Sign In / Providers → Email** 關閉「Confirm email」。
 
@@ -128,14 +129,35 @@ flutter run -d chrome --dart-define-from-file=supabase.env.json
 
 ## 7. 審核老師的投稿
 
-老師在 App「發布」分頁投稿後,內容會以**待審**狀態進資料庫(`published = false`、`review_status = 'pending'`),不會直接上架。審核步驟:
+老師在 App「發布」分頁投稿後,內容會以**待審**狀態進資料庫(`published = false`、`review_status = 'pending'`),不會直接上架。
+
+### 在 App 內審核(推薦)
+
+管理者帳號(設定方式見第 8 節)登入 App 後,「我的」頁會多出**「審核投稿」**入口,顯示待審筆數:
+
+1. 點進待審清單,再點任一筆 → 看到的就是老師會看到的詳情頁
+2. 底部操作列:**通過並上架**(會先列出審核重點清單讓你勾對)或 **退回**(必須填原因,老師會在「發布」頁看到)
+3. 通過的內容立即上架;退回的老師可修正後重新投稿
+
+### 在 Supabase 後台審核(備用)
 
 1. **Table Editor → resources**,用篩選條件 `review_status = pending` 找出待審投稿
-2. 檢查內容(對照 [docs/content-guidelines.md](docs/content-guidelines.md) 的重點:分類合理、安全提醒有寫、無版權疑慮、照片沒有孩子的臉)
-3. **通過**:`review_status` 改為 `approved`,並勾選 `published` → 立即上架
-4. **退回**:`review_status` 改為 `rejected`,並在 `review_note` 填退回原因 → 老師會在 App「發布」頁看到原因,可修正後重投
+2. **通過**:`review_status` 改為 `approved`,並勾選 `published`
+3. **退回**:`review_status` 改為 `rejected`,並在 `review_note` 填退回原因
 
-老師本人隨時能在 App 看到自己投稿的狀態(審核中/已上架/未通過)。
+審核重點見 [docs/content-guidelines.md](docs/content-guidelines.md)。老師本人隨時能在 App 看到自己投稿的狀態(審核中/已上架/未通過)。
+
+## 8. 指定管理者
+
+管理者資格存在 `admins` 表,**只能從後台指定**(App 內沒有自己升級的途徑)。先讓對方在 App 註冊帳號,然後到 **SQL Editor** 執行(信箱換成對方的):
+
+```sql
+insert into public.admins (user_id)
+select id from auth.users where email = 'teacher@example.com'
+on conflict do nothing;
+```
+
+對方重新整理 App(或重新登入)後,「我的」頁就會出現「審核投稿」。要取消管理者資格,在 **Table Editor → admins** 刪掉該列即可。
 
 ## 常見問題
 

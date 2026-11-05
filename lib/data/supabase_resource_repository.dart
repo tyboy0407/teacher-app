@@ -145,4 +145,31 @@ class SupabaseResourceRepository implements ResourceRepository {
         );
     return _client.storage.from('resource-images').getPublicUrl(path);
   }
+
+  @override
+  Future<bool> isAdmin() async {
+    if (_client.auth.currentUser == null) return false;
+    final result = await _client.rpc('is_admin');
+    return result == true;
+  }
+
+  @override
+  Future<List<Resource>> fetchPendingReviews() async {
+    final rows = await _client
+        .from('resources')
+        .select(_columns)
+        .eq('review_status', 'pending')
+        .order('created_at', ascending: true);
+    return rows.map(Resource.fromSupabase).toList();
+  }
+
+  @override
+  Future<void> reviewResource(String id,
+      {required bool approve, String? note}) async {
+    await _client.rpc('review_resource', params: {
+      'resource_id': id,
+      'decision': approve ? 'approve' : 'reject',
+      'note': note,
+    });
+  }
 }

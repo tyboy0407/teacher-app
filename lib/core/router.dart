@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../features/admin/admin_review_page.dart';
 import '../features/auth/login_page.dart';
 import '../features/curriculum/indicator_browser_page.dart';
 import '../features/curriculum/indicator_resources_page.dart';
@@ -75,6 +76,11 @@ GoRouter createAppRouter() {
         path: '/publish/new',
         parentNavigatorKey: rootNavigatorKey,
         builder: (context, state) => const UploadFormPage(),
+      ),
+      GoRoute(
+        path: '/admin/review',
+        parentNavigatorKey: rootNavigatorKey,
+        builder: (context, state) => const AdminReviewPage(),
       ),
       GoRoute(
         path: '/indicators',

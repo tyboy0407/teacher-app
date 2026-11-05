@@ -108,3 +108,19 @@ final myUploadsProvider = FutureProvider<List<Resource>>((ref) {
   ref.watch(authStateProvider); // 登入/登出時重新載入
   return ref.watch(resourceRepositoryProvider).fetchMyUploads();
 });
+
+// ---- 階段 2.5:管理者審核 ----
+
+/// 目前登入者是否為管理者(未登入為 false)
+final isAdminProvider = FutureProvider<bool>((ref) {
+  final user = ref.watch(authStateProvider).value;
+  if (user == null) return false;
+  return ref.watch(resourceRepositoryProvider).isAdmin();
+});
+
+/// 待審投稿(非管理者為空)
+final pendingReviewsProvider = FutureProvider<List<Resource>>((ref) async {
+  final isAdmin = await ref.watch(isAdminProvider.future);
+  if (!isAdmin) return const [];
+  return ref.watch(resourceRepositoryProvider).fetchPendingReviews();
+});

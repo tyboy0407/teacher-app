@@ -16,6 +16,8 @@ class ProfilePage extends ConsumerWidget {
     final connected = SupabaseConfig.isConfigured;
     final auth = ref.watch(authRepositoryProvider);
     final user = ref.watch(authStateProvider).value;
+    final isAdmin = ref.watch(isAdminProvider).value ?? false;
+    final pendingCount = ref.watch(pendingReviewsProvider).value?.length;
     return Scaffold(
       appBar: AppBar(title: const Text('我的')),
       body: ListView(
@@ -59,6 +61,31 @@ class ProfilePage extends ConsumerWidget {
                         )),
             ),
           ),
+          if (isAdmin) ...[
+            const SizedBox(height: 12),
+            Card(
+              color: theme.colorScheme.tertiaryContainer,
+              child: ListTile(
+                leading: Icon(
+                  Icons.fact_check_outlined,
+                  color: theme.colorScheme.onTertiaryContainer,
+                ),
+                title: const Text(
+                  '審核投稿',
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                ),
+                subtitle: Text(
+                  pendingCount == null
+                      ? '管理者專用'
+                      : (pendingCount == 0
+                          ? '目前沒有待審投稿'
+                          : '待審 $pendingCount 筆'),
+                ),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () => context.push('/admin/review'),
+              ),
+            ),
+          ],
           const SizedBox(height: 12),
           Card(
             child: Padding(

@@ -247,6 +247,103 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('我的投稿'), findsOneWidget);
   });
+
+  final pendingForReview = Resource(
+    id: 'p1',
+    title: '待審教具',
+    summary: '一個等待審核的教具',
+    type: ResourceType.craft,
+    createdAt: DateTime(2026, 8, 15),
+    reviewStatus: 'pending',
+    published: false,
+  );
+
+  testWidgets('管理者:我的頁有審核入口,通過後投稿離開待審清單', (tester) async {
+    // 用手機尺寸跑,順便確認審核清單與底部操作列不溢版
+    tester.view.physicalSize = const Size(375, 812);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.reset);
+    final repo = _FakeVideoRepo(pending: [pendingForReview], admin: true);
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          resourceRepositoryProvider.overrideWithValue(repo),
+          authRepositoryProvider.overrideWithValue(_FakeAuthRepo()),
+        ],
+        child: const TeacherApp(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('我的'));
+    await tester.pumpAndSettle();
+    expect(find.text('審核投稿'), findsOneWidget);
+    expect(find.text('待審 1 筆'), findsOneWidget);
+
+    await tester.tap(find.text('審核投稿'));
+    await tester.pumpAndSettle();
+    expect(find.text('待審教具'), findsOneWidget);
+
+    await tester.tap(find.text('待審教具'));
+    await tester.pumpAndSettle();
+    expect(find.text('通過並上架'), findsOneWidget);
+    expect(find.text('退回'), findsOneWidget);
+
+    await tester.tap(find.text('通過並上架'));
+    await tester.pumpAndSettle();
+    expect(find.text('上架前請確認:'), findsOneWidget);
+    await tester.tap(find.text('確定通過'));
+    await tester.pumpAndSettle();
+
+    expect(repo.reviewed, [('p1', true, null)]);
+    expect(find.text('目前沒有待審投稿'), findsOneWidget);
+  });
+
+  testWidgets('管理者:退回必須填原因,原因會送到後端', (tester) async {
+    final repo = _FakeVideoRepo(pending: [pendingForReview], admin: true);
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          resourceRepositoryProvider.overrideWithValue(repo),
+          authRepositoryProvider.overrideWithValue(_FakeAuthRepo()),
+        ],
+        child: const TeacherApp(),
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('我的'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('審核投稿'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('待審教具'));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.widgetWithText(OutlinedButton, '退回'));
+    await tester.pumpAndSettle();
+    await tester.enterText(find.byType(TextField), '缺少安全提醒');
+    await tester.tap(find.widgetWithText(FilledButton, '退回'));
+    await tester.pumpAndSettle();
+
+    expect(repo.reviewed, [('p1', false, '缺少安全提醒')]);
+  });
+
+  testWidgets('非管理者看不到審核入口與審核列', (tester) async {
+    final repo = _FakeVideoRepo(pending: [pendingForReview]);
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          resourceRepositoryProvider.overrideWithValue(repo),
+          authRepositoryProvider.overrideWithValue(_FakeAuthRepo()),
+        ],
+        child: const TeacherApp(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('我的'));
+    await tester.pumpAndSettle();
+    expect(find.text('審核投稿'), findsNothing);
+  });
 }
 
 /// 永遠已登入的假帳號服務
@@ -276,11 +373,20 @@ class _FakeAuthRepo implements AuthRepository {
   Future<void> signOut() async {}
 }
 
-/// 測影片按鈕與投稿流程用的假資料來源
+/// 測影片按鈕、投稿與審核流程用的假資料來源
 class _FakeVideoRepo implements ResourceRepository {
-  _FakeVideoRepo({this.myUploads = const []});
+  _FakeVideoRepo({
+    this.myUploads = const [],
+    List<Resource> pending = const [],
+    this.admin = false,
+  }) : pending = [...pending];
 
   final List<Resource> myUploads;
+  final List<Resource> pending;
+  final bool admin;
+
+  /// 審核紀錄:(id, 是否通過, 退回原因)
+  final reviewed = <(String, bool, String?)>[];
 
   static final _video = Resource(
     id: 'v1',
@@ -291,7 +397,8 @@ class _FakeVideoRepo implements ResourceRepository {
   );
 
   @override
-  Future<Resource?> fetchById(String id) async => _video;
+  Future<Resource?> fetchById(String id) async =>
+      pending.where((r) => r.id == id).firstOrNull ?? _video;
 
   @override
   Future<List<Resource>> fetchResources(
@@ -323,4 +430,17 @@ class _FakeVideoRepo implements ResourceRepository {
   @override
   Future<String> uploadImage(Uint8List bytes, String filename) async =>
       'https://example.com/fake.jpg';
+
+  @override
+  Future<bool> isAdmin() async => admin;
+
+  @override
+  Future<List<Resource>> fetchPendingReviews() async => List.of(pending);
+
+  @override
+  Future<void> reviewResource(String id,
+      {required bool approve, String? note}) async {
+    reviewed.add((id, approve, note));
+    pending.removeWhere((r) => r.id == id);
+  }
 }

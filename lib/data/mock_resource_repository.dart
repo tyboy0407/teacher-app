@@ -103,4 +103,15 @@ class MockResourceRepository implements ResourceRepository {
   @override
   Future<String> uploadImage(Uint8List bytes, String filename) async =>
       _needsSupabase();
+
+  @override
+  Future<bool> isAdmin() async => false;
+
+  @override
+  Future<List<Resource>> fetchPendingReviews() async => const [];
+
+  @override
+  Future<void> reviewResource(String id,
+          {required bool approve, String? note}) async =>
+      _needsSupabase();
 }

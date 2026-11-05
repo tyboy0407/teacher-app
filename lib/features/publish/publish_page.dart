@@ -7,6 +7,7 @@ import '../../providers.dart';
 import '../../widgets/empty_state.dart';
 import '../../widgets/error_retry.dart';
 import '../../widgets/resource_cover.dart';
+import '../../widgets/review_status_chip.dart';
 
 /// 發布分頁:未連線 → 連線引導;未登入 → 登入引導;已登入 → 我的投稿列表。
 class PublishPage extends ConsumerWidget {
@@ -162,7 +163,7 @@ class _UploadCard extends ConsumerWidget {
                     const SizedBox(height: 4),
                     Row(
                       children: [
-                        _StatusChip(resource: resource),
+                        ReviewStatusChip(resource: resource),
                         const SizedBox(width: 8),
                         Text(
                           '${resource.createdAt.year}/${resource.createdAt.month}/${resource.createdAt.day}',
@@ -196,35 +197,6 @@ class _UploadCard extends ConsumerWidget {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _StatusChip extends StatelessWidget {
-  const _StatusChip({required this.resource});
-
-  final Resource resource;
-
-  @override
-  Widget build(BuildContext context) {
-    final (label, color) = switch (resource.reviewStatus) {
-      'pending' => ('審核中', Colors.orange),
-      'rejected' => ('未通過', Colors.red),
-      _ => resource.published ? ('已上架', Colors.green) : ('已下架', Colors.grey),
-    };
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: .12),
-        borderRadius: BorderRadius.circular(999),
-      ),
-      child: Text(
-        label,
-        style: Theme.of(context)
-            .textTheme
-            .labelSmall
-            ?.copyWith(color: color, fontWeight: FontWeight.w700),
       ),
     );
   }

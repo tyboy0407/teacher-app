@@ -38,4 +38,15 @@ abstract class ResourceRepository {
 
   /// 上傳圖片到雲端,回傳公開網址。
   Future<String> uploadImage(Uint8List bytes, String filename);
+
+  // ---- 階段 2.5:管理者審核(僅 Supabase 模式可用)----
+
+  /// 目前登入者是否為管理者。
+  Future<bool> isAdmin();
+
+  /// 待審投稿,投稿時間舊到新(先來先審)。
+  Future<List<Resource>> fetchPendingReviews();
+
+  /// 審核:通過即上架;退回必須附原因。
+  Future<void> reviewResource(String id, {required bool approve, String? note});
 }

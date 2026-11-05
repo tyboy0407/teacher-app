@@ -13,6 +13,7 @@ import '../../widgets/empty_state.dart';
 import '../../widgets/error_retry.dart';
 import '../../widgets/favorite_button.dart';
 import '../../widgets/resource_cover.dart';
+import '../../widgets/review_status_chip.dart';
 
 class ResourceDetailPage extends ConsumerWidget {
   const ResourceDetailPage({super.key, required this.resourceId});
@@ -50,7 +51,7 @@ class ResourceDetailPage extends ConsumerWidget {
   }
 }
 
-class _DetailView extends StatelessWidget {
+class _DetailView extends ConsumerWidget {
   const _DetailView({required this.resource});
 
   final Resource resource;
@@ -75,9 +76,13 @@ class _DetailView extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    // 管理者看未核准的投稿時,底部多一條審核操作列
+    final isAdmin = ref.watch(isAdminProvider).value ?? false;
+    final reviewing = isAdmin && resource.reviewStatus != 'approved';
     return Scaffold(
+      bottomNavigationBar: reviewing ? _ReviewBar(resource: resource) : null,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -120,6 +125,10 @@ class _DetailView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  if (reviewing) ...[
+                    _ReviewBanner(resource: resource),
+                    const SizedBox(height: 14),
+                  ],
                   Wrap(
                     spacing: 8,
                     runSpacing: 6,
@@ -317,6 +326,241 @@ class _DetailView extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// 管理者審核時,內容最上方的狀態提示。
+class _ReviewBanner extends StatelessWidget {
+  const _ReviewBanner({required this.resource});
+
+  final Resource resource;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final created = resource.createdAt;
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.tertiaryContainer,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                Icons.fact_check_outlined,
+                size: 18,
+                color: theme.colorScheme.onTertiaryContainer,
+              ),
+              const SizedBox(width: 8),
+              ReviewStatusChip(resource: resource),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  '${created.year}/${created.month}/${created.day} 投稿',
+                  style: theme.textTheme.labelMedium?.copyWith(
+                    color: theme.colorScheme.onTertiaryContainer,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          if (resource.isRejected && (resource.reviewNote?.isNotEmpty ?? false))
+            Padding(
+              padding: const EdgeInsets.only(top: 6),
+              child: Text(
+                '退回原因:${resource.reviewNote}',
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: theme.colorScheme.onTertiaryContainer,
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+/// 審核操作列:退回(需填原因)/ 通過並上架(先列出審核重點)。
+class _ReviewBar extends ConsumerStatefulWidget {
+  const _ReviewBar({required this.resource});
+
+  final Resource resource;
+
+  @override
+  ConsumerState<_ReviewBar> createState() => _ReviewBarState();
+}
+
+class _ReviewBarState extends ConsumerState<_ReviewBar> {
+  bool _busy = false;
+  final _noteController = TextEditingController();
+
+  @override
+  void dispose() {
+    _noteController.dispose();
+    super.dispose();
+  }
+
+  static const _checklist = [
+    '分類合理:類型/年齡/領域選得對,指標沒有硬湊',
+    '含小物件、繩線、磁鐵、刀具的內容有「小提醒」安全段落',
+    '無版權疑慮:非翻拍、非盜圖、無完整歌詞、無卡通角色',
+    '照片沒有拍到孩子的臉',
+    '文字通順、看得懂、照著做得出來',
+  ];
+
+  Future<void> _approve() async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('通過並上架'),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('上架前請確認:'),
+              const SizedBox(height: 8),
+              for (final item in _checklist)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 3),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Icon(Icons.check_box_outline_blank, size: 18),
+                      const SizedBox(width: 8),
+                      Expanded(child: Text(item)),
+                    ],
+                  ),
+                ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('再看看'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text('確定通過'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed == true) await _submit(approve: true);
+  }
+
+  Future<void> _reject() async {
+    _noteController.clear();
+    final note = await showDialog<String>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('退回投稿'),
+        content: TextField(
+          controller: _noteController,
+          autofocus: true,
+          maxLines: 3,
+          decoration: const InputDecoration(
+            labelText: '退回原因(老師會看到)',
+            hintText: '例如:缺少安全提醒、照片拍到孩子的臉',
+            border: OutlineInputBorder(),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('取消'),
+          ),
+          FilledButton(
+            onPressed: () =>
+                Navigator.of(context).pop(_noteController.text.trim()),
+            child: const Text('退回'),
+          ),
+        ],
+      ),
+    );
+    if (note == null) return;
+    if (note.isEmpty) {
+      _showMessage('退回時請填寫原因,老師才知道要改什麼');
+      return;
+    }
+    await _submit(approve: false, note: note);
+  }
+
+  Future<void> _submit({required bool approve, String? note}) async {
+    setState(() => _busy = true);
+    try {
+      await ref.read(resourceRepositoryProvider).reviewResource(
+            widget.resource.id,
+            approve: approve,
+            note: note,
+          );
+      ref.invalidate(pendingReviewsProvider);
+      ref.invalidate(resourceByIdProvider(widget.resource.id));
+      ref.invalidate(libraryResultsProvider);
+      ref.invalidate(latestResourcesProvider);
+      ref.invalidate(featuredResourcesProvider);
+      ref.invalidate(myUploadsProvider);
+      if (!mounted) return;
+      setState(() => _busy = false);
+      _showMessage(approve ? '已通過並上架' : '已退回給投稿老師');
+      popPage(context);
+    } catch (error) {
+      if (!mounted) return;
+      setState(() => _busy = false);
+      _showMessage('審核失敗:$error');
+    }
+  }
+
+  void _showMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Material(
+      elevation: 8,
+      color: theme.colorScheme.surface,
+      child: SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
+          child: Row(
+            children: [
+              Expanded(
+                child: OutlinedButton.icon(
+                  onPressed:
+                      _busy || widget.resource.isRejected ? null : _reject,
+                  icon: const Icon(Icons.undo),
+                  label: const Text('退回'),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                flex: 2,
+                child: FilledButton.icon(
+                  onPressed: _busy ? null : _approve,
+                  icon: _busy
+                      ? const SizedBox(
+                          width: 16,
+                          height: 16,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : const Icon(Icons.check),
+                  label: const Text('通過並上架'),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
