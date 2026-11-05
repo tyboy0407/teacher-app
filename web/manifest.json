@@ -1,0 +1,35 @@
+{
+    "name": "教學寶盒",
+    "short_name": "教學寶盒",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#FFF8F4",
+    "theme_color": "#E8734A",
+    "description": "給台灣幼教老師的教具、教案與教學資源寶盒",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "icons/Icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-maskable-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "icons/Icon-maskable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}

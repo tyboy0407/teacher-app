@@ -1,0 +1,156 @@
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+import '../models/resource.dart';
+import 'chips.dart';
+import 'favorite_button.dart';
+import 'resource_cover.dart';
+
+/// 列表用的橫式資源卡片
+class ResourceCard extends StatelessWidget {
+  const ResourceCard({super.key, required this.resource});
+
+  final Resource resource;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: () => context.push('/resource/${resource.id}'),
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: SizedBox(
+                  width: 88,
+                  height: 88,
+                  child: ResourceCover(resource: resource, iconSize: 32),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        TypeBadge(type: resource.type),
+                        const Spacer(),
+                        FavoriteButton(resourceId: resource.id, compact: true),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      resource.title,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        height: 1.3,
+                      ),
+                    ),
+                    if (resource.summary.isNotEmpty) ...[
+                      const SizedBox(height: 4),
+                      Text(
+                        resource.summary,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                    ],
+                    const SizedBox(height: 6),
+                    Wrap(
+                      spacing: 6,
+                      runSpacing: 4,
+                      children: [
+                        SmallInfoChip(
+                          icon: Icons.child_care,
+                          label: resource.ages.map((a) => a.label).join('、'),
+                        ),
+                        ...resource.domains.take(2).map(
+                              (domain) => SmallInfoChip(
+                                dotColor: domain.color,
+                                label: domain.label,
+                              ),
+                            ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// 首頁「精選推薦」的直式卡片
+class FeaturedResourceCard extends StatelessWidget {
+  const FeaturedResourceCard({super.key, required this.resource});
+
+  final Resource resource;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return SizedBox(
+      width: 240,
+      child: Card(
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: () => context.push('/resource/${resource.id}'),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AspectRatio(
+                aspectRatio: 16 / 9,
+                child: ResourceCover(resource: resource),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TypeBadge(type: resource.type),
+                      const SizedBox(height: 6),
+                      Expanded(
+                        child: Text(
+                          resource.title,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: theme.textTheme.titleSmall?.copyWith(
+                            fontWeight: FontWeight.w600,
+                            height: 1.3,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        resource.ages.map((a) => a.label).join('、'),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: theme.textTheme.labelSmall?.copyWith(
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

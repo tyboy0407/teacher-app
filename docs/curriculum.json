@@ -1,0 +1,3795 @@
+{
+ "goals": [
+  {
+   "code": "身-1-1",
+   "domain": "身",
+   "title": "模仿身體操控活動"
+  },
+  {
+   "code": "身-1-2",
+   "domain": "身",
+   "title": "模仿各種用具的操作"
+  },
+  {
+   "code": "身-1-3",
+   "domain": "身",
+   "title": "覺察與模仿健康行為及安全的動作"
+  },
+  {
+   "code": "身-2-1",
+   "domain": "身",
+   "title": "安全應用身體操控動作，滿足自由活動及與他人合作的需求"
+  },
+  {
+   "code": "身-2-2",
+   "domain": "身",
+   "title": "熟練各種用具的操作"
+  },
+  {
+   "code": "身-2-3",
+   "domain": "身",
+   "title": "熟練並養成健康生活習慣"
+  },
+  {
+   "code": "身-3-1",
+   "domain": "身",
+   "title": "應用組合及變化各種動作，享受肢體遊戲的樂趣"
+  },
+  {
+   "code": "身-3-2",
+   "domain": "身",
+   "title": "樂於善用各種素材及器材進行創造性活動"
+  },
+  {
+   "code": "認-1-1",
+   "domain": "認",
+   "title": "蒐集生活環境中的數學訊息"
+  },
+  {
+   "code": "認-1-2",
+   "domain": "認",
+   "title": "蒐集自然現象的訊息"
+  },
+  {
+   "code": "認-1-3",
+   "domain": "認",
+   "title": "蒐集文化產物的訊息"
+  },
+  {
+   "code": "認-2-1",
+   "domain": "認",
+   "title": "整理生活環境中的數學訊息"
+  },
+  {
+   "code": "認-2-2",
+   "domain": "認",
+   "title": "整理自然現象訊息間的關係"
+  },
+  {
+   "code": "認-2-3",
+   "domain": "認",
+   "title": "整理文化產物訊息間的關係"
+  },
+  {
+   "code": "認-3-1",
+   "domain": "認",
+   "title": "與他人合作解決生活環境中的問題"
+  },
+  {
+   "code": "語-1-1",
+   "domain": "語",
+   "title": "理解互動對象的意圖"
+  },
+  {
+   "code": "語-1-2",
+   "domain": "語",
+   "title": "理解歌謠和口語的音韻特性"
+  },
+  {
+   "code": "語-1-3",
+   "domain": "語",
+   "title": "認識社會使用多種語言的情形"
+  },
+  {
+   "code": "語-1-4",
+   "domain": "語",
+   "title": "理解生活環境中的圖像符號"
+  },
+  {
+   "code": "語-1-5",
+   "domain": "語",
+   "title": "理解圖畫書的內容與功能"
+  },
+  {
+   "code": "語-1-6",
+   "domain": "語",
+   "title": "熟悉閱讀華文的方式"
+  },
+  {
+   "code": "語-1-7",
+   "domain": "語",
+   "title": "理解文字的功能"
+  },
+  {
+   "code": "語-2-1",
+   "domain": "語",
+   "title": "以肢體語言表達"
+  },
+  {
+   "code": "語-2-2",
+   "domain": "語",
+   "title": "以口語參與互動"
+  },
+  {
+   "code": "語-2-3",
+   "domain": "語",
+   "title": "敘說生活經驗"
+  },
+  {
+   "code": "語-2-4",
+   "domain": "語",
+   "title": "看圖敘說"
+  },
+  {
+   "code": "語-2-5",
+   "domain": "語",
+   "title": "運用圖像符號"
+  },
+  {
+   "code": "語-2-6",
+   "domain": "語",
+   "title": "回應敘事文本"
+  },
+  {
+   "code": "語-2-7",
+   "domain": "語",
+   "title": "編創與演出敘事文本"
+  },
+  {
+   "code": "社-1-1",
+   "domain": "社",
+   "title": "認識自己"
+  },
+  {
+   "code": "社-1-2",
+   "domain": "社",
+   "title": "覺察自己與他人內在想法的不同"
+  },
+  {
+   "code": "社-1-3",
+   "domain": "社",
+   "title": "覺察生活規範與活動規則"
+  },
+  {
+   "code": "社-1-4",
+   "domain": "社",
+   "title": "覺察家的重要"
+  },
+  {
+   "code": "社-1-5",
+   "domain": "社",
+   "title": "探索自己與生活環境中人事物的關係"
+  },
+  {
+   "code": "社-1-6",
+   "domain": "社",
+   "title": "認識生活環境中文化的多元現象"
+  },
+  {
+   "code": "社-2-1",
+   "domain": "社",
+   "title": "發展自我概念"
+  },
+  {
+   "code": "社-2-2",
+   "domain": "社",
+   "title": "同理他人，並與他人互動"
+  },
+  {
+   "code": "社-2-3",
+   "domain": "社",
+   "title": "調整自己的行動，遵守生活規範與活動規則"
+  },
+  {
+   "code": "社-3-1",
+   "domain": "社",
+   "title": "喜歡自己，肯定自己"
+  },
+  {
+   "code": "社-3-2",
+   "domain": "社",
+   "title": "保護自己"
+  },
+  {
+   "code": "社-3-3",
+   "domain": "社",
+   "title": "關懷與尊重生活環境中的他人"
+  },
+  {
+   "code": "社-3-4",
+   "domain": "社",
+   "title": "尊重他人的身體自主權"
+  },
+  {
+   "code": "社-3-5",
+   "domain": "社",
+   "title": "尊重生活環境中文化的多元現象"
+  },
+  {
+   "code": "社-3-6",
+   "domain": "社",
+   "title": "關懷生活環境，尊重生命"
+  },
+  {
+   "code": "情-1-1",
+   "domain": "情",
+   "title": "覺察與辨識自己的情緒"
+  },
+  {
+   "code": "情-1-2",
+   "domain": "情",
+   "title": "覺察與辨識生活環境中他人和擬人化物件的情緒"
+  },
+  {
+   "code": "情-2-1",
+   "domain": "情",
+   "title": "合宜地表達自己的情緒"
+  },
+  {
+   "code": "情-2-2",
+   "domain": "情",
+   "title": "適當地表達生活環境中他人和擬人化物件的情緒"
+  },
+  {
+   "code": "情-3-1",
+   "domain": "情",
+   "title": "理解自己情緒出現的原因"
+  },
+  {
+   "code": "情-3-2",
+   "domain": "情",
+   "title": "理解生活環境中他人和擬人化物件情緒產生的原因"
+  },
+  {
+   "code": "情-4-1",
+   "domain": "情",
+   "title": "運用策略調節自己的情緒"
+  },
+  {
+   "code": "美-1-1",
+   "domain": "美",
+   "title": "體驗生活環境中愉悅的美感經驗"
+  },
+  {
+   "code": "美-1-2",
+   "domain": "美",
+   "title": "運用五官感受生活環境中各種形式的美"
+  },
+  {
+   "code": "美-2-1",
+   "domain": "美",
+   "title": "發揮想像並進行個人獨特的創作"
+  },
+  {
+   "code": "美-2-2",
+   "domain": "美",
+   "title": "運用各種形式的藝術媒介進行創作"
+  },
+  {
+   "code": "美-3-1",
+   "domain": "美",
+   "title": "樂於接觸多元的藝術創作，回應個人的感受"
+  },
+  {
+   "code": "美-3-2",
+   "domain": "美",
+   "title": "欣賞藝術創作或展演活動，回應個人的看法"
+  }
+ ],
+ "indicators": [
+  {
+   "code": "身-幼-1-1-1",
+   "goal": "身-1-1",
+   "age": "幼",
+   "text": "認識身體部位或身體基本動作的名稱",
+   "page": 26,
+   "continued": false
+  },
+  {
+   "code": "身-幼-1-1-2",
+   "goal": "身-1-1",
+   "age": "幼",
+   "text": "模仿常見的穩定性及移動性動作",
+   "page": 26,
+   "continued": false
+  },
+  {
+   "code": "身-小-1-1-1",
+   "goal": "身-1-1",
+   "age": "小",
+   "text": "認識身體部位或身體基本動作的名稱",
+   "page": 26,
+   "continued": true
+  },
+  {
+   "code": "身-小-1-1-2",
+   "goal": "身-1-1",
+   "age": "小",
+   "text": "模仿身體的靜態平衡動作",
+   "page": 26,
+   "continued": false
+  },
+  {
+   "code": "身-中-1-1-1",
+   "goal": "身-1-1",
+   "age": "中",
+   "text": "覺察身體在穩定性及移動性動作表現上的協調性",
+   "page": 26,
+   "continued": false
+  },
+  {
+   "code": "身-中-1-1-2",
+   "goal": "身-1-1",
+   "age": "中",
+   "text": "模仿身體的動態平衡動作",
+   "page": 26,
+   "continued": false
+  },
+  {
+   "code": "身-大-1-1-1",
+   "goal": "身-1-1",
+   "age": "大",
+   "text": "覺察身體在穩定性及移動性動作表現上的協調性",
+   "page": 26,
+   "continued": true
+  },
+  {
+   "code": "身-大-1-1-2",
+   "goal": "身-1-1",
+   "age": "大",
+   "text": "模仿身體的動態平衡動作",
+   "page": 26,
+   "continued": true
+  },
+  {
+   "code": "身-幼-1-2-1",
+   "goal": "身-1-2",
+   "age": "幼",
+   "text": "覺察器材的操作方式",
+   "page": 26,
+   "continued": false
+  },
+  {
+   "code": "身-幼-1-2-2",
+   "goal": "身-1-2",
+   "age": "幼",
+   "text": "模仿抓、握的精細動作",
+   "page": 26,
+   "continued": false
+  },
+  {
+   "code": "身-小-1-2-1",
+   "goal": "身-1-2",
+   "age": "小",
+   "text": "覺察器材的操作方式",
+   "page": 26,
+   "continued": true
+  },
+  {
+   "code": "身-小-1-2-2",
+   "goal": "身-1-2",
+   "age": "小",
+   "text": "模仿抓、握、扭轉的精細動作",
+   "page": 26,
+   "continued": false
+  },
+  {
+   "code": "身-中-1-2-1",
+   "goal": "身-1-2",
+   "age": "中",
+   "text": "覺察各種用具安全的操作技能",
+   "page": 26,
+   "continued": false
+  },
+  {
+   "code": "身-中-1-2-2",
+   "goal": "身-1-2",
+   "age": "中",
+   "text": "模仿抓、握、扭轉、揉、捏的精細動作",
+   "page": 26,
+   "continued": false
+  },
+  {
+   "code": "身-大-1-2-1",
+   "goal": "身-1-2",
+   "age": "大",
+   "text": "覺察各種用具安全的操作技能",
+   "page": 26,
+   "continued": true
+  },
+  {
+   "code": "身-大-1-2-2",
+   "goal": "身-1-2",
+   "age": "大",
+   "text": "覺察手眼協調的精細動作",
+   "page": 26,
+   "continued": false
+  },
+  {
+   "code": "身-幼-1-3-1",
+   "goal": "身-1-3",
+   "age": "幼",
+   "text": "模仿日常生活的健康行為",
+   "page": 26,
+   "continued": false
+  },
+  {
+   "code": "身-幼-1-3-2",
+   "goal": "身-1-3",
+   "age": "幼",
+   "text": "模仿良好的飲食行為",
+   "page": 26,
+   "continued": false
+  },
+  {
+   "code": "身-小-1-3-1",
+   "goal": "身-1-3",
+   "age": "小",
+   "text": "模仿日常生活的健康行為",
+   "page": 26,
+   "continued": true
+  },
+  {
+   "code": "身-小-1-3-2",
+   "goal": "身-1-3",
+   "age": "小",
+   "text": "模仿良好的飲食行為",
+   "page": 26,
+   "continued": true
+  },
+  {
+   "code": "身-中-1-3-1",
+   "goal": "身-1-3",
+   "age": "中",
+   "text": "覺察與模仿日常生活的健康行為",
+   "page": 26,
+   "continued": false
+  },
+  {
+   "code": "身-中-1-3-2",
+   "goal": "身-1-3",
+   "age": "中",
+   "text": "辨識食物的安全，並選擇均衡營養的飲食",
+   "page": 26,
+   "continued": false
+  },
+  {
+   "code": "身-大-1-3-1",
+   "goal": "身-1-3",
+   "age": "大",
+   "text": "覺察與模仿日常生活的健康行為",
+   "page": 26,
+   "continued": true
+  },
+  {
+   "code": "身-大-1-3-2",
+   "goal": "身-1-3",
+   "age": "大",
+   "text": "辨識食物的安全，並選擇均衡營養的飲食",
+   "page": 26,
+   "continued": true
+  },
+  {
+   "code": "身-幼-1-3-3",
+   "goal": "身-1-3",
+   "age": "幼",
+   "text": "模仿身體活動安全的距離",
+   "page": 27,
+   "continued": false
+  },
+  {
+   "code": "身-小-1-3-3",
+   "goal": "身-1-3",
+   "age": "小",
+   "text": "覺察身體活動安全的距離",
+   "page": 27,
+   "continued": false
+  },
+  {
+   "code": "身-中-1-3-3",
+   "goal": "身-1-3",
+   "age": "中",
+   "text": "覺察身體活動安全的距離",
+   "page": 27,
+   "continued": true
+  },
+  {
+   "code": "身-中-1-3-4",
+   "goal": "身-1-3",
+   "age": "中",
+   "text": "覺察與辨別危險，保護自己的安全",
+   "page": 27,
+   "continued": false
+  },
+  {
+   "code": "身-大-1-3-3",
+   "goal": "身-1-3",
+   "age": "大",
+   "text": "覺察身體活動安全的距離",
+   "page": 27,
+   "continued": true
+  },
+  {
+   "code": "身-大-1-3-4",
+   "goal": "身-1-3",
+   "age": "大",
+   "text": "覺察與辨別危險，保護自己及他人的安全",
+   "page": 27,
+   "continued": false
+  },
+  {
+   "code": "身-幼-2-1-1",
+   "goal": "身-2-1",
+   "age": "幼",
+   "text": "在穩定性及移動性動作中練習平衡",
+   "page": 27,
+   "continued": false
+  },
+  {
+   "code": "身-幼-2-1-2",
+   "goal": "身-2-1",
+   "age": "幼",
+   "text": "遵守安全活動的原則",
+   "page": 27,
+   "continued": false
+  },
+  {
+   "code": "身-小-2-1-1",
+   "goal": "身-2-1",
+   "age": "小",
+   "text": "在穩定性及移動性動作中練習平衡與協調",
+   "page": 27,
+   "continued": false
+  },
+  {
+   "code": "身-小-2-1-2",
+   "goal": "身-2-1",
+   "age": "小",
+   "text": "遵守安全活動的原則",
+   "page": 27,
+   "continued": true
+  },
+  {
+   "code": "身-中-2-1-1",
+   "goal": "身-2-1",
+   "age": "中",
+   "text": "在合作遊戲的情境中練習動作的協調與敏捷",
+   "page": 27,
+   "continued": false
+  },
+  {
+   "code": "身-中-2-1-2",
+   "goal": "身-2-1",
+   "age": "中",
+   "text": "在團體活動中，應用身體基本動作安全地完成任務",
+   "page": 27,
+   "continued": false
+  },
+  {
+   "code": "身-大-2-1-1",
+   "goal": "身-2-1",
+   "age": "大",
+   "text": "在合作遊戲的情境中練習動作的協調與敏捷",
+   "page": 27,
+   "continued": true
+  },
+  {
+   "code": "身-大-2-1-2",
+   "goal": "身-2-1",
+   "age": "大",
+   "text": "在團體活動中，應用身體基本動作安全地完成任務",
+   "page": 27,
+   "continued": true
+  },
+  {
+   "code": "身-幼-2-2-1",
+   "goal": "身-2-2",
+   "age": "幼",
+   "text": "平穩使用各種素材、工具或器材",
+   "page": 27,
+   "continued": false
+  },
+  {
+   "code": "身-幼-2-2-2",
+   "goal": "身-2-2",
+   "age": "幼",
+   "text": "手肘支撐下練習抓、握的精細動作",
+   "page": 27,
+   "continued": false
+  },
+  {
+   "code": "身-小-2-2-1",
+   "goal": "身-2-2",
+   "age": "小",
+   "text": "平穩使用各種素材、工具或器材",
+   "page": 27,
+   "continued": true
+  },
+  {
+   "code": "身-小-2-2-2",
+   "goal": "身-2-2",
+   "age": "小",
+   "text": "操作與運用抓、握、扭轉的精細動作",
+   "page": 27,
+   "continued": false
+  },
+  {
+   "code": "身-中-2-2-1",
+   "goal": "身-2-2",
+   "age": "中",
+   "text": "敏捷使用各種素材、工具或器材",
+   "page": 27,
+   "continued": false
+  },
+  {
+   "code": "身-中-2-2-2",
+   "goal": "身-2-2",
+   "age": "中",
+   "text": "綜合運用抓、握、扭轉、揉、捏的精細動作",
+   "page": 27,
+   "continued": false
+  },
+  {
+   "code": "身-大-2-2-1",
+   "goal": "身-2-2",
+   "age": "大",
+   "text": "敏捷使用各種素材、工具或器材",
+   "page": 27,
+   "continued": true
+  },
+  {
+   "code": "身-大-2-2-2",
+   "goal": "身-2-2",
+   "age": "大",
+   "text": "熟練手眼協調的精細動作",
+   "page": 27,
+   "continued": false
+  },
+  {
+   "code": "身-幼-2-3-1",
+   "goal": "身-2-3",
+   "age": "幼",
+   "text": "學習自己用餐",
+   "page": 28,
+   "continued": false
+  },
+  {
+   "code": "身-幼-2-3-2",
+   "goal": "身-2-3",
+   "age": "幼",
+   "text": "參與日常生活的健康行為",
+   "page": 28,
+   "continued": false
+  },
+  {
+   "code": "身-小-2-3-1",
+   "goal": "身-2-3",
+   "age": "小",
+   "text": "正確使用餐具",
+   "page": 28,
+   "continued": false
+  },
+  {
+   "code": "身-小-2-3-2",
+   "goal": "身-2-3",
+   "age": "小",
+   "text": "參與日常生活的健康行為",
+   "page": 28,
+   "continued": true
+  },
+  {
+   "code": "身-中-2-3-1",
+   "goal": "身-2-3",
+   "age": "中",
+   "text": "清潔自己的餐具與整理用餐環境",
+   "page": 28,
+   "continued": false
+  },
+  {
+   "code": "身-中-2-3-2",
+   "goal": "身-2-3",
+   "age": "中",
+   "text": "熟練並維持日常生活的健康行為",
+   "page": 28,
+   "continued": false
+  },
+  {
+   "code": "身-大-2-3-1",
+   "goal": "身-2-3",
+   "age": "大",
+   "text": "使用清潔工具清理環境",
+   "page": 28,
+   "continued": false
+  },
+  {
+   "code": "身-大-2-3-2",
+   "goal": "身-2-3",
+   "age": "大",
+   "text": "熟練並維持日常生活的健康行為",
+   "page": 28,
+   "continued": true
+  },
+  {
+   "code": "身-幼-3-1-1",
+   "goal": "身-3-1",
+   "age": "幼",
+   "text": "隨著音樂旋律擺動身體",
+   "page": 28,
+   "continued": false
+  },
+  {
+   "code": "身-小-3-1-1",
+   "goal": "身-3-1",
+   "age": "小",
+   "text": "在創意想像的情境展現個人肢體動作的組合與變化",
+   "page": 28,
+   "continued": false
+  },
+  {
+   "code": "身-中-3-1-1",
+   "goal": "身-3-1",
+   "age": "中",
+   "text": "與他人合作展現各種創意姿勢與動作的組合",
+   "page": 28,
+   "continued": false
+  },
+  {
+   "code": "身-大-3-1-1",
+   "goal": "身-3-1",
+   "age": "大",
+   "text": "與他人合作展現各種創意姿勢與動作的組合",
+   "page": 28,
+   "continued": false
+  },
+  {
+   "code": "身-中-3-2-1",
+   "goal": "身-3-2",
+   "age": "中",
+   "text": "把玩操作各種素材或器材，發展各種創新玩法",
+   "page": 28,
+   "continued": false
+  },
+  {
+   "code": "身-大-3-2-1",
+   "goal": "身-3-2",
+   "age": "大",
+   "text": "與他人合作運用各種素材或器材，共同發展創新玩法",
+   "page": 28,
+   "continued": false
+  },
+  {
+   "code": "認-幼-1-1-1",
+   "goal": "認-1-1",
+   "age": "幼",
+   "text": "探索物體的外形",
+   "page": 48,
+   "continued": false
+  },
+  {
+   "code": "認-幼-1-1-2",
+   "goal": "認-1-1",
+   "age": "幼",
+   "text": "探索兩個物體位置間的上下關係",
+   "page": 48,
+   "continued": false
+  },
+  {
+   "code": "認-小-1-1-1",
+   "goal": "認-1-1",
+   "age": "小",
+   "text": "辨識與命名物體的形狀",
+   "page": 48,
+   "continued": false
+  },
+  {
+   "code": "認-小-1-1-2",
+   "goal": "認-1-1",
+   "age": "小",
+   "text": "覺知兩個物體位置間的上下關係",
+   "page": 48,
+   "continued": false
+  },
+  {
+   "code": "認-小-1-1-3",
+   "goal": "認-1-1",
+   "age": "小",
+   "text": "覺知數量的訊息及生活環境中的數字符號",
+   "page": 48,
+   "continued": false
+  },
+  {
+   "code": "認-中-1-1-1",
+   "goal": "認-1-1",
+   "age": "中",
+   "text": "辨識與命名物體的形狀",
+   "page": 48,
+   "continued": true
+  },
+  {
+   "code": "認-中-1-1-2",
+   "goal": "認-1-1",
+   "age": "中",
+   "text": "辨識兩個物體位置間上下、前後、裡外的關係",
+   "page": 48,
+   "continued": false
+  },
+  {
+   "code": "認-中-1-1-3",
+   "goal": "認-1-1",
+   "age": "中",
+   "text": "認識數字符號",
+   "page": 48,
+   "continued": false
+  },
+  {
+   "code": "認-中-1-1-4",
+   "goal": "認-1-1",
+   "age": "中",
+   "text": "運用點數蒐集生活環境中的訊息",
+   "page": 48,
+   "continued": false
+  },
+  {
+   "code": "認-中-1-1-5",
+   "goal": "認-1-1",
+   "age": "中",
+   "text": "運用身邊物件為單位測量自然現象或文化產物特徵的訊息",
+   "page": 48,
+   "continued": false
+  },
+  {
+   "code": "認-大-1-1-1",
+   "goal": "認-1-1",
+   "age": "大",
+   "text": "覺知物體的形狀會因觀察角度的不同而不同",
+   "page": 48,
+   "continued": false
+  },
+  {
+   "code": "認-大-1-1-2",
+   "goal": "認-1-1",
+   "age": "大",
+   "text": "以自己為定點，辨識物體與自己位置間的上下、前後、左右的關係",
+   "page": 48,
+   "continued": false
+  },
+  {
+   "code": "認-大-1-1-3",
+   "goal": "認-1-1",
+   "age": "大",
+   "text": "辨識生活環境中數字符號的意義",
+   "page": 48,
+   "continued": false
+  },
+  {
+   "code": "認-大-1-1-4",
+   "goal": "認-1-1",
+   "age": "大",
+   "text": "運用點數蒐集生活環境中的訊息",
+   "page": 48,
+   "continued": true
+  },
+  {
+   "code": "認-大-1-1-5",
+   "goal": "認-1-1",
+   "age": "大",
+   "text": "運用標準單位測量自然現象或文化產物特徵的訊息",
+   "page": 48,
+   "continued": false
+  },
+  {
+   "code": "認-小-1-1-6",
+   "goal": "認-1-1",
+   "age": "小",
+   "text": "以圖像或符號記錄生活環境中的數學訊息",
+   "page": 49,
+   "continued": false
+  },
+  {
+   "code": "認-中-1-1-6",
+   "goal": "認-1-1",
+   "age": "中",
+   "text": "運用數字符號記錄生活環境中的訊息",
+   "page": 49,
+   "continued": false
+  },
+  {
+   "code": "認-大-1-1-6",
+   "goal": "認-1-1",
+   "age": "大",
+   "text": "運用數字符號記錄生活環境中的訊息",
+   "page": 49,
+   "continued": false
+  },
+  {
+   "code": "認-幼-1-2-1",
+   "goal": "認-1-2",
+   "age": "幼",
+   "text": "觀察動植物的特徵",
+   "page": 49,
+   "continued": false
+  },
+  {
+   "code": "認-小-1-2-1",
+   "goal": "認-1-2",
+   "age": "小",
+   "text": "觀察動植物的生長變化",
+   "page": 49,
+   "continued": false
+  },
+  {
+   "code": "認-小-1-2-2",
+   "goal": "認-1-2",
+   "age": "小",
+   "text": "觀察自然現象特徵的變化",
+   "page": 49,
+   "continued": false
+  },
+  {
+   "code": "認-小-1-2-3",
+   "goal": "認-1-2",
+   "age": "小",
+   "text": "以圖像或符號記錄自然現象的簡單訊息",
+   "page": 49,
+   "continued": false
+  },
+  {
+   "code": "認-中-1-2-1",
+   "goal": "認-1-2",
+   "age": "中",
+   "text": "觀察動植物的生長變化",
+   "page": 49,
+   "continued": true
+  },
+  {
+   "code": "認-中-1-2-2",
+   "goal": "認-1-2",
+   "age": "中",
+   "text": "觀察自然現象特徵的變化",
+   "page": 49,
+   "continued": true
+  },
+  {
+   "code": "認-中-1-2-3",
+   "goal": "認-1-2",
+   "age": "中",
+   "text": "以圖像或符號記錄自然現象的多項訊息",
+   "page": 49,
+   "continued": false
+  },
+  {
+   "code": "認-大-1-2-1",
+   "goal": "認-1-2",
+   "age": "大",
+   "text": "觀察動植物的生長變化",
+   "page": 49,
+   "continued": true
+  },
+  {
+   "code": "認-大-1-2-2",
+   "goal": "認-1-2",
+   "age": "大",
+   "text": "觀察自然現象特徵的變化",
+   "page": 49,
+   "continued": true
+  },
+  {
+   "code": "認-大-1-2-3",
+   "goal": "認-1-2",
+   "age": "大",
+   "text": "以圖像或符號記錄自然現象的多項訊息",
+   "page": 49,
+   "continued": true
+  },
+  {
+   "code": "認-幼-1-3-1",
+   "goal": "認-1-3",
+   "age": "幼",
+   "text": "探索生活物件的特性與功能",
+   "page": 49,
+   "continued": false
+  },
+  {
+   "code": "認-小-1-3-1",
+   "goal": "認-1-3",
+   "age": "小",
+   "text": "觀察生活物件的特徵",
+   "page": 49,
+   "continued": false
+  },
+  {
+   "code": "認-小-1-3-2",
+   "goal": "認-1-3",
+   "age": "小",
+   "text": "以圖像或符號記錄生活物件的簡單訊息",
+   "page": 49,
+   "continued": false
+  },
+  {
+   "code": "認-中-1-3-1",
+   "goal": "認-1-3",
+   "age": "中",
+   "text": "觀察生活物件的特徵",
+   "page": 49,
+   "continued": true
+  },
+  {
+   "code": "認-中-1-3-2",
+   "goal": "認-1-3",
+   "age": "中",
+   "text": "以圖像或符號記錄生活物件的多項訊息",
+   "page": 49,
+   "continued": false
+  },
+  {
+   "code": "認-大-1-3-1",
+   "goal": "認-1-3",
+   "age": "大",
+   "text": "觀察生活物件的特徵",
+   "page": 49,
+   "continued": true
+  },
+  {
+   "code": "認-大-1-3-2",
+   "goal": "認-1-3",
+   "age": "大",
+   "text": "以圖像或符號記錄生活物件的多項訊息",
+   "page": 49,
+   "continued": true
+  },
+  {
+   "code": "認-中-2-1-1",
+   "goal": "認-2-1",
+   "age": "中",
+   "text": "依據序列整理自然現象或文化產物的數學訊息",
+   "page": 50,
+   "continued": false
+  },
+  {
+   "code": "認-中-2-1-3",
+   "goal": "認-2-1",
+   "age": "中",
+   "text": "運用十以內的合成與分解整理數量訊息",
+   "page": 50,
+   "continued": false
+  },
+  {
+   "code": "認-大-2-1-1",
+   "goal": "認-2-1",
+   "age": "大",
+   "text": "依據序列整理自然現象或文化產物的數學訊息",
+   "page": 50,
+   "continued": true
+  },
+  {
+   "code": "認-大-2-1-2",
+   "goal": "認-2-1",
+   "age": "大",
+   "text": "覺知物件間排列的型式",
+   "page": 50,
+   "continued": false
+  },
+  {
+   "code": "認-大-2-1-3",
+   "goal": "認-2-1",
+   "age": "大",
+   "text": "運用十以內的合成與分解整理數量訊息",
+   "page": 50,
+   "continued": true
+  },
+  {
+   "code": "認-大-2-1-4",
+   "goal": "認-2-1",
+   "age": "大",
+   "text": "運用二十以內的合成與分解整理數量訊息",
+   "page": 50,
+   "continued": false
+  },
+  {
+   "code": "認-大-2-1-5",
+   "goal": "認-2-1",
+   "age": "大",
+   "text": "運用圖/表整理生活環境中的數量訊息",
+   "page": 50,
+   "continued": false
+  },
+  {
+   "code": "認-幼-2-2-1",
+   "goal": "認-2-2",
+   "age": "幼",
+   "text": "依據動植物的特徵歸類",
+   "page": 50,
+   "continued": false
+  },
+  {
+   "code": "認-小-2-2-1",
+   "goal": "認-2-2",
+   "age": "小",
+   "text": "依據動植物的特徵歸類",
+   "page": 50,
+   "continued": true
+  },
+  {
+   "code": "認-小-2-2-2",
+   "goal": "認-2-2",
+   "age": "小",
+   "text": "比較動植物特徵的異同",
+   "page": 50,
+   "continued": false
+  },
+  {
+   "code": "認-中-2-2-1",
+   "goal": "認-2-2",
+   "age": "中",
+   "text": "依據特徵為自然現象分類並命名",
+   "page": 50,
+   "continued": false
+  },
+  {
+   "code": "認-中-2-2-2",
+   "goal": "認-2-2",
+   "age": "中",
+   "text": "與他人討論自然現象特徵間的關係",
+   "page": 50,
+   "continued": false
+  },
+  {
+   "code": "認-大-2-2-1",
+   "goal": "認-2-2",
+   "age": "大",
+   "text": "依據特徵為自然現象分類並命名",
+   "page": 50,
+   "continued": true
+  },
+  {
+   "code": "認-大-2-2-2",
+   "goal": "認-2-2",
+   "age": "大",
+   "text": "與他人討論自然現象特徵間的關係",
+   "page": 50,
+   "continued": true
+  },
+  {
+   "code": "認-中-2-2-3",
+   "goal": "認-2-2",
+   "age": "中",
+   "text": "與他人討論動植物與生活的關係",
+   "page": 51,
+   "continued": false
+  },
+  {
+   "code": "認-大-2-2-3",
+   "goal": "認-2-2",
+   "age": "大",
+   "text": "與他人討論自然現象的變化與生活的關係",
+   "page": 51,
+   "continued": false
+  },
+  {
+   "code": "認-幼-2-3-1",
+   "goal": "認-2-3",
+   "age": "幼",
+   "text": "依據生活物件的特性與功能歸類",
+   "page": 51,
+   "continued": false
+  },
+  {
+   "code": "認-小-2-3-1",
+   "goal": "認-2-3",
+   "age": "小",
+   "text": "依據生活物件的特性與功能歸類",
+   "page": 51,
+   "continued": true
+  },
+  {
+   "code": "認-小-2-3-2",
+   "goal": "認-2-3",
+   "age": "小",
+   "text": "比較生活物件特徵間的異同",
+   "page": 51,
+   "continued": false
+  },
+  {
+   "code": "認-中-2-3-1",
+   "goal": "認-2-3",
+   "age": "中",
+   "text": "依據特徵為生活物件分類並命名",
+   "page": 51,
+   "continued": false
+  },
+  {
+   "code": "認-中-2-3-2",
+   "goal": "認-2-3",
+   "age": "中",
+   "text": "與他人討論生活物件特徵間的關係",
+   "page": 51,
+   "continued": false
+  },
+  {
+   "code": "認-大-2-3-1",
+   "goal": "認-2-3",
+   "age": "大",
+   "text": "依據特徵為生活物件分類並命名",
+   "page": 51,
+   "continued": true
+  },
+  {
+   "code": "認-大-2-3-2",
+   "goal": "認-2-3",
+   "age": "大",
+   "text": "與他人討論生活物件特徵間的關係",
+   "page": 51,
+   "continued": true
+  },
+  {
+   "code": "認-大-2-3-3",
+   "goal": "認-2-3",
+   "age": "大",
+   "text": "與他人討論生活物件與生活的關係",
+   "page": 51,
+   "continued": false
+  },
+  {
+   "code": "認-小-3-1-1",
+   "goal": "認-3-1",
+   "age": "小",
+   "text": "探索解決問題的可能方法",
+   "page": 51,
+   "continued": false
+  },
+  {
+   "code": "認-中-3-1-1",
+   "goal": "認-3-1",
+   "age": "中",
+   "text": "參與討論解決問題的可能方法並實際執行",
+   "page": 51,
+   "continued": false
+  },
+  {
+   "code": "認-大-3-1-1",
+   "goal": "認-3-1",
+   "age": "大",
+   "text": "與同伴討論解決問題的方法，並與他人合作實際執行",
+   "page": 51,
+   "continued": false
+  },
+  {
+   "code": "認-大-3-1-2",
+   "goal": "認-3-1",
+   "age": "大",
+   "text": "與他人共同檢視問題解決的過程",
+   "page": 51,
+   "continued": false
+  },
+  {
+   "code": "語-幼-1-1-1",
+   "goal": "語-1-1",
+   "age": "幼",
+   "text": "理解簡單的手勢、表情與口語指示",
+   "page": 67,
+   "continued": false
+  },
+  {
+   "code": "語-幼-1-1-2",
+   "goal": "語-1-1",
+   "age": "幼",
+   "text": "理解一對一互動情境中輪流說話的規則",
+   "page": 67,
+   "continued": false
+  },
+  {
+   "code": "語-小-1-1-1",
+   "goal": "語-1-1",
+   "age": "小",
+   "text": "理解簡單的手勢、表情與口語指示",
+   "page": 67,
+   "continued": true
+  },
+  {
+   "code": "語-小-1-1-2",
+   "goal": "語-1-1",
+   "age": "小",
+   "text": "理解團體互動中輪流說話的規則",
+   "page": 67,
+   "continued": false
+  },
+  {
+   "code": "語-小-1-1-3",
+   "goal": "語-1-1",
+   "age": "小",
+   "text": "懂得簡單的比喻",
+   "page": 67,
+   "continued": false
+  },
+  {
+   "code": "語-中-1-1-1",
+   "goal": "語-1-1",
+   "age": "中",
+   "text": "合宜詮釋互動對象的表情和肢體動作",
+   "page": 67,
+   "continued": false
+  },
+  {
+   "code": "語-中-1-1-2",
+   "goal": "語-1-1",
+   "age": "中",
+   "text": "理解團體互動中輪流說話的規則",
+   "page": 67,
+   "continued": true
+  },
+  {
+   "code": "語-中-1-1-3",
+   "goal": "語-1-1",
+   "age": "中",
+   "text": "懂得簡單的比喻",
+   "page": 67,
+   "continued": true
+  },
+  {
+   "code": "語-大-1-1-1",
+   "goal": "語-1-1",
+   "age": "大",
+   "text": "合宜詮釋互動對象的表情和肢體動作",
+   "page": 67,
+   "continued": true
+  },
+  {
+   "code": "語-大-1-1-2",
+   "goal": "語-1-1",
+   "age": "大",
+   "text": "理解團體互動中輪流說話的規則",
+   "page": 67,
+   "continued": true
+  },
+  {
+   "code": "語-大-1-1-3",
+   "goal": "語-1-1",
+   "age": "大",
+   "text": "懂得簡單的比喻",
+   "page": 67,
+   "continued": true
+  },
+  {
+   "code": "語-大-1-1-4",
+   "goal": "語-1-1",
+   "age": "大",
+   "text": "理解互動對象間接的請求與拒絕",
+   "page": 67,
+   "continued": false
+  },
+  {
+   "code": "語-幼-1-2-1",
+   "goal": "語-1-2",
+   "age": "幼",
+   "text": "喜歡聆聽童謠",
+   "page": 67,
+   "continued": false
+  },
+  {
+   "code": "語-小-1-2-1",
+   "goal": "語-1-2",
+   "age": "小",
+   "text": "覺察兒歌與童詩的韻腳",
+   "page": 67,
+   "continued": false
+  },
+  {
+   "code": "語-小-1-2-2",
+   "goal": "語-1-2",
+   "age": "小",
+   "text": "覺察重複聽到的字詞",
+   "page": 67,
+   "continued": false
+  },
+  {
+   "code": "語-中-1-2-1",
+   "goal": "語-1-2",
+   "age": "中",
+   "text": "辨認兒歌與童詩的韻腳",
+   "page": 67,
+   "continued": false
+  },
+  {
+   "code": "語-中-1-2-2",
+   "goal": "語-1-2",
+   "age": "中",
+   "text": "知道語音可以組合",
+   "page": 67,
+   "continued": false
+  },
+  {
+   "code": "語-大-1-2-1",
+   "goal": "語-1-2",
+   "age": "大",
+   "text": "辨認兒歌與童詩的韻腳",
+   "page": 67,
+   "continued": true
+  },
+  {
+   "code": "語-大-1-2-2",
+   "goal": "語-1-2",
+   "age": "大",
+   "text": "知道語音可以組合",
+   "page": 67,
+   "continued": true
+  },
+  {
+   "code": "語-幼-1-3-1",
+   "goal": "語-1-3",
+   "age": "幼",
+   "text": "覺察除了自己使用的語言，還有其他語言",
+   "page": 67,
+   "continued": false
+  },
+  {
+   "code": "語-小-1-3-1",
+   "goal": "語-1-3",
+   "age": "小",
+   "text": "知道生活環境中有各種不同的語言",
+   "page": 67,
+   "continued": false
+  },
+  {
+   "code": "語-中-1-3-1",
+   "goal": "語-1-3",
+   "age": "中",
+   "text": "知道本土語言和外語是不同的語言",
+   "page": 67,
+   "continued": false
+  },
+  {
+   "code": "語-大-1-3-1",
+   "goal": "語-1-3",
+   "age": "大",
+   "text": "知道本土語言和外語是不同的語言",
+   "page": 67,
+   "continued": false
+  },
+  {
+   "code": "語-幼-1-4-1",
+   "goal": "語-1-4",
+   "age": "幼",
+   "text": "覺察生活環境中常見的圖像符號",
+   "page": 68,
+   "continued": false
+  },
+  {
+   "code": "語-幼-1-4-2",
+   "goal": "語-1-4",
+   "age": "幼",
+   "text": "認出代表自己或所屬群體的符號",
+   "page": 68,
+   "continued": false
+  },
+  {
+   "code": "語-小-1-4-1",
+   "goal": "語-1-4",
+   "age": "小",
+   "text": "覺察生活環境中常見的圖像符號",
+   "page": 68,
+   "continued": true
+  },
+  {
+   "code": "語-小-1-4-2",
+   "goal": "語-1-4",
+   "age": "小",
+   "text": "認出代表自己或所屬群體的符號",
+   "page": 68,
+   "continued": true
+  },
+  {
+   "code": "語-中-1-4-1",
+   "goal": "語-1-4",
+   "age": "中",
+   "text": "理解符號中的具象物件內容",
+   "page": 68,
+   "continued": false
+  },
+  {
+   "code": "語-中-1-4-2",
+   "goal": "語-1-4",
+   "age": "中",
+   "text": "知道能使用圖像記錄與說明",
+   "page": 68,
+   "continued": false
+  },
+  {
+   "code": "語-大-1-4-1",
+   "goal": "語-1-4",
+   "age": "大",
+   "text": "以生活環境中的線索詮釋符號的意義",
+   "page": 68,
+   "continued": false
+  },
+  {
+   "code": "語-大-1-4-2",
+   "goal": "語-1-4",
+   "age": "大",
+   "text": "知道能使用圖像記錄與說明",
+   "page": 68,
+   "continued": true
+  },
+  {
+   "code": "語-幼-1-5-1",
+   "goal": "語-1-5",
+   "age": "幼",
+   "text": "喜歡探索圖畫書",
+   "page": 68,
+   "continued": false
+  },
+  {
+   "code": "語-小-1-5-1",
+   "goal": "語-1-5",
+   "age": "小",
+   "text": "喜歡探索圖畫書",
+   "page": 68,
+   "continued": true
+  },
+  {
+   "code": "語-小-1-5-2",
+   "goal": "語-1-5",
+   "age": "小",
+   "text": "理解故事的角色",
+   "page": 68,
+   "continued": false
+  },
+  {
+   "code": "語-中-1-5-1",
+   "goal": "語-1-5",
+   "age": "中",
+   "text": "知道知識類圖畫書的功能",
+   "page": 68,
+   "continued": false
+  },
+  {
+   "code": "語-中-1-5-2",
+   "goal": "語-1-5",
+   "age": "中",
+   "text": "理解故事的角色與情節",
+   "page": 68,
+   "continued": false
+  },
+  {
+   "code": "語-中-1-5-3",
+   "goal": "語-1-5",
+   "age": "中",
+   "text": "知道書籍封面有書名，創作者和譯者的名字",
+   "page": 68,
+   "continued": false
+  },
+  {
+   "code": "語-大-1-5-1",
+   "goal": "語-1-5",
+   "age": "大",
+   "text": "知道知識類圖畫書的功能",
+   "page": 68,
+   "continued": true
+  },
+  {
+   "code": "語-大-1-5-2",
+   "goal": "語-1-5",
+   "age": "大",
+   "text": "理解故事的角色、情節與主題",
+   "page": 68,
+   "continued": false
+  },
+  {
+   "code": "語-大-1-5-3",
+   "goal": "語-1-5",
+   "age": "大",
+   "text": "辨認與欣賞創作者的圖像細節與風格",
+   "page": 68,
+   "continued": false
+  },
+  {
+   "code": "語-幼-1-6-1",
+   "goal": "語-1-6",
+   "age": "幼",
+   "text": "喜歡探索生活環境中的文字",
+   "page": 68,
+   "continued": false
+  },
+  {
+   "code": "語-幼-1-6-2",
+   "goal": "語-1-6",
+   "age": "幼",
+   "text": "知道翻閱圖畫書的方向",
+   "page": 68,
+   "continued": false
+  },
+  {
+   "code": "語-小-1-6-1",
+   "goal": "語-1-6",
+   "age": "小",
+   "text": "辨別文字和圖像",
+   "page": 68,
+   "continued": false
+  },
+  {
+   "code": "語-小-1-6-2",
+   "goal": "語-1-6",
+   "age": "小",
+   "text": "知道書名的位置與閱讀方向",
+   "page": 68,
+   "continued": false
+  },
+  {
+   "code": "語-中-1-6-1",
+   "goal": "語-1-6",
+   "age": "中",
+   "text": "知道各種文化有不同的書面文字",
+   "page": 68,
+   "continued": false
+  },
+  {
+   "code": "語-中-1-6-2",
+   "goal": "語-1-6",
+   "age": "中",
+   "text": "知道書名的位置與閱讀方向",
+   "page": 68,
+   "continued": true
+  },
+  {
+   "code": "語-大-1-6-1",
+   "goal": "語-1-6",
+   "age": "大",
+   "text": "知道各種文化有不同的書面文字",
+   "page": 68,
+   "continued": true
+  },
+  {
+   "code": "語-大-1-6-2",
+   "goal": "語-1-6",
+   "age": "大",
+   "text": "知道華文的閱讀方向",
+   "page": 68,
+   "continued": false
+  },
+  {
+   "code": "語-中-1-6-3",
+   "goal": "語-1-6",
+   "age": "中",
+   "text": "知道華文一字一音的對應關係",
+   "page": 69,
+   "continued": false
+  },
+  {
+   "code": "語-大-1-6-3",
+   "goal": "語-1-6",
+   "age": "大",
+   "text": "知道華文一字一音的對應關係",
+   "page": 69,
+   "continued": true
+  },
+  {
+   "code": "語-大-1-6-4",
+   "goal": "語-1-6",
+   "age": "大",
+   "text": "從不同語文的書面文字中辨認出華文",
+   "page": 69,
+   "continued": false
+  },
+  {
+   "code": "語-幼-1-7-1",
+   "goal": "語-1-7",
+   "age": "幼",
+   "text": "覺察代表所屬群體的文字",
+   "page": 69,
+   "continued": false
+  },
+  {
+   "code": "語-小-1-7-1",
+   "goal": "語-1-7",
+   "age": "小",
+   "text": "認出自己的姓名",
+   "page": 69,
+   "continued": false
+  },
+  {
+   "code": "語-中-1-7-1",
+   "goal": "語-1-7",
+   "age": "中",
+   "text": "認出標示所屬群體的文字",
+   "page": 69,
+   "continued": false
+  },
+  {
+   "code": "語-中-1-7-2",
+   "goal": "語-1-7",
+   "age": "中",
+   "text": "知道能使用文字記錄與說明",
+   "page": 69,
+   "continued": false
+  },
+  {
+   "code": "語-中-1-7-3",
+   "goal": "語-1-7",
+   "age": "中",
+   "text": "知道各種書面訊息的功能",
+   "page": 69,
+   "continued": false
+  },
+  {
+   "code": "語-大-1-7-1",
+   "goal": "語-1-7",
+   "age": "大",
+   "text": "從生活環境中認出常見的文字",
+   "page": 69,
+   "continued": false
+  },
+  {
+   "code": "語-大-1-7-2",
+   "goal": "語-1-7",
+   "age": "大",
+   "text": "知道能使用文字記錄與說明",
+   "page": 69,
+   "continued": true
+  },
+  {
+   "code": "語-大-1-7-3",
+   "goal": "語-1-7",
+   "age": "大",
+   "text": "知道各種書面訊息的功能",
+   "page": 69,
+   "continued": true
+  },
+  {
+   "code": "語-幼-2-1-1",
+   "goal": "語-2-1",
+   "age": "幼",
+   "text": "運用簡單的肢體動作輔助口語表達",
+   "page": 69,
+   "continued": false
+  },
+  {
+   "code": "語-小-2-1-1",
+   "goal": "語-2-1",
+   "age": "小",
+   "text": "運用簡單的肢體動作進行扮演",
+   "page": 69,
+   "continued": false
+  },
+  {
+   "code": "語-中-2-1-1",
+   "goal": "語-2-1",
+   "age": "中",
+   "text": "運用肢體動作表達經驗或故事",
+   "page": 69,
+   "continued": false
+  },
+  {
+   "code": "語-大-2-1-1",
+   "goal": "語-2-1",
+   "age": "大",
+   "text": "運用肢體動作表達經驗或故事",
+   "page": 69,
+   "continued": true
+  },
+  {
+   "code": "語-幼-2-2-1",
+   "goal": "語-2-2",
+   "age": "幼",
+   "text": "合宜使用禮貌用語",
+   "page": 69,
+   "continued": false
+  },
+  {
+   "code": "語-幼-2-2-2",
+   "goal": "語-2-2",
+   "age": "幼",
+   "text": "以簡單的口語表達需求與好惡",
+   "page": 69,
+   "continued": false
+  },
+  {
+   "code": "語-小-2-2-1",
+   "goal": "語-2-2",
+   "age": "小",
+   "text": "合宜使用禮貌用語",
+   "page": 69,
+   "continued": true
+  },
+  {
+   "code": "語-小-2-2-2",
+   "goal": "語-2-2",
+   "age": "小",
+   "text": "以口語建構想像的情境",
+   "page": 69,
+   "continued": false
+  },
+  {
+   "code": "語-中-2-2-1",
+   "goal": "語-2-2",
+   "age": "中",
+   "text": "合宜使用禮貌用語",
+   "page": 69,
+   "continued": true
+  },
+  {
+   "code": "語-中-2-2-2",
+   "goal": "語-2-2",
+   "age": "中",
+   "text": "以清晰的口語表達想法",
+   "page": 69,
+   "continued": false
+  },
+  {
+   "code": "語-大-2-2-1",
+   "goal": "語-2-2",
+   "age": "大",
+   "text": "適當使用音量、聲調和肢體語言",
+   "page": 69,
+   "continued": false
+  },
+  {
+   "code": "語-大-2-2-2",
+   "goal": "語-2-2",
+   "age": "大",
+   "text": "針對談話內容表達疑問或看法",
+   "page": 69,
+   "continued": false
+  },
+  {
+   "code": "語-幼-2-2-3",
+   "goal": "語-2-2",
+   "age": "幼",
+   "text": "在一對一的互動情境中開啟話題",
+   "page": 70,
+   "continued": false
+  },
+  {
+   "code": "語-小-2-2-3",
+   "goal": "語-2-2",
+   "age": "小",
+   "text": "在一對一的互動情境中開啟話題並延續對話",
+   "page": 70,
+   "continued": false
+  },
+  {
+   "code": "語-中-2-2-3",
+   "goal": "語-2-2",
+   "age": "中",
+   "text": "在團體互動情境中開啟話題、依照輪次說話並延續對話",
+   "page": 70,
+   "continued": false
+  },
+  {
+   "code": "語-中-2-2-4",
+   "goal": "語-2-2",
+   "age": "中",
+   "text": "使用簡單的比喻",
+   "page": 70,
+   "continued": false
+  },
+  {
+   "code": "語-大-2-2-3",
+   "goal": "語-2-2",
+   "age": "大",
+   "text": "在團體互動情境中參與討論",
+   "page": 70,
+   "continued": false
+  },
+  {
+   "code": "語-大-2-2-4",
+   "goal": "語-2-2",
+   "age": "大",
+   "text": "使用簡單的比喻",
+   "page": 70,
+   "continued": true
+  },
+  {
+   "code": "語-幼-2-3-1",
+   "goal": "語-2-3",
+   "age": "幼",
+   "text": "敘說一個經歷過的事件",
+   "page": 70,
+   "continued": false
+  },
+  {
+   "code": "語-幼-2-3-2",
+   "goal": "語-2-3",
+   "age": "幼",
+   "text": "簡單描述自己的觀察",
+   "page": 70,
+   "continued": false
+  },
+  {
+   "code": "語-小-2-3-1",
+   "goal": "語-2-3",
+   "age": "小",
+   "text": "敘說包含三個關聯事件的生活經驗",
+   "page": 70,
+   "continued": false
+  },
+  {
+   "code": "語-小-2-3-2",
+   "goal": "語-2-3",
+   "age": "小",
+   "text": "說出簡單的因果關係",
+   "page": 70,
+   "continued": false
+  },
+  {
+   "code": "語-中-2-3-1",
+   "goal": "語-2-3",
+   "age": "中",
+   "text": "敘說時表達對某項經驗的觀點或感受",
+   "page": 70,
+   "continued": false
+  },
+  {
+   "code": "語-中-2-3-2",
+   "goal": "語-2-3",
+   "age": "中",
+   "text": "說出簡單的因果關係",
+   "page": 70,
+   "continued": true
+  },
+  {
+   "code": "語-大-2-3-1",
+   "goal": "語-2-3",
+   "age": "大",
+   "text": "建構包含事件開端、過程、結局與個人觀點的經驗敘說",
+   "page": 70,
+   "continued": false
+  },
+  {
+   "code": "語-大-2-3-2",
+   "goal": "語-2-3",
+   "age": "大",
+   "text": "說出簡單的因果關係",
+   "page": 70,
+   "continued": true
+  },
+  {
+   "code": "語-大-2-3-3",
+   "goal": "語-2-3",
+   "age": "大",
+   "text": "依據聽眾的角度修改或補充敘說內容",
+   "page": 70,
+   "continued": false
+  },
+  {
+   "code": "語-大-2-3-4",
+   "goal": "語-2-3",
+   "age": "大",
+   "text": "以不同的話語、語氣和聲調描述生活經驗中的對話",
+   "page": 70,
+   "continued": false
+  },
+  {
+   "code": "語-幼-2-4-1",
+   "goal": "語-2-4",
+   "age": "幼",
+   "text": "描述圖片主要的人或物",
+   "page": 70,
+   "continued": false
+  },
+  {
+   "code": "語-小-2-4-1",
+   "goal": "語-2-4",
+   "age": "小",
+   "text": "描述圖片的細節",
+   "page": 70,
+   "continued": false
+  },
+  {
+   "code": "語-中-2-4-1",
+   "goal": "語-2-4",
+   "age": "中",
+   "text": "敘說一組圖片部分連貫的情節",
+   "page": 70,
+   "continued": false
+  },
+  {
+   "code": "語-大-2-4-1",
+   "goal": "語-2-4",
+   "age": "大",
+   "text": "看圖片或圖畫書敘說有主題的故事",
+   "page": 70,
+   "continued": false
+  },
+  {
+   "code": "語-幼-2-5-1",
+   "goal": "語-2-5",
+   "age": "幼",
+   "text": "嘗試以圖像表達想法",
+   "page": 70,
+   "continued": false
+  },
+  {
+   "code": "語-小-2-5-1",
+   "goal": "語-2-5",
+   "age": "小",
+   "text": "以圖像表達情緒與情感",
+   "page": 70,
+   "continued": false
+  },
+  {
+   "code": "語-中-2-5-1",
+   "goal": "語-2-5",
+   "age": "中",
+   "text": "以圖像表達情緒與情感",
+   "page": 70,
+   "continued": true
+  },
+  {
+   "code": "語-大-2-5-1",
+   "goal": "語-2-5",
+   "age": "大",
+   "text": "以圖像表達情緒與情感",
+   "page": 70,
+   "continued": true
+  },
+  {
+   "code": "語-小-2-5-2",
+   "goal": "語-2-5",
+   "age": "小",
+   "text": "運用簡單的圖像符號標示或記錄",
+   "page": 71,
+   "continued": false
+  },
+  {
+   "code": "語-中-2-5-2",
+   "goal": "語-2-5",
+   "age": "中",
+   "text": "運用自創圖像符號標示空間、物件或記錄行動",
+   "page": 71,
+   "continued": false
+  },
+  {
+   "code": "語-大-2-5-2",
+   "goal": "語-2-5",
+   "age": "大",
+   "text": "運用自創圖像符號標示空間、物件或記錄行動",
+   "page": 71,
+   "continued": true
+  },
+  {
+   "code": "語-大-2-5-3",
+   "goal": "語-2-5",
+   "age": "大",
+   "text": "運用圖像符號規劃行動",
+   "page": 71,
+   "continued": false
+  },
+  {
+   "code": "語-大-2-5-4",
+   "goal": "語-2-5",
+   "age": "大",
+   "text": "運用訊息類文本解決問題",
+   "page": 71,
+   "continued": false
+  },
+  {
+   "code": "語-幼-2-6-1",
+   "goal": "語-2-6",
+   "age": "幼",
+   "text": "說出喜歡的敘事文本",
+   "page": 71,
+   "continued": false
+  },
+  {
+   "code": "語-小-2-6-1",
+   "goal": "語-2-6",
+   "age": "小",
+   "text": "描述故事的主要角色",
+   "page": 71,
+   "continued": false
+  },
+  {
+   "code": "語-小-2-6-2",
+   "goal": "語-2-6",
+   "age": "小",
+   "text": "說出或畫出敘事文本中印象深刻或喜歡的部分",
+   "page": 71,
+   "continued": false
+  },
+  {
+   "code": "語-中-2-6-1",
+   "goal": "語-2-6",
+   "age": "中",
+   "text": "描述故事角色間的對話與情節",
+   "page": 71,
+   "continued": false
+  },
+  {
+   "code": "語-中-2-6-2",
+   "goal": "語-2-6",
+   "age": "中",
+   "text": "說出、畫出或演出自己是敘事文本中的某個角色會有哪些感覺與行動",
+   "page": 71,
+   "continued": false
+  },
+  {
+   "code": "語-大-2-6-1",
+   "goal": "語-2-6",
+   "age": "大",
+   "text": "說出、畫出或演出敘事文本的不同結局",
+   "page": 71,
+   "continued": false
+  },
+  {
+   "code": "語-大-2-6-2",
+   "goal": "語-2-6",
+   "age": "大",
+   "text": "說出、畫出或演出自己是敘事文本中的某個角色會有哪些感覺與行動",
+   "page": 71,
+   "continued": true
+  },
+  {
+   "code": "語-幼-2-7-1",
+   "goal": "語-2-7",
+   "age": "幼",
+   "text": "喜歡嘗試說故事",
+   "page": 71,
+   "continued": false
+  },
+  {
+   "code": "語-小-2-7-1",
+   "goal": "語-2-7",
+   "age": "小",
+   "text": "重述故事",
+   "page": 71,
+   "continued": false
+  },
+  {
+   "code": "語-中-2-7-1",
+   "goal": "語-2-7",
+   "age": "中",
+   "text": "編創情節連貫的故事",
+   "page": 71,
+   "continued": false
+  },
+  {
+   "code": "語-大-2-7-1",
+   "goal": "語-2-7",
+   "age": "大",
+   "text": "在扮演情境中依據角色的特質說話與互動",
+   "page": 71,
+   "continued": false
+  },
+  {
+   "code": "語-大-2-7-2",
+   "goal": "語-2-7",
+   "age": "大",
+   "text": "創作圖畫書",
+   "page": 71,
+   "continued": false
+  },
+  {
+   "code": "社-幼-1-1-1",
+   "goal": "社-1-1",
+   "age": "幼",
+   "text": "覺察自己身體的部位、功能及其特徵",
+   "page": 87,
+   "continued": false
+  },
+  {
+   "code": "社-幼-1-1-2",
+   "goal": "社-1-1",
+   "age": "幼",
+   "text": "探索自己喜歡做的事",
+   "page": 87,
+   "continued": false
+  },
+  {
+   "code": "社-小-1-1-1",
+   "goal": "社-1-1",
+   "age": "小",
+   "text": "覺察自己身體的部位、功能及其特徵",
+   "page": 87,
+   "continued": true
+  },
+  {
+   "code": "社-小-1-1-2",
+   "goal": "社-1-1",
+   "age": "小",
+   "text": "探索自己喜歡做的事",
+   "page": 87,
+   "continued": true
+  },
+  {
+   "code": "社-中-1-1-1",
+   "goal": "社-1-1",
+   "age": "中",
+   "text": "覺察自己的外型和性別",
+   "page": 87,
+   "continued": false
+  },
+  {
+   "code": "社-中-1-1-2",
+   "goal": "社-1-1",
+   "age": "中",
+   "text": "探索自己的興趣與長處",
+   "page": 87,
+   "continued": false
+  },
+  {
+   "code": "社-大-1-1-1",
+   "goal": "社-1-1",
+   "age": "大",
+   "text": "辨認自己與他人的身體特徵與性別",
+   "page": 87,
+   "continued": false
+  },
+  {
+   "code": "社-大-1-1-2",
+   "goal": "社-1-1",
+   "age": "大",
+   "text": "探索自己的興趣與長處",
+   "page": 87,
+   "continued": true
+  },
+  {
+   "code": "社-小-1-2-1",
+   "goal": "社-1-2",
+   "age": "小",
+   "text": "覺察他人的想法",
+   "page": 87,
+   "continued": false
+  },
+  {
+   "code": "社-中-1-2-1",
+   "goal": "社-1-2",
+   "age": "中",
+   "text": "覺察自己和他人有不同的想法、感受、需求",
+   "page": 87,
+   "continued": false
+  },
+  {
+   "code": "社-大-1-2-1",
+   "goal": "社-1-2",
+   "age": "大",
+   "text": "覺察自己和他人有不同的想法、感受、需求",
+   "page": 87,
+   "continued": true
+  },
+  {
+   "code": "社-幼-1-3-1",
+   "goal": "社-1-3",
+   "age": "幼",
+   "text": "覺察生活作息和活動的規律性",
+   "page": 87,
+   "continued": false
+  },
+  {
+   "code": "社-小-1-3-1",
+   "goal": "社-1-3",
+   "age": "小",
+   "text": "辨別生活環境中能做或不能做的事",
+   "page": 87,
+   "continued": false
+  },
+  {
+   "code": "社-中-1-3-1",
+   "goal": "社-1-3",
+   "age": "中",
+   "text": "辨別生活環境中能做或不能做的事",
+   "page": 87,
+   "continued": false
+  },
+  {
+   "code": "社-大-1-3-1",
+   "goal": "社-1-3",
+   "age": "大",
+   "text": "辨認生活規範和活動規則的理由",
+   "page": 87,
+   "continued": false
+  },
+  {
+   "code": "社-幼-1-4-1",
+   "goal": "社-1-4",
+   "age": "幼",
+   "text": "感受家人對自己的照顧與關愛",
+   "page": 87,
+   "continued": false
+  },
+  {
+   "code": "社-小-1-4-1",
+   "goal": "社-1-4",
+   "age": "小",
+   "text": "覺察自己及與家人間的相互照顧關係",
+   "page": 87,
+   "continued": false
+  },
+  {
+   "code": "社-中-1-4-1",
+   "goal": "社-1-4",
+   "age": "中",
+   "text": "覺察自己及與家人間的相互照顧關係",
+   "page": 87,
+   "continued": false
+  },
+  {
+   "code": "社-大-1-4-1",
+   "goal": "社-1-4",
+   "age": "大",
+   "text": "覺察自己及與家人間的相互照顧關係",
+   "page": 87,
+   "continued": true
+  },
+  {
+   "code": "社-幼-1-5-1",
+   "goal": "社-1-5",
+   "age": "幼",
+   "text": "知道生活環境中常接觸的人事物",
+   "page": 88,
+   "continued": false
+  },
+  {
+   "code": "社-小-1-5-1",
+   "goal": "社-1-5",
+   "age": "小",
+   "text": "認出生活環境中常接觸的人事物",
+   "page": 88,
+   "continued": false
+  },
+  {
+   "code": "社-小-1-5-2",
+   "goal": "社-1-5",
+   "age": "小",
+   "text": "覺察不同性別的人都可做各種的家務分工",
+   "page": 88,
+   "continued": false
+  },
+  {
+   "code": "社-小-1-5-3",
+   "goal": "社-1-5",
+   "age": "小",
+   "text": "覺察自身的安全，避開危險的人事物",
+   "page": 88,
+   "continued": false
+  },
+  {
+   "code": "社-中-1-5-1",
+   "goal": "社-1-5",
+   "age": "中",
+   "text": "參與和探訪社區中的人事物",
+   "page": 88,
+   "continued": false
+  },
+  {
+   "code": "社-中-1-5-2",
+   "goal": "社-1-5",
+   "age": "中",
+   "text": "覺察不同性別的人可以有多元的職業及角色活動",
+   "page": 88,
+   "continued": false
+  },
+  {
+   "code": "社-中-1-5-3",
+   "goal": "社-1-5",
+   "age": "中",
+   "text": "覺察自身的安全，避開危險的人事物",
+   "page": 88,
+   "continued": true
+  },
+  {
+   "code": "社-大-1-5-1",
+   "goal": "社-1-5",
+   "age": "大",
+   "text": "探索社區中的人事物、活動、場所及其與自己的關係",
+   "page": 88,
+   "continued": false
+  },
+  {
+   "code": "社-大-1-5-2",
+   "goal": "社-1-5",
+   "age": "大",
+   "text": "覺察不同性別的人可以有多元的職業及角色活動",
+   "page": 88,
+   "continued": true
+  },
+  {
+   "code": "社-大-1-5-3",
+   "goal": "社-1-5",
+   "age": "大",
+   "text": "辨識生活環境中的危險，維護自身的安全",
+   "page": 88,
+   "continued": false
+  },
+  {
+   "code": "社-小-1-6-1",
+   "goal": "社-1-6",
+   "age": "小",
+   "text": "嘗試參與各種活動",
+   "page": 88,
+   "continued": false
+  },
+  {
+   "code": "社-小-1-6-3",
+   "goal": "社-1-6",
+   "age": "小",
+   "text": "參與節慶活動",
+   "page": 88,
+   "continued": false
+  },
+  {
+   "code": "社-中-1-6-1",
+   "goal": "社-1-6",
+   "age": "中",
+   "text": "嘗試參與各種活動",
+   "page": 88,
+   "continued": true
+  },
+  {
+   "code": "社-中-1-6-2",
+   "goal": "社-1-6",
+   "age": "中",
+   "text": "知道自己與他人相同或不同的生活方式",
+   "page": 88,
+   "continued": false
+  },
+  {
+   "code": "社-中-1-6-3",
+   "goal": "社-1-6",
+   "age": "中",
+   "text": "參與節慶活動",
+   "page": 88,
+   "continued": true
+  },
+  {
+   "code": "社-大-1-6-1",
+   "goal": "社-1-6",
+   "age": "大",
+   "text": "樂於參與各種活動",
+   "page": 88,
+   "continued": false
+  },
+  {
+   "code": "社-大-1-6-2",
+   "goal": "社-1-6",
+   "age": "大",
+   "text": "認識生活環境中不同族群的文化特色",
+   "page": 88,
+   "continued": false
+  },
+  {
+   "code": "社-大-1-6-3",
+   "goal": "社-1-6",
+   "age": "大",
+   "text": "樂於參與多元文化的活動",
+   "page": 88,
+   "continued": false
+  },
+  {
+   "code": "社-幼-2-1-1",
+   "goal": "社-2-1",
+   "age": "幼",
+   "text": "表達自己身體的基本需要",
+   "page": 89,
+   "continued": false
+  },
+  {
+   "code": "社-幼-2-1-2",
+   "goal": "社-2-1",
+   "age": "幼",
+   "text": "學習日常的生活自理行為",
+   "page": 89,
+   "continued": false
+  },
+  {
+   "code": "社-小-2-1-1",
+   "goal": "社-2-1",
+   "age": "小",
+   "text": "表達自己基本的身體或心理需要",
+   "page": 89,
+   "continued": false
+  },
+  {
+   "code": "社-小-2-1-2",
+   "goal": "社-2-1",
+   "age": "小",
+   "text": "學習日常的生活自理行為",
+   "page": 89,
+   "continued": true
+  },
+  {
+   "code": "社-小-2-1-3",
+   "goal": "社-2-1",
+   "age": "小",
+   "text": "根據自己的想法做選擇",
+   "page": 89,
+   "continued": false
+  },
+  {
+   "code": "社-中-2-1-1",
+   "goal": "社-2-1",
+   "age": "中",
+   "text": "表達自己身體的狀況與需要",
+   "page": 89,
+   "continued": false
+  },
+  {
+   "code": "社-中-2-1-2",
+   "goal": "社-2-1",
+   "age": "中",
+   "text": "調整與建立合宜的自我照顧行為",
+   "page": 89,
+   "continued": false
+  },
+  {
+   "code": "社-中-2-1-3",
+   "goal": "社-2-1",
+   "age": "中",
+   "text": "調整自己的想法去行動",
+   "page": 89,
+   "continued": false
+  },
+  {
+   "code": "社-大-2-1-1",
+   "goal": "社-2-1",
+   "age": "大",
+   "text": "表達自己的身體狀況及其發生的原因",
+   "page": 89,
+   "continued": false
+  },
+  {
+   "code": "社-大-2-1-2",
+   "goal": "社-2-1",
+   "age": "大",
+   "text": "調整與建立合宜的自我照顧行為",
+   "page": 89,
+   "continued": true
+  },
+  {
+   "code": "社-大-2-1-3",
+   "goal": "社-2-1",
+   "age": "大",
+   "text": "適時調整自己的想法與行動，嘗試完成規劃的目標",
+   "page": 89,
+   "continued": false
+  },
+  {
+   "code": "社-幼-2-2-4",
+   "goal": "社-2-2",
+   "age": "幼",
+   "text": "尋求成人協助以解決同儕衝突",
+   "page": 89,
+   "continued": false
+  },
+  {
+   "code": "社-小-2-2-1",
+   "goal": "社-2-2",
+   "age": "小",
+   "text": "表達自己的想法",
+   "page": 89,
+   "continued": false
+  },
+  {
+   "code": "社-小-2-2-2",
+   "goal": "社-2-2",
+   "age": "小",
+   "text": "理解他人的感受，展現關懷的行動",
+   "page": 89,
+   "continued": false
+  },
+  {
+   "code": "社-小-2-2-3",
+   "goal": "社-2-2",
+   "age": "小",
+   "text": "依據活動的程序與他人共同進行活動",
+   "page": 89,
+   "continued": false
+  },
+  {
+   "code": "社-小-2-2-4",
+   "goal": "社-2-2",
+   "age": "小",
+   "text": "尋求成人協助以解決同儕衝突",
+   "page": 89,
+   "continued": true
+  },
+  {
+   "code": "社-中-2-2-1",
+   "goal": "社-2-2",
+   "age": "中",
+   "text": "表達自己並願意聆聽他人想法",
+   "page": 89,
+   "continued": false
+  },
+  {
+   "code": "社-中-2-2-2",
+   "goal": "社-2-2",
+   "age": "中",
+   "text": "理解他人的感受和需要，展現同理或關懷的行動",
+   "page": 89,
+   "continued": false
+  },
+  {
+   "code": "社-中-2-2-3",
+   "goal": "社-2-2",
+   "age": "中",
+   "text": "依據活動的程序與他人共同進行活動",
+   "page": 89,
+   "continued": true
+  },
+  {
+   "code": "社-中-2-2-4",
+   "goal": "社-2-2",
+   "age": "中",
+   "text": "運用合宜的方式解決人際衝突",
+   "page": 89,
+   "continued": false
+  },
+  {
+   "code": "社-大-2-2-1",
+   "goal": "社-2-2",
+   "age": "大",
+   "text": "聆聽他人並正向回應",
+   "page": 89,
+   "continued": false
+  },
+  {
+   "code": "社-大-2-2-2",
+   "goal": "社-2-2",
+   "age": "大",
+   "text": "理解他人的感受和需要，展現同理或關懷的行動",
+   "page": 89,
+   "continued": true
+  },
+  {
+   "code": "社-大-2-2-3",
+   "goal": "社-2-2",
+   "age": "大",
+   "text": "考量自己與他人的能力和興趣，和他人分工合作",
+   "page": 89,
+   "continued": false
+  },
+  {
+   "code": "社-大-2-2-4",
+   "goal": "社-2-2",
+   "age": "大",
+   "text": "運用合宜的方式解決人際衝突",
+   "page": 89,
+   "continued": true
+  },
+  {
+   "code": "社-幼-2-3-1",
+   "goal": "社-2-3",
+   "age": "幼",
+   "text": "在生活情境中學習合宜的人際禮儀",
+   "page": 90,
+   "continued": false
+  },
+  {
+   "code": "社-小-2-3-1",
+   "goal": "社-2-3",
+   "age": "小",
+   "text": "在生活情境中學習合宜的人際禮儀",
+   "page": 90,
+   "continued": true
+  },
+  {
+   "code": "社-小-2-3-2",
+   "goal": "社-2-3",
+   "age": "小",
+   "text": "聽從成人指示，遵守生活規範",
+   "page": 90,
+   "continued": false
+  },
+  {
+   "code": "社-中-2-3-1",
+   "goal": "社-2-3",
+   "age": "中",
+   "text": "理解自己和互動對象的關係，表現合宜的生活禮儀",
+   "page": 90,
+   "continued": false
+  },
+  {
+   "code": "社-中-2-3-2",
+   "goal": "社-2-3",
+   "age": "中",
+   "text": "理解生活規範訂定的理由，並調整自己的行動",
+   "page": 90,
+   "continued": false
+  },
+  {
+   "code": "社-大-2-3-1",
+   "goal": "社-2-3",
+   "age": "大",
+   "text": "因應情境，表現合宜的生活禮儀",
+   "page": 90,
+   "continued": false
+  },
+  {
+   "code": "社-大-2-3-2",
+   "goal": "社-2-3",
+   "age": "大",
+   "text": "理解生活規範訂定的理由，並調整自己的行動",
+   "page": 90,
+   "continued": true
+  },
+  {
+   "code": "社-大-2-3-3",
+   "goal": "社-2-3",
+   "age": "大",
+   "text": "與他人共同訂定活動規則，遵守共同協議",
+   "page": 90,
+   "continued": false
+  },
+  {
+   "code": "社-幼-3-1-1",
+   "goal": "社-3-1",
+   "age": "幼",
+   "text": "自己能做的事情自己做",
+   "page": 90,
+   "continued": false
+  },
+  {
+   "code": "社-幼-3-1-2",
+   "goal": "社-3-1",
+   "age": "幼",
+   "text": "對自己完成的工作感到高興",
+   "page": 90,
+   "continued": false
+  },
+  {
+   "code": "社-小-3-1-1",
+   "goal": "社-3-1",
+   "age": "小",
+   "text": "自己能做的事情自己做",
+   "page": 90,
+   "continued": true
+  },
+  {
+   "code": "社-小-3-1-2",
+   "goal": "社-3-1",
+   "age": "小",
+   "text": "對自己完成的工作感到高興",
+   "page": 90,
+   "continued": true
+  },
+  {
+   "code": "社-中-3-1-1",
+   "goal": "社-3-1",
+   "age": "中",
+   "text": "自己能做的事情自己做",
+   "page": 90,
+   "continued": true
+  },
+  {
+   "code": "社-中-3-1-2",
+   "goal": "社-3-1",
+   "age": "中",
+   "text": "欣賞自己的長處，喜歡自己",
+   "page": 90,
+   "continued": false
+  },
+  {
+   "code": "社-大-3-1-1",
+   "goal": "社-3-1",
+   "age": "大",
+   "text": "建立肯做事、負責任的態度與行為",
+   "page": 90,
+   "continued": false
+  },
+  {
+   "code": "社-大-3-1-2",
+   "goal": "社-3-1",
+   "age": "大",
+   "text": "欣賞自己的特質，喜歡自己",
+   "page": 90,
+   "continued": false
+  },
+  {
+   "code": "社-小-3-2-1",
+   "goal": "社-3-2",
+   "age": "小",
+   "text": "愛護自己的身體",
+   "page": 90,
+   "continued": false
+  },
+  {
+   "code": "社-中-3-2-1",
+   "goal": "社-3-2",
+   "age": "中",
+   "text": "保護自己身體的隱私部位，並適時尋求協助",
+   "page": 90,
+   "continued": false
+  },
+  {
+   "code": "社-大-3-2-1",
+   "goal": "社-3-2",
+   "age": "大",
+   "text": "保護自己身體的隱私部位，並適時尋求協助",
+   "page": 90,
+   "continued": true
+  },
+  {
+   "code": "社-幼-3-3-1",
+   "goal": "社-3-3",
+   "age": "幼",
+   "text": "樂於與友伴一起遊戲和活動",
+   "page": 91,
+   "continued": false
+  },
+  {
+   "code": "社-幼-3-3-2",
+   "goal": "社-3-3",
+   "age": "幼",
+   "text": "尊敬長輩，喜愛與感謝家人",
+   "page": 91,
+   "continued": false
+  },
+  {
+   "code": "社-幼-3-3-3",
+   "goal": "社-3-3",
+   "age": "幼",
+   "text": "尊重與自己不同性別、年齡、身心狀態的人",
+   "page": 91,
+   "continued": false
+  },
+  {
+   "code": "社-小-3-3-1",
+   "goal": "社-3-3",
+   "age": "小",
+   "text": "樂於與友伴一起遊戲和活動",
+   "page": 91,
+   "continued": true
+  },
+  {
+   "code": "社-小-3-3-2",
+   "goal": "社-3-3",
+   "age": "小",
+   "text": "尊敬長輩，喜愛與感謝家人",
+   "page": 91,
+   "continued": true
+  },
+  {
+   "code": "社-小-3-3-3",
+   "goal": "社-3-3",
+   "age": "小",
+   "text": "尊重與自己不同性別、年齡、身心狀態的人",
+   "page": 91,
+   "continued": true
+  },
+  {
+   "code": "社-中-3-3-1",
+   "goal": "社-3-3",
+   "age": "中",
+   "text": "主動關懷並樂於與他人分享",
+   "page": 91,
+   "continued": false
+  },
+  {
+   "code": "社-中-3-3-2",
+   "goal": "社-3-3",
+   "age": "中",
+   "text": "尊敬長輩，喜愛與感謝家人",
+   "page": 91,
+   "continued": true
+  },
+  {
+   "code": "社-中-3-3-3",
+   "goal": "社-3-3",
+   "age": "中",
+   "text": "尊重與自己不同性別、年齡、身心狀態的人",
+   "page": 91,
+   "continued": true
+  },
+  {
+   "code": "社-大-3-3-1",
+   "goal": "社-3-3",
+   "age": "大",
+   "text": "主動關懷並樂於與他人分享",
+   "page": 91,
+   "continued": true
+  },
+  {
+   "code": "社-大-3-3-2",
+   "goal": "社-3-3",
+   "age": "大",
+   "text": "尊敬長輩，喜愛與感謝家人",
+   "page": 91,
+   "continued": true
+  },
+  {
+   "code": "社-大-3-3-3",
+   "goal": "社-3-3",
+   "age": "大",
+   "text": "尊重與自己不同性別、年齡、身心狀態的人",
+   "page": 91,
+   "continued": true
+  },
+  {
+   "code": "社-中-3-4-1",
+   "goal": "社-3-4",
+   "age": "中",
+   "text": "尊重他人身體的隱私部位",
+   "page": 91,
+   "continued": false
+  },
+  {
+   "code": "社-大-3-4-1",
+   "goal": "社-3-4",
+   "age": "大",
+   "text": "尊重他人身體的隱私部位",
+   "page": 91,
+   "continued": true
+  },
+  {
+   "code": "社-中-3-5-1",
+   "goal": "社-3-5",
+   "age": "中",
+   "text": "尊重他人所進行的各種活動",
+   "page": 91,
+   "continued": false
+  },
+  {
+   "code": "社-大-3-5-1",
+   "goal": "社-3-5",
+   "age": "大",
+   "text": "尊重他人所進行的各種活動",
+   "page": 91,
+   "continued": true
+  },
+  {
+   "code": "社-大-3-5-2",
+   "goal": "社-3-5",
+   "age": "大",
+   "text": "尊重與欣賞他人的語言與生活習俗",
+   "page": 91,
+   "continued": false
+  },
+  {
+   "code": "社-幼-3-6-1",
+   "goal": "社-3-6",
+   "age": "幼",
+   "text": "關懷愛護動植物",
+   "page": 91,
+   "continued": false
+  },
+  {
+   "code": "社-小-3-6-1",
+   "goal": "社-3-6",
+   "age": "小",
+   "text": "維護生活環境的整潔",
+   "page": 91,
+   "continued": false
+  },
+  {
+   "code": "社-中-3-6-1",
+   "goal": "社-3-6",
+   "age": "中",
+   "text": "維護生活環境的整潔",
+   "page": 91,
+   "continued": false
+  },
+  {
+   "code": "社-中-3-6-2",
+   "goal": "社-3-6",
+   "age": "中",
+   "text": "節約資源",
+   "page": 91,
+   "continued": false
+  },
+  {
+   "code": "社-大-3-6-1",
+   "goal": "社-3-6",
+   "age": "大",
+   "text": "樂於親近自然、愛護生命",
+   "page": 91,
+   "continued": false
+  },
+  {
+   "code": "社-大-3-6-2",
+   "goal": "社-3-6",
+   "age": "大",
+   "text": "節約資源",
+   "page": 91,
+   "continued": true
+  },
+  {
+   "code": "情-幼-1-1-1",
+   "goal": "情-1-1",
+   "age": "幼",
+   "text": "知道自己常出現的正負向",
+   "page": 114,
+   "continued": false
+  },
+  {
+   "code": "情-幼-1-1-2",
+   "goal": "情-1-1",
+   "age": "幼",
+   "text": "知道自己的同一種情緒存在著兩種程度上的差異",
+   "page": 114,
+   "continued": false
+  },
+  {
+   "code": "情-小-1-1-1",
+   "goal": "情-1-1",
+   "age": "小",
+   "text": "知道自己常出現的正負向",
+   "page": 114,
+   "continued": true
+  },
+  {
+   "code": "情-小-1-1-2",
+   "goal": "情-1-1",
+   "age": "小",
+   "text": "知道自己的同一種情緒存在著兩種程度上的差異",
+   "page": 114,
+   "continued": true
+  },
+  {
+   "code": "情-中-1-1-1",
+   "goal": "情-1-1",
+   "age": "中",
+   "text": "辨認自己常出現的複雜情緒",
+   "page": 114,
+   "continued": false
+  },
+  {
+   "code": "情-中-1-1-2",
+   "goal": "情-1-1",
+   "age": "中",
+   "text": "辨別自己的同一種情緒有程度上的差異",
+   "page": 114,
+   "continued": false
+  },
+  {
+   "code": "情-中-1-1-3",
+   "goal": "情-1-1",
+   "age": "中",
+   "text": "辨識自己在同一事件中存在著多種情緒",
+   "page": 114,
+   "continued": false
+  },
+  {
+   "code": "情-大-1-1-1",
+   "goal": "情-1-1",
+   "age": "大",
+   "text": "辨認自己常出現的複雜情緒",
+   "page": 114,
+   "continued": true
+  },
+  {
+   "code": "情-大-1-1-2",
+   "goal": "情-1-1",
+   "age": "大",
+   "text": "辨識自己的同一種情緒在不同情境中會出現程度上的差異",
+   "page": 114,
+   "continued": false
+  },
+  {
+   "code": "情-大-1-1-3",
+   "goal": "情-1-1",
+   "age": "大",
+   "text": "辨識自己在同一事件中存在著多種情緒",
+   "page": 114,
+   "continued": true
+  },
+  {
+   "code": "情-幼-1-2-1",
+   "goal": "情-1-2",
+   "age": "幼",
+   "text": "覺察與辨識常接觸的人和擬人化物件的情緒",
+   "page": 114,
+   "continued": false
+  },
+  {
+   "code": "情-小-1-2-1",
+   "goal": "情-1-2",
+   "age": "小",
+   "text": "覺察與辨識常接觸的人和擬人化物件的情緒",
+   "page": 114,
+   "continued": true
+  },
+  {
+   "code": "情-小-1-2-2",
+   "goal": "情-1-2",
+   "age": "小",
+   "text": "知道各種文本中主角的情緒",
+   "page": 114,
+   "continued": false
+  },
+  {
+   "code": "情-中-1-2-1",
+   "goal": "情-1-2",
+   "age": "中",
+   "text": "從事件脈絡中辨識他人和擬人化物件的情緒",
+   "page": 114,
+   "continued": false
+  },
+  {
+   "code": "情-中-1-2-2",
+   "goal": "情-1-2",
+   "age": "中",
+   "text": "辨識各種文本中主角的情緒",
+   "page": 114,
+   "continued": false
+  },
+  {
+   "code": "情-大-1-2-1",
+   "goal": "情-1-2",
+   "age": "大",
+   "text": "從事件脈絡中辨識他人和擬人化物件的情緒",
+   "page": 114,
+   "continued": true
+  },
+  {
+   "code": "情-大-1-2-2",
+   "goal": "情-1-2",
+   "age": "大",
+   "text": "辨識各種文本中主角的情緒",
+   "page": 114,
+   "continued": true
+  },
+  {
+   "code": "情-幼-2-1-2",
+   "goal": "情-2-1",
+   "age": "幼",
+   "text": "運用動作或表情表達自己的情緒",
+   "page": 115,
+   "continued": false
+  },
+  {
+   "code": "情-小-2-1-1",
+   "goal": "情-2-1",
+   "age": "小",
+   "text": "嘗試表達自己的情緒",
+   "page": 115,
+   "continued": false
+  },
+  {
+   "code": "情-小-2-1-2",
+   "goal": "情-2-1",
+   "age": "小",
+   "text": "運用動作、表情、語言表達自己的情緒",
+   "page": 115,
+   "continued": false
+  },
+  {
+   "code": "情-中-2-1-1",
+   "goal": "情-2-1",
+   "age": "中",
+   "text": "嘗試表達自己的情緒",
+   "page": 115,
+   "continued": true
+  },
+  {
+   "code": "情-中-2-1-2",
+   "goal": "情-2-1",
+   "age": "中",
+   "text": "運用動作、表情、語言表達自己的情緒",
+   "page": 115,
+   "continued": true
+  },
+  {
+   "code": "情-中-2-1-3",
+   "goal": "情-2-1",
+   "age": "中",
+   "text": "以符合社會文化的方式來表達自己的情緒",
+   "page": 115,
+   "continued": false
+  },
+  {
+   "code": "情-大-2-1-1",
+   "goal": "情-2-1",
+   "age": "大",
+   "text": "嘗試表達自己的情緒",
+   "page": 115,
+   "continued": true
+  },
+  {
+   "code": "情-大-2-1-2",
+   "goal": "情-2-1",
+   "age": "大",
+   "text": "運用動作、表情、語言表達自己的情緒",
+   "page": 115,
+   "continued": true
+  },
+  {
+   "code": "情-大-2-1-3",
+   "goal": "情-2-1",
+   "age": "大",
+   "text": "以符合社會文化的方式來表達自己的情緒",
+   "page": 115,
+   "continued": true
+  },
+  {
+   "code": "情-小-2-2-1",
+   "goal": "情-2-2",
+   "age": "小",
+   "text": "以表情或肢體動作表達家人、朋友或動物的情緒",
+   "page": 115,
+   "continued": false
+  },
+  {
+   "code": "情-中-2-2-1",
+   "goal": "情-2-2",
+   "age": "中",
+   "text": "適時地使用語言或非語言的形式表達生活環境中他人或擬人化物件的情緒",
+   "page": 115,
+   "continued": false
+  },
+  {
+   "code": "情-大-2-2-1",
+   "goal": "情-2-2",
+   "age": "大",
+   "text": "適時地使用語言或非語言的形式表達生活環境中他人或擬人化物件的情緒",
+   "page": 115,
+   "continued": true
+  },
+  {
+   "code": "情-幼-3-1-1",
+   "goal": "情-3-1",
+   "age": "幼",
+   "text": "知道自己情緒出現的原因",
+   "page": 115,
+   "continued": false
+  },
+  {
+   "code": "情-小-3-1-1",
+   "goal": "情-3-1",
+   "age": "小",
+   "text": "知道自己複雜情緒出現的原因",
+   "page": 115,
+   "continued": false
+  },
+  {
+   "code": "情-中-3-1-1",
+   "goal": "情-3-1",
+   "age": "中",
+   "text": "知道自己複雜情緒出現的原因",
+   "page": 115,
+   "continued": false
+  },
+  {
+   "code": "情-中-3-1-2",
+   "goal": "情-3-1",
+   "age": "中",
+   "text": "知道自己在同一事件中產生多種情緒的原因",
+   "page": 115,
+   "continued": false
+  },
+  {
+   "code": "情-大-3-1-1",
+   "goal": "情-3-1",
+   "age": "大",
+   "text": "知道自己複雜情緒出現的原因",
+   "page": 115,
+   "continued": true
+  },
+  {
+   "code": "情-大-3-1-2",
+   "goal": "情-3-1",
+   "age": "大",
+   "text": "知道自己在同一事件中產生多種情緒的原因",
+   "page": 115,
+   "continued": true
+  },
+  {
+   "code": "情-小-3-2-1",
+   "goal": "情-3-2",
+   "age": "小",
+   "text": "理解常接觸的人其情緒產生的原因",
+   "page": 116,
+   "continued": false
+  },
+  {
+   "code": "情-中-3-2-1",
+   "goal": "情-3-2",
+   "age": "中",
+   "text": "理解常接觸的人或擬人化物件情緒產生的原因",
+   "page": 116,
+   "continued": false
+  },
+  {
+   "code": "情-中-3-2-2",
+   "goal": "情-3-2",
+   "age": "中",
+   "text": "探究各類文本中主要角色情緒產生的原因",
+   "page": 116,
+   "continued": false
+  },
+  {
+   "code": "情-大-3-2-1",
+   "goal": "情-3-2",
+   "age": "大",
+   "text": "理解常接觸的人或擬人化物件情緒產生的原因",
+   "page": 116,
+   "continued": true
+  },
+  {
+   "code": "情-大-3-2-2",
+   "goal": "情-3-2",
+   "age": "大",
+   "text": "探究各類文本中主要角色情緒產生的原因",
+   "page": 116,
+   "continued": true
+  },
+  {
+   "code": "情-幼-4-1-1",
+   "goal": "情-4-1",
+   "age": "幼",
+   "text": "處理自己常出現的負向",
+   "page": 116,
+   "continued": false
+  },
+  {
+   "code": "情-小-4-1-1",
+   "goal": "情-4-1",
+   "age": "小",
+   "text": "處理自己常出現的負向",
+   "page": 116,
+   "continued": true
+  },
+  {
+   "code": "情-小-4-1-2",
+   "goal": "情-4-1",
+   "age": "小",
+   "text": "處理分離焦慮或害怕的情緒",
+   "page": 116,
+   "continued": false
+  },
+  {
+   "code": "情-中-4-1-1",
+   "goal": "情-4-1",
+   "age": "中",
+   "text": "運用等待或改變想法的策略調節自己的情緒",
+   "page": 116,
+   "continued": false
+  },
+  {
+   "code": "情-中-4-1-2",
+   "goal": "情-4-1",
+   "age": "中",
+   "text": "處理分離焦慮或害怕的情緒",
+   "page": 116,
+   "continued": true
+  },
+  {
+   "code": "情-大-4-1-1",
+   "goal": "情-4-1",
+   "age": "大",
+   "text": "運用等待或改變想法的策略調節自己的情緒",
+   "page": 116,
+   "continued": true
+  },
+  {
+   "code": "情-大-4-1-2",
+   "goal": "情-4-1",
+   "age": "大",
+   "text": "處理分離焦慮或害怕的情緒",
+   "page": 116,
+   "continued": true
+  },
+  {
+   "code": "美-幼-1-1-1",
+   "goal": "美-1-1",
+   "age": "幼",
+   "text": "探索生活環境中事物的美，體驗各種美感經驗",
+   "page": 132,
+   "continued": false
+  },
+  {
+   "code": "美-小-1-1-1",
+   "goal": "美-1-1",
+   "age": "小",
+   "text": "探索生活環境中事物的美，體驗各種美感經驗",
+   "page": 132,
+   "continued": true
+  },
+  {
+   "code": "美-中-1-1-1",
+   "goal": "美-1-1",
+   "age": "中",
+   "text": "探索生活環境中事物的美，體驗各種美感經驗",
+   "page": 132,
+   "continued": true
+  },
+  {
+   "code": "美-大-1-1-1",
+   "goal": "美-1-1",
+   "age": "大",
+   "text": "探索生活環境中事物的美，體驗各種美感經驗",
+   "page": 132,
+   "continued": true
+  },
+  {
+   "code": "美-幼-1-2-1",
+   "goal": "美-1-2",
+   "age": "幼",
+   "text": "探索生活環境中事物的色彩、形體、質地的美",
+   "page": 132,
+   "continued": false
+  },
+  {
+   "code": "美-幼-1-2-2",
+   "goal": "美-1-2",
+   "age": "幼",
+   "text": "探索生活環境中各種聲音",
+   "page": 132,
+   "continued": false
+  },
+  {
+   "code": "美-幼-1-2-3",
+   "goal": "美-1-2",
+   "age": "幼",
+   "text": "探索日常生活中各種感官經驗與情緒經驗",
+   "page": 132,
+   "continued": false
+  },
+  {
+   "code": "美-小-1-2-1",
+   "goal": "美-1-2",
+   "age": "小",
+   "text": "探索生活環境中事物的色彩、形體、質地的美",
+   "page": 132,
+   "continued": true
+  },
+  {
+   "code": "美-小-1-2-2",
+   "goal": "美-1-2",
+   "age": "小",
+   "text": "探索生活環境中各種聲音",
+   "page": 132,
+   "continued": true
+  },
+  {
+   "code": "美-小-1-2-3",
+   "goal": "美-1-2",
+   "age": "小",
+   "text": "覺察並回應日常生活中各種感官經驗與情緒經驗",
+   "page": 132,
+   "continued": false
+  },
+  {
+   "code": "美-中-1-2-1",
+   "goal": "美-1-2",
+   "age": "中",
+   "text": "探索生活環境中事物的色彩、形體、質地的美，感受其中的差異",
+   "page": 132,
+   "continued": false
+  },
+  {
+   "code": "美-中-1-2-2",
+   "goal": "美-1-2",
+   "age": "中",
+   "text": "探索生活環境中各種聲音，感受其中的差異",
+   "page": 132,
+   "continued": false
+  },
+  {
+   "code": "美-中-1-2-3",
+   "goal": "美-1-2",
+   "age": "中",
+   "text": "覺察並回應日常生活中各種感官經驗與情緒經驗",
+   "page": 132,
+   "continued": true
+  },
+  {
+   "code": "美-大-1-2-1",
+   "goal": "美-1-2",
+   "age": "大",
+   "text": "探索生活環境中事物的色彩、形體、質地的美，感受其中的差異",
+   "page": 132,
+   "continued": true
+  },
+  {
+   "code": "美-大-1-2-2",
+   "goal": "美-1-2",
+   "age": "大",
+   "text": "探索生活環境中各種聲音，感受其中的差異",
+   "page": 132,
+   "continued": true
+  },
+  {
+   "code": "美-大-1-2-3",
+   "goal": "美-1-2",
+   "age": "大",
+   "text": "覺察並回應日常生活中各種感官經驗與情緒經驗",
+   "page": 132,
+   "continued": true
+  },
+  {
+   "code": "美-幼-2-1-1",
+   "goal": "美-2-1",
+   "age": "幼",
+   "text": "享受玩索各種藝術媒介的樂趣",
+   "page": 132,
+   "continued": false
+  },
+  {
+   "code": "美-小-2-1-1",
+   "goal": "美-2-1",
+   "age": "小",
+   "text": "玩索各種藝術媒介，發揮想像並享受自我表現的樂趣",
+   "page": 132,
+   "continued": false
+  },
+  {
+   "code": "美-中-2-1-1",
+   "goal": "美-2-1",
+   "age": "中",
+   "text": "玩索各種藝術媒介，發揮想像並享受自我表現的樂趣",
+   "page": 132,
+   "continued": false
+  },
+  {
+   "code": "美-大-2-1-1",
+   "goal": "美-2-1",
+   "age": "大",
+   "text": "玩索各種藝術媒介，發揮想像並享受自我表現的樂趣",
+   "page": 132,
+   "continued": true
+  },
+  {
+   "code": "美-小-2-2-1",
+   "goal": "美-2-2",
+   "age": "小",
+   "text": "把玩各種視覺藝術的素材與工具，進行創作",
+   "page": 132,
+   "continued": false
+  },
+  {
+   "code": "美-中-2-2-1",
+   "goal": "美-2-2",
+   "age": "中",
+   "text": "運用各種視覺藝術素材與工具，進行創作",
+   "page": 132,
+   "continued": false
+  },
+  {
+   "code": "美-大-2-2-1",
+   "goal": "美-2-2",
+   "age": "大",
+   "text": "運用各種視覺藝術素材與工具的特性，進行創作",
+   "page": 132,
+   "continued": false
+  },
+  {
+   "code": "美-幼-2-2-5",
+   "goal": "美-2-2",
+   "age": "幼",
+   "text": "運用簡單的動作或玩物，進行生活片段經驗的扮演",
+   "page": 133,
+   "continued": false
+  },
+  {
+   "code": "美-小-2-2-2",
+   "goal": "美-2-2",
+   "age": "小",
+   "text": "運用線條、形狀或色彩表現想法，並命名或賦予意義",
+   "page": 133,
+   "continued": false
+  },
+  {
+   "code": "美-小-2-2-3",
+   "goal": "美-2-2",
+   "age": "小",
+   "text": "以哼唱、打擊樂器或身體動作模仿聽到的旋律或節奏",
+   "page": 133,
+   "continued": false
+  },
+  {
+   "code": "美-小-2-2-4",
+   "goal": "美-2-2",
+   "age": "小",
+   "text": "以高低強弱快慢等音樂元素表達感受",
+   "page": 133,
+   "continued": false
+  },
+  {
+   "code": "美-小-2-2-5",
+   "goal": "美-2-2",
+   "age": "小",
+   "text": "運用簡單的動作或玩物，進行生活片段經驗的扮演",
+   "page": 133,
+   "continued": true
+  },
+  {
+   "code": "美-中-2-2-2",
+   "goal": "美-2-2",
+   "age": "中",
+   "text": "運用線條、形狀或色彩，進行創作",
+   "page": 133,
+   "continued": false
+  },
+  {
+   "code": "美-中-2-2-3",
+   "goal": "美-2-2",
+   "age": "中",
+   "text": "以哼唱、打擊樂器或身體動作反應聽到的旋律或節奏",
+   "page": 133,
+   "continued": false
+  },
+  {
+   "code": "美-中-2-2-4",
+   "goal": "美-2-2",
+   "age": "中",
+   "text": "以高低強弱快慢等音樂元素表達感受",
+   "page": 133,
+   "continued": true
+  },
+  {
+   "code": "美-中-2-2-5",
+   "goal": "美-2-2",
+   "age": "中",
+   "text": "運用動作、玩物或口語，進行扮演",
+   "page": 133,
+   "continued": false
+  },
+  {
+   "code": "美-中-2-2-6",
+   "goal": "美-2-2",
+   "age": "中",
+   "text": "進行兩人以上的互動扮演",
+   "page": 133,
+   "continued": false
+  },
+  {
+   "code": "美-大-2-2-2",
+   "goal": "美-2-2",
+   "age": "大",
+   "text": "運用線條、形狀或色彩，進行創作",
+   "page": 133,
+   "continued": true
+  },
+  {
+   "code": "美-大-2-2-3",
+   "goal": "美-2-2",
+   "age": "大",
+   "text": "運用哼唱、打擊樂器或身體動作進行創作",
+   "page": 133,
+   "continued": false
+  },
+  {
+   "code": "美-大-2-2-4",
+   "goal": "美-2-2",
+   "age": "大",
+   "text": "以高低強弱快慢等音樂元素表達感受",
+   "page": 133,
+   "continued": true
+  },
+  {
+   "code": "美-大-2-2-5",
+   "goal": "美-2-2",
+   "age": "大",
+   "text": "運用動作、玩物或口語，進行扮演",
+   "page": 133,
+   "continued": true
+  },
+  {
+   "code": "美-大-2-2-6",
+   "goal": "美-2-2",
+   "age": "大",
+   "text": "進行兩人以上的互動扮演",
+   "page": 133,
+   "continued": true
+  },
+  {
+   "code": "美-幼-3-1-1",
+   "goal": "美-3-1",
+   "age": "幼",
+   "text": "樂於接觸視覺藝術、音樂或戲劇等創作表現",
+   "page": 133,
+   "continued": false
+  },
+  {
+   "code": "美-小-3-1-1",
+   "goal": "美-3-1",
+   "age": "小",
+   "text": "樂於接觸視覺藝術、音樂或戲劇等創作表現，回應個人的感受",
+   "page": 133,
+   "continued": false
+  },
+  {
+   "code": "美-中-3-1-1",
+   "goal": "美-3-1",
+   "age": "中",
+   "text": "樂於接觸視覺藝術、音樂或戲劇等創作表現，回應個人的感受",
+   "page": 133,
+   "continued": false
+  },
+  {
+   "code": "美-中-3-1-2",
+   "goal": "美-3-1",
+   "age": "中",
+   "text": "樂於參與在地藝術創作或展演活動",
+   "page": 133,
+   "continued": false
+  },
+  {
+   "code": "美-大-3-1-1",
+   "goal": "美-3-1",
+   "age": "大",
+   "text": "樂於接觸視覺藝術、音樂或戲劇等創作表現，回應個人的感受",
+   "page": 133,
+   "continued": true
+  },
+  {
+   "code": "美-大-3-1-2",
+   "goal": "美-3-1",
+   "age": "大",
+   "text": "樂於參與在地藝術創作或展演活動",
+   "page": 133,
+   "continued": true
+  },
+  {
+   "code": "美-小-3-2-1",
+   "goal": "美-3-2",
+   "age": "小",
+   "text": "欣賞視覺藝術創作，描述作品的內容",
+   "page": 134,
+   "continued": false
+  },
+  {
+   "code": "美-小-3-2-2",
+   "goal": "美-3-2",
+   "age": "小",
+   "text": "欣賞音樂創作，描述個人體驗到的特色",
+   "page": 134,
+   "continued": false
+  },
+  {
+   "code": "美-小-3-2-3",
+   "goal": "美-3-2",
+   "age": "小",
+   "text": "欣賞戲劇表現，描述個人體驗到的特色",
+   "page": 134,
+   "continued": false
+  },
+  {
+   "code": "美-中-3-2-1",
+   "goal": "美-3-2",
+   "age": "中",
+   "text": "欣賞視覺藝術創作，描述作品的內容",
+   "page": 134,
+   "continued": true
+  },
+  {
+   "code": "美-中-3-2-2",
+   "goal": "美-3-2",
+   "age": "中",
+   "text": "欣賞音樂創作，描述個人體驗到的特色",
+   "page": 134,
+   "continued": true
+  },
+  {
+   "code": "美-中-3-2-3",
+   "goal": "美-3-2",
+   "age": "中",
+   "text": "欣賞戲劇表現，描述個人體驗到的特色",
+   "page": 134,
+   "continued": true
+  },
+  {
+   "code": "美-大-3-2-1",
+   "goal": "美-3-2",
+   "age": "大",
+   "text": "欣賞視覺藝術創作，依個人偏好說明作品的內容與特色",
+   "page": 134,
+   "continued": false
+  },
+  {
+   "code": "美-大-3-2-2",
+   "goal": "美-3-2",
+   "age": "大",
+   "text": "欣賞音樂創作，描述個人體驗到的特色",
+   "page": 134,
+   "continued": true
+  },
+  {
+   "code": "美-大-3-2-3",
+   "goal": "美-3-2",
+   "age": "大",
+   "text": "欣賞戲劇表現，依個人偏好說明其內容與特色",
+   "page": 134,
+   "continued": false
+  }
+ ]
+}
