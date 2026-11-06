@@ -151,7 +151,7 @@ class _ActivitiesTab extends ConsumerWidget {
                   size: 14, color: theme.colorScheme.onSurfaceVariant),
               const SizedBox(width: 6),
               Text(
-                '按住右側把手可拖曳調整活動順序',
+                '按住右側把手拖曳,或用「⋮」選單調整順序',
                 style: theme.textTheme.bodySmall
                     ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
               ),
@@ -210,18 +210,60 @@ class _ActivitiesTab extends ConsumerWidget {
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      IconButton(
-                        tooltip: '移出備課籃',
-                        icon: Icon(Icons.remove_circle_outline,
-                            color: theme.colorScheme.outline),
-                        onPressed: () => ref
-                            .read(prepBasketProvider.notifier)
-                            .remove(resource.id),
+                      // 拖曳之外也能用選單調整順序(無障礙:不能只靠拖曳)
+                      PopupMenuButton<_ActivityAction>(
+                        tooltip: '更多動作',
+                        icon: Icon(Icons.more_vert,
+                            color: theme.colorScheme.onSurfaceVariant),
+                        onSelected: (action) {
+                          final notifier =
+                              ref.read(prepBasketProvider.notifier);
+                          switch (action) {
+                            case _ActivityAction.moveUp:
+                              notifier.reorder(index, index - 1);
+                            case _ActivityAction.moveDown:
+                              notifier.reorder(index, index + 1);
+                            case _ActivityAction.remove:
+                              notifier.remove(resource.id);
+                          }
+                        },
+                        itemBuilder: (context) => [
+                          PopupMenuItem(
+                            value: _ActivityAction.moveUp,
+                            enabled: index > 0,
+                            child: const ListTile(
+                              leading: Icon(Icons.arrow_upward),
+                              title: Text('上移'),
+                            ),
+                          ),
+                          PopupMenuItem(
+                            value: _ActivityAction.moveDown,
+                            enabled: index < resources.length - 1,
+                            child: const ListTile(
+                              leading: Icon(Icons.arrow_downward),
+                              title: Text('下移'),
+                            ),
+                          ),
+                          const PopupMenuItem(
+                            value: _ActivityAction.remove,
+                            child: ListTile(
+                              leading: Icon(Icons.remove_circle_outline),
+                              title: Text('移出備課籃'),
+                            ),
+                          ),
+                        ],
                       ),
                       ReorderableDragStartListener(
                         index: index,
-                        child: Icon(Icons.drag_handle,
-                            color: theme.colorScheme.outline),
+                        child: Semantics(
+                          label: '拖曳調整順序',
+                          child: SizedBox(
+                            width: 44,
+                            height: 44,
+                            child: Icon(Icons.drag_handle,
+                                color: theme.colorScheme.onSurfaceVariant),
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -234,6 +276,8 @@ class _ActivitiesTab extends ConsumerWidget {
     );
   }
 }
+
+enum _ActivityAction { moveUp, moveDown, remove }
 
 class _MaterialsTab extends ConsumerWidget {
   const _MaterialsTab({required this.summary});

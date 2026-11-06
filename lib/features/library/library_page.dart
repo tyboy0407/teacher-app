@@ -130,7 +130,8 @@ class _LibraryPageState extends ConsumerState<LibraryPage> {
               ),
               ...themeTopics.map(
                 (topic) => ChoiceChip(
-                  label: Text(topic.display),
+                  avatar: Icon(topic.icon, size: 16),
+                  label: Text(topic.label),
                   selected: filter.theme == topic.code,
                   onSelected: (_) => notifier.setTheme(topic.code),
                 ),

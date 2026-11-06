@@ -285,7 +285,8 @@ class _UploadFormPageState extends ConsumerState<UploadFormPage> {
               children: [
                 for (final topic in themeTopics)
                   FilterChip(
-                    label: Text(topic.display),
+                    avatar: Icon(topic.icon, size: 16),
+                    label: Text(topic.label),
                     selected: _themes.contains(topic.code),
                     onSelected: (_) => setState(() {
                       if (!_themes.remove(topic.code)) _themes.add(topic.code);
@@ -385,6 +386,7 @@ class _UploadFormPageState extends ConsumerState<UploadFormPage> {
                         child: TextFormField(
                           controller: _materialControllers[i],
                           decoration: InputDecoration(
+                            labelText: '材料 ${i + 1}',
                             hintText: '例:各色瓶蓋 20~30 個',
                             isDense: true,
                             border: const OutlineInputBorder(),
@@ -394,6 +396,7 @@ class _UploadFormPageState extends ConsumerState<UploadFormPage> {
                         ),
                       ),
                       IconButton(
+                        tooltip: '移除這項材料',
                         icon: const Icon(Icons.remove_circle_outline),
                         onPressed: () => setState(() =>
                             _materialControllers.removeAt(i).dispose()),
@@ -447,6 +450,7 @@ class _UploadFormPageState extends ConsumerState<UploadFormPage> {
                               ),
                             ),
                             IconButton(
+                              tooltip: '移除這個步驟',
                               icon: const Icon(Icons.remove_circle_outline),
                               onPressed: () => setState(
                                   () => _steps.removeAt(i).dispose()),
@@ -527,6 +531,7 @@ class _UploadFormPageState extends ConsumerState<UploadFormPage> {
                 isDense: true,
                 border: const OutlineInputBorder(),
                 suffixIcon: IconButton(
+                  tooltip: '加入標籤',
                   icon: const Icon(Icons.add),
                   onPressed: _addTagFromInput,
                 ),

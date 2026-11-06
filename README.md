@@ -30,6 +30,8 @@
 
 「教室的材料」:黑板綠 `#2F5D50` 主色、圖畫紙 `#F5F6F2` 底色、粉筆白卡片配 1px 細線(不用陰影)、蠟筆黃 `#F2C94C` 只給「本週備課」便利貼、墨色 `#1F2A26` 文字;字型全用台灣開源圓體**粉圓**(jf open 粉圓,裁切常用字集內嵌於 `assets/fonts/`)。首頁開頭的黑板區塊是唯一大膽的地方,其餘安靜。定義集中在 [lib/core/theme.dart](lib/core/theme.dart)。
 
+介面品質底線(依 ui-ux-pro-max 的 UX 準則逐項對過,並有測試把關):所有圖示按鈕都有名稱、觸控範圍至少 44pt、文字對比 4.5:1 以上、手機內文 16px、系統字級放大 1.3 倍不溢版、尊重「減少動態效果」、圖示一律用向量圖示不用 emoji、拖曳排序有選單替代、桌機瀏覽器內容限寬置中。
+
 ## 技術棧
 
 Flutter · Riverpod · go_router · Supabase(`supabase_flutter`)· shared_preferences

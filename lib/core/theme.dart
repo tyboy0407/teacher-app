@@ -96,7 +96,8 @@ ThemeData buildAppTheme() {
     titleMedium: baseText.titleMedium?.copyWith(fontSize: 17, height: 1.35),
     titleSmall: baseText.titleSmall?.copyWith(fontSize: 15, height: 1.35),
     bodyLarge: baseText.bodyLarge?.copyWith(fontSize: 16, height: 1.6),
-    bodyMedium: baseText.bodyMedium?.copyWith(fontSize: 15, height: 1.55),
+    // 手機上的內文至少 16px(老師多在手機上讀教案)
+    bodyMedium: baseText.bodyMedium?.copyWith(fontSize: 16, height: 1.55),
     bodySmall: baseText.bodySmall?.copyWith(fontSize: 13, height: 1.45),
     labelLarge: baseText.labelLarge?.copyWith(fontSize: 15),
     labelMedium: baseText.labelMedium?.copyWith(fontSize: 13),

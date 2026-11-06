@@ -60,6 +60,12 @@ class _DetailView extends ConsumerWidget {
 
   final Resource resource;
 
+  /// 封面上的圓形按鈕:直徑 44(觸控最小尺寸)
+  static const _coverButtonRadius = 22.0;
+
+  /// 按鈕底色:白色圖示在淺色封面上也要有 3:1 以上的對比
+  static const _coverButtonScrim = Colors.black45;
+
   String get _contentTitle {
     switch (resource.type) {
       case ResourceType.craft:
@@ -104,7 +110,8 @@ class _DetailView extends ConsumerWidget {
             leading: Padding(
               padding: const EdgeInsets.all(6),
               child: CircleAvatar(
-                backgroundColor: Colors.black26,
+                radius: _coverButtonRadius,
+                backgroundColor: _coverButtonScrim,
                 child: IconButton(
                   padding: EdgeInsets.zero,
                   tooltip: '返回',
@@ -118,7 +125,8 @@ class _DetailView extends ConsumerWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 6),
                 child: CircleAvatar(
-                  backgroundColor: Colors.black26,
+                  radius: _coverButtonRadius,
+                  backgroundColor: _coverButtonScrim,
                   child: IconButton(
                     padding: EdgeInsets.zero,
                     tooltip: '分享',
@@ -138,7 +146,8 @@ class _DetailView extends ConsumerWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 6),
                 child: CircleAvatar(
-                  backgroundColor: Colors.black26,
+                  radius: _coverButtonRadius,
+                  backgroundColor: _coverButtonScrim,
                   child: IconButton(
                     padding: EdgeInsets.zero,
                     tooltip: inBasket ? '移出備課籃' : '加入備課',
@@ -175,7 +184,8 @@ class _DetailView extends ConsumerWidget {
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 6, 10, 6),
                 child: CircleAvatar(
-                  backgroundColor: Colors.black26,
+                  radius: _coverButtonRadius,
+                  backgroundColor: _coverButtonScrim,
                   child: FavoriteButton(
                     resourceId: resource.id,
                     compact: true,
@@ -249,7 +259,8 @@ class _DetailView extends ConsumerWidget {
                       ),
                       ...resource.themes.map(
                         (code) => SmallInfoChip(
-                          label: themeByCode(code)?.display ?? code,
+                          icon: themeByCode(code)?.icon ?? Icons.label_outline,
+                          label: themeByCode(code)?.label ?? code,
                         ),
                       ),
                     ],
@@ -395,8 +406,8 @@ class _DetailView extends ConsumerWidget {
                     const SizedBox(height: 20),
                     Text(
                       '資料來源:${resource.sourceName}',
-                      style: theme.textTheme.bodySmall
-                          ?.copyWith(color: theme.colorScheme.outline),
+                      style: theme.textTheme.bodySmall?.copyWith(
+                          color: theme.colorScheme.onSurfaceVariant),
                     ),
                   ],
                 ],

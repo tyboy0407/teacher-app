@@ -47,7 +47,8 @@ class HomePage extends ConsumerWidget {
                   children: [
                     for (final topic in themesForMonth(DateTime.now().month))
                       ActionChip(
-                        label: Text(topic.display),
+                        avatar: Icon(topic.icon, size: 18),
+                        label: Text(topic.label),
                         onPressed: () {
                           ref
                               .read(libraryFilterProvider.notifier)

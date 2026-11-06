@@ -62,7 +62,10 @@ class WebPageTransitionsBuilder extends PageTransitionsBuilder {
         bool allowSnapshotting,
         Widget? child,
       ) {
-        if (BrowserNavigation.suppressTransitions) return child;
+        if (BrowserNavigation.suppressTransitions ||
+            MediaQuery.disableAnimationsOf(context)) {
+          return child;
+        }
         return _inner.delegatedTransition!(
           context,
           animation,
@@ -80,7 +83,9 @@ class WebPageTransitionsBuilder extends PageTransitionsBuilder {
     Animation<double> secondaryAnimation,
     Widget child,
   ) {
-    if (BrowserNavigation.suppressTransitions) {
+    // 系統「減少動態效果」開啟時也不播轉場
+    if (BrowserNavigation.suppressTransitions ||
+        MediaQuery.disableAnimationsOf(context)) {
       // 正在退出的頁面立刻隱藏(動畫仍會跑完才真正移除),進入的頁面立刻完整顯示。
       final leaving = animation.status == AnimationStatus.reverse ||
           animation.status == AnimationStatus.dismissed;

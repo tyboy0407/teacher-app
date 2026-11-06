@@ -160,6 +160,55 @@ void main() {
     await tester.pumpAndSettle();
   });
 
+  testWidgets('大字級(1.3 倍)手機尺寸各頁面不溢版', (tester) async {
+    // 老師常把手機字體調大;版面要撐得住系統字級放大
+    tester.view.physicalSize = const Size(375, 812);
+    tester.view.devicePixelRatio = 1.0;
+    tester.platformDispatcher.textScaleFactorTestValue = 1.3;
+    addTearDown(tester.view.reset);
+    addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+
+    await pumpApp(tester);
+    await tester.drag(find.byType(ListView).first, const Offset(0, -600));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('資源庫'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byType(ResourceCard).first);
+    await tester.pumpAndSettle();
+    await tester.drag(find.byType(CustomScrollView), const Offset(0, -900));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byIcon(Icons.arrow_back));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('我的'));
+    await tester.pumpAndSettle();
+  });
+
+  testWidgets('無障礙:圖示按鈕都有名稱,觸控範圍至少 44pt', (tester) async {
+    tester.view.physicalSize = const Size(375, 812);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.reset);
+    await pumpApp(tester);
+
+    Future<void> check(String page) async {
+      for (final element in find.byType(IconButton).evaluate()) {
+        final button = element.widget as IconButton;
+        expect(button.tooltip?.isNotEmpty, isTrue,
+            reason: '$page 有沒有名稱的圖示按鈕');
+        final size = element.size!;
+        expect(size.width, greaterThanOrEqualTo(44), reason: '$page 按鈕太窄');
+        expect(size.height, greaterThanOrEqualTo(44), reason: '$page 按鈕太矮');
+      }
+    }
+
+    await check('首頁');
+    await tester.tap(find.text('資源庫'));
+    await tester.pumpAndSettle();
+    await check('資源庫');
+    await tester.tap(find.byType(ResourceCard).first);
+    await tester.pumpAndSettle();
+    await check('詳情頁');
+  });
+
   testWidgets('收藏後出現在收藏頁', (tester) async {
     await pumpApp(tester);
 
@@ -415,7 +464,7 @@ void main() {
     await tester.pumpAndSettle();
 
     // 主題列是橫向捲動,「開學適應」排在最前面、不用捲就看得到
-    await tester.tap(find.text('🎒 開學適應'));
+    await tester.tap(find.text('開學適應'));
     await tester.pumpAndSettle();
 
     expect(find.text('共 3 筆資源'), findsOneWidget);

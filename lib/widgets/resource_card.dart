@@ -18,73 +18,84 @@ class ResourceCard extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
       clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: () => context.push('/resource/${resource.id}'),
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+      child: Semantics(
+        button: true,
+        child: InkWell(
+          onTap: () => context.push('/resource/${resource.id}'),
+          child: Stack(
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: SizedBox(
-                  width: 88,
-                  height: 88,
-                  child: ResourceCover(resource: resource, iconSize: 32),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
+              Padding(
+                // 右側多留空間給角落的收藏按鈕(44×44 觸控範圍)
+                padding: const EdgeInsets.fromLTRB(12, 12, 48, 12),
+                child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        TypeBadge(type: resource.type),
-                        const Spacer(),
-                        FavoriteButton(resourceId: resource.id, compact: true),
-                      ],
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      resource.title,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: theme.textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                        height: 1.3,
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: SizedBox(
+                        width: 88,
+                        height: 88,
+                        child: ResourceCover(resource: resource, iconSize: 32),
                       ),
                     ),
-                    if (resource.summary.isNotEmpty) ...[
-                      const SizedBox(height: 4),
-                      Text(
-                        resource.summary,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.onSurfaceVariant,
-                        ),
-                      ),
-                    ],
-                    const SizedBox(height: 6),
-                    Wrap(
-                      spacing: 6,
-                      runSpacing: 4,
-                      children: [
-                        SmallInfoChip(
-                          icon: Icons.child_care,
-                          label: resource.ages.map((a) => a.label).join('、'),
-                        ),
-                        ...resource.domains.take(2).map(
-                              (domain) => SmallInfoChip(
-                                dotColor: domain.color,
-                                label: domain.label,
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TypeBadge(type: resource.type),
+                          const SizedBox(height: 6),
+                          Text(
+                            resource.title,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: theme.textTheme.titleMedium?.copyWith(
+                              fontWeight: FontWeight.w600,
+                              height: 1.3,
+                            ),
+                          ),
+                          if (resource.summary.isNotEmpty) ...[
+                            const SizedBox(height: 4),
+                            Text(
+                              resource.summary,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: theme.textTheme.bodySmall?.copyWith(
+                                color: theme.colorScheme.onSurfaceVariant,
                               ),
                             ),
-                      ],
+                          ],
+                          const SizedBox(height: 6),
+                          Wrap(
+                            spacing: 6,
+                            runSpacing: 4,
+                            children: [
+                              SmallInfoChip(
+                                icon: Icons.child_care,
+                                label: resource.ages
+                                    .map((a) => a.label)
+                                    .join('、'),
+                              ),
+                              ...resource.domains
+                                  .take(2)
+                                  .map(
+                                    (domain) => SmallInfoChip(
+                                      dotColor: domain.color,
+                                      label: domain.label,
+                                    ),
+                                  ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
+              ),
+              Positioned(
+                top: 2,
+                right: 2,
+                child: FavoriteButton(resourceId: resource.id, compact: true),
               ),
             ],
           ),
@@ -107,47 +118,50 @@ class FeaturedResourceCard extends StatelessWidget {
       width: 240,
       child: Card(
         clipBehavior: Clip.antiAlias,
-        child: InkWell(
-          onTap: () => context.push('/resource/${resource.id}'),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              AspectRatio(
-                aspectRatio: 16 / 9,
-                child: ResourceCover(resource: resource),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TypeBadge(type: resource.type),
-                      const SizedBox(height: 6),
-                      Expanded(
-                        child: Text(
-                          resource.title,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: theme.textTheme.titleSmall?.copyWith(
-                            fontWeight: FontWeight.w600,
-                            height: 1.3,
+        child: Semantics(
+          button: true,
+          child: InkWell(
+            onTap: () => context.push('/resource/${resource.id}'),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: ResourceCover(resource: resource),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TypeBadge(type: resource.type),
+                        const SizedBox(height: 6),
+                        Expanded(
+                          child: Text(
+                            resource.title,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: theme.textTheme.titleSmall?.copyWith(
+                              fontWeight: FontWeight.w600,
+                              height: 1.3,
+                            ),
                           ),
                         ),
-                      ),
-                      Text(
-                        resource.ages.map((a) => a.label).join('、'),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: theme.textTheme.labelSmall?.copyWith(
-                          color: theme.colorScheme.onSurfaceVariant,
+                        Text(
+                          resource.ages.map((a) => a.label).join('、'),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: theme.textTheme.labelSmall?.copyWith(
+                            color: theme.colorScheme.onSurfaceVariant,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
