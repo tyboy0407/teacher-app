@@ -186,8 +186,8 @@ class _PrepBasketCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-    final basket = ref.watch(prepBasketProvider).value ?? const PrepBasket();
-    final resources = ref.watch(prepBasketResourcesProvider).value;
+    final basket = ref.watch(prepBasketProvider).valueOrNull ?? const PrepBasket();
+    final resources = ref.watch(prepBasketResourcesProvider).valueOrNull;
     final String subtitle;
     if (basket.isEmpty) {
       subtitle = '把要用的教具、教案加進來,材料和課綱指標會自動整理好';

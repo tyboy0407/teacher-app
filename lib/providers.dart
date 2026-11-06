@@ -84,7 +84,7 @@ final resourceByIdProvider = FutureProvider.family<Resource?, String>(
     (ref, id) => ref.watch(resourceRepositoryProvider).fetchById(id));
 
 final favoriteResourcesProvider = FutureProvider<List<Resource>>((ref) async {
-  final ids = ref.watch(favoritesProvider).value ?? const <String>{};
+  final ids = ref.watch(favoritesProvider).valueOrNull ?? const <String>{};
   if (ids.isEmpty) return const [];
   return ref.watch(resourceRepositoryProvider).fetchByIds(ids.toList());
 });
@@ -133,7 +133,7 @@ final myUploadsProvider = FutureProvider<List<Resource>>((ref) {
 
 /// 目前登入者是否為管理者(未登入為 false)
 final isAdminProvider = FutureProvider<bool>((ref) {
-  final user = ref.watch(authStateProvider).value;
+  final user = ref.watch(authStateProvider).valueOrNull;
   if (user == null) return false;
   return ref.watch(resourceRepositoryProvider).isAdmin();
 });

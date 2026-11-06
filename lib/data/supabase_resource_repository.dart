@@ -152,8 +152,13 @@ class SupabaseResourceRepository implements ResourceRepository {
   @override
   Future<bool> isAdmin() async {
     if (_client.auth.currentUser == null) return false;
-    final result = await _client.rpc('is_admin');
-    return result == true;
+    try {
+      final result = await _client.rpc('is_admin');
+      return result == true;
+    } catch (_) {
+      // 後端尚未建立 is_admin 函式(schema_v3.sql 未執行)或暫時連不上:視為非管理者
+      return false;
+    }
   }
 
   @override

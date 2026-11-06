@@ -15,9 +15,9 @@ class ProfilePage extends ConsumerWidget {
     final theme = Theme.of(context);
     final connected = SupabaseConfig.isConfigured;
     final auth = ref.watch(authRepositoryProvider);
-    final user = ref.watch(authStateProvider).value;
-    final isAdmin = ref.watch(isAdminProvider).value ?? false;
-    final pendingCount = ref.watch(pendingReviewsProvider).value?.length;
+    final user = ref.watch(authStateProvider).valueOrNull;
+    final isAdmin = ref.watch(isAdminProvider).valueOrNull ?? false;
+    final pendingCount = ref.watch(pendingReviewsProvider).valueOrNull?.length;
     return Scaffold(
       appBar: AppBar(title: const Text('我的')),
       body: ListView(

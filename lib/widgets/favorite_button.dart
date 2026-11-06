@@ -22,7 +22,7 @@ class FavoriteButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isFavorite =
-        ref.watch(favoritesProvider).value?.contains(resourceId) ?? false;
+        ref.watch(favoritesProvider).valueOrNull?.contains(resourceId) ?? false;
     return IconButton(
       onPressed: () => ref.read(favoritesProvider.notifier).toggle(resourceId),
       tooltip: isFavorite ? '移除收藏' : '加入收藏',

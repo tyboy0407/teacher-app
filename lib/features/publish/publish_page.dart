@@ -16,7 +16,7 @@ class PublishPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final auth = ref.watch(authRepositoryProvider);
-    final user = ref.watch(authStateProvider).value;
+    final user = ref.watch(authStateProvider).valueOrNull;
 
     if (!auth.isAvailable) {
       return Scaffold(

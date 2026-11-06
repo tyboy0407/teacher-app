@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:teacher_app/app.dart';
+import 'package:teacher_app/core/navigation.dart';
 import 'package:teacher_app/data/resource_repository.dart';
 import 'package:teacher_app/features/resource/resource_detail_page.dart';
 import 'package:teacher_app/models/resource.dart';
@@ -269,6 +270,41 @@ void main() {
     published: false,
   );
 
+  testWidgets('已登入但管理者查詢失敗:詳情頁與我的頁仍正常顯示', (tester) async {
+    // 線上曾發生:schema_v3 未執行 → is_admin 回 404。登入狀態早已載入時,
+    // 管理者查詢第一次建構就失敗、沒有舊值可退,AsyncValue.value 會重新丟出錯誤
+    // → 詳情頁整頁灰色。這裡先進「發布」讓登入狀態就緒,再開詳情頁重現該路徑。
+    final repo = _FakeVideoRepo(adminCheckFails: true);
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          resourceRepositoryProvider.overrideWithValue(repo),
+          authRepositoryProvider.overrideWithValue(_FakeAuthRepo()),
+        ],
+        child: const TeacherApp(),
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('發布'));
+    await tester.pumpAndSettle();
+    expect(find.text('我的投稿'), findsOneWidget);
+
+    await tester.tap(find.text('資源庫'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byType(ResourceCard).first);
+    await tester.pumpAndSettle();
+    expect(find.byType(ErrorWidget), findsNothing);
+    expect(find.byIcon(Icons.share), findsOneWidget);
+    expect(find.text('通過並上架'), findsNothing);
+
+    popPage(tester.element(find.byIcon(Icons.share)));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('我的'));
+    await tester.pumpAndSettle();
+    expect(find.byType(ErrorWidget), findsNothing);
+    expect(find.text('審核投稿'), findsNothing);
+  });
+
   testWidgets('管理者:我的頁有審核入口,通過後投稿離開待審清單', (tester) async {
     // 用手機尺寸跑,順便確認審核清單與底部操作列不溢版
     tester.view.physicalSize = const Size(375, 812);
@@ -467,11 +503,15 @@ class _FakeVideoRepo implements ResourceRepository {
     this.myUploads = const [],
     List<Resource> pending = const [],
     this.admin = false,
+    this.adminCheckFails = false,
   }) : pending = [...pending];
 
   final List<Resource> myUploads;
   final List<Resource> pending;
   final bool admin;
+
+  /// 模擬後端還沒建立 is_admin 函式(rpc 回 404)
+  final bool adminCheckFails;
 
   /// 審核紀錄:(id, 是否通過, 退回原因)
   final reviewed = <(String, bool, String?)>[];
@@ -520,7 +560,10 @@ class _FakeVideoRepo implements ResourceRepository {
       'https://example.com/fake.jpg';
 
   @override
-  Future<bool> isAdmin() async => admin;
+  Future<bool> isAdmin() async {
+    if (adminCheckFails) throw Exception('404 function is_admin not found');
+    return admin;
+  }
 
   @override
   Future<List<Resource>> fetchPendingReviews() async => List.of(pending);

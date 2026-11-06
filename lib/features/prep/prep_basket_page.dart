@@ -43,7 +43,7 @@ class PrepBasketPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final basket = ref.watch(prepBasketProvider).value ?? const PrepBasket();
+    final basket = ref.watch(prepBasketProvider).valueOrNull ?? const PrepBasket();
     final resourcesAsync = ref.watch(prepBasketResourcesProvider);
 
     if (basket.isEmpty) {

@@ -82,10 +82,10 @@ class _DetailView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     // 管理者看未核准的投稿時,底部多一條審核操作列
-    final isAdmin = ref.watch(isAdminProvider).value ?? false;
+    final isAdmin = ref.watch(isAdminProvider).valueOrNull ?? false;
     final reviewing = isAdmin && resource.reviewStatus != 'approved';
     final inBasket =
-        ref.watch(prepBasketProvider).value?.contains(resource.id) ?? false;
+        ref.watch(prepBasketProvider).valueOrNull?.contains(resource.id) ?? false;
     return Scaffold(
       bottomNavigationBar: reviewing ? _ReviewBar(resource: resource) : null,
       body: CustomScrollView(

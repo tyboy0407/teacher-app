@@ -61,7 +61,7 @@ class _LibraryPageState extends ConsumerState<LibraryPage> {
   Widget build(BuildContext context) {
     final filter = ref.watch(libraryFilterProvider);
     final results = ref.watch(libraryResultsProvider);
-    final tags = ref.watch(allTagsProvider).value ?? const <String>[];
+    final tags = ref.watch(allTagsProvider).valueOrNull ?? const <String>[];
     final notifier = ref.read(libraryFilterProvider.notifier);
     final theme = Theme.of(context);
 
