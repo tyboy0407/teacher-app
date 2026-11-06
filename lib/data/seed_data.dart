@@ -12,6 +12,7 @@ final List<Resource> seedResources = [
     ages: const [AgeStage.toddler, AgeStage.k1],
     domains: const [LearningDomain.cognitive, LearningDomain.physical],
     tags: const ['顏色認知', '回收材料', '分類配對'],
+    themes: const ['colors_shapes', 'recycling'],
     indicatorCodes: const ['認-小-1-3-1', '身-幼-1-2-2', '身-小-2-2-2'],
     materials: const [
       '鞋盒或厚紙盒 1 個',
@@ -54,6 +55,7 @@ final List<Resource> seedResources = [
     ages: const [AgeStage.k2, AgeStage.k3],
     domains: const [LearningDomain.emotional, LearningDomain.social],
     tags: const ['情緒教育', '晨圈活動'],
+    themes: const ['emotions'],
     indicatorCodes: const ['情-中-1-1-1', '情-大-1-1-2'],
     materials: const [
       '圓形厚紙板 1 張',
@@ -91,6 +93,7 @@ final List<Resource> seedResources = [
     ages: const [AgeStage.toddler, AgeStage.k1, AgeStage.k2],
     domains: const [LearningDomain.emotional],
     tags: const ['情緒安撫', '感官探索'],
+    themes: const ['emotions', 'recycling'],
     materials: const [
       '小型透明寶特瓶 1 個',
       '亮片與亮粉',
@@ -126,6 +129,7 @@ final List<Resource> seedResources = [
     ages: const [AgeStage.k3],
     domains: const [LearningDomain.language],
     tags: const ['注音', '識字遊戲', '小組活動'],
+    themes: const ['ocean'],
     materials: const ['注音符號魚形卡(護貝)', '迴紋針', '磁鐵釣竿'],
     content: '基本玩法:\n'
         '一、老師唸出注音,孩子釣出正確的魚卡。\n'
@@ -144,6 +148,7 @@ final List<Resource> seedResources = [
     ages: const [AgeStage.toddler, AgeStage.k1],
     domains: const [LearningDomain.cognitive, LearningDomain.aesthetic],
     tags: const ['感官探索', '顏色認知'],
+    themes: const ['colors_shapes'],
     materials: const [
       '白米 3~5 杯',
       '食用色素',
@@ -180,6 +185,7 @@ final List<Resource> seedResources = [
     ages: const [AgeStage.k1],
     domains: const [LearningDomain.cognitive, LearningDomain.language],
     tags: const ['植物', '生命教育', '主題課程'],
+    themes: const ['plants', 'spring'],
     indicatorCodes: const ['認-小-1-2-1', '認-小-1-2-3'],
     content: '活動名稱:小種子長大了\n'
         '適用年齡:小班(3-4 歲)\n'
@@ -210,6 +216,7 @@ final List<Resource> seedResources = [
     ages: const [AgeStage.toddler, AgeStage.k1],
     domains: const [LearningDomain.physical, LearningDomain.aesthetic],
     tags: const ['律動', '大肌肉', '免教具', '雨天備案'],
+    themes: const ['animals'],
     indicatorCodes: const ['身-幼-1-1-2', '身-小-2-1-1'],
     content: '活動名稱:動物運動會\n'
         '適用年齡:幼幼班~小班\n'
@@ -235,6 +242,7 @@ final List<Resource> seedResources = [
     ages: const [AgeStage.k1, AgeStage.k2],
     domains: const [LearningDomain.cognitive],
     tags: const ['形狀', '學習單'],
+    themes: const ['colors_shapes'],
     indicatorCodes: const ['認-小-1-1-1'],
     content: '內容說明:學習單共兩頁——第一頁為形狀與生活物品連連看'
         '(圓形-時鐘、三角形-三明治、正方形-窗戶);'
@@ -253,6 +261,7 @@ final List<Resource> seedResources = [
     ages: const [AgeStage.k3],
     domains: const [LearningDomain.emotional, LearningDomain.language],
     tags: const ['情緒教育', '書寫前準備'],
+    themes: const ['emotions'],
     content: '內容說明:表格式一週心情記錄,每天圈選一個心情臉譜(開心/平靜/難過/生氣),'
         '並在空格畫下「今天發生的一件事」。\n\n'
         '使用建議:\n'
@@ -269,6 +278,7 @@ final List<Resource> seedResources = [
     ages: const [AgeStage.k2, AgeStage.k3],
     domains: const [LearningDomain.cognitive, LearningDomain.aesthetic],
     tags: const ['建構遊戲', '空間概念'],
+    themes: const ['colors_shapes'],
     indicatorCodes: const ['認-大-1-1-1', '認-中-2-3-1'],
     content: '挑選重點:\n'
         '一、磁力適中——太弱作品容易垮,太強小手拆不開。\n'
@@ -290,6 +300,7 @@ final List<Resource> seedResources = [
     ages: const [AgeStage.all],
     domains: const [LearningDomain.physical],
     tags: const ['感覺統合', '大肌肉'],
+    themes: const ['my_body'],
     indicatorCodes: const ['身-幼-2-1-1', '身-小-2-1-1'],
     content: '挑選重點:防滑底座、承重足夠,並且可以自由組合高低與彎直路線。\n\n'
         '使用方式:\n'
@@ -307,6 +318,7 @@ final List<Resource> seedResources = [
     ages: const [AgeStage.all],
     domains: const [LearningDomain.social, LearningDomain.cognitive],
     tags: const ['環境佈置', '學習區', '新手老師'],
+    themes: const ['school_start'],
     content: '開學前佈置教室,學習區怎麼規劃才會真的被孩子用起來?分享五個原則:\n\n'
         '一、動靜分區\n'
         '積木區、扮演區等熱鬧的區域放在一起;圖書區、益智區放在安靜角落,中間用矮櫃區隔。\n\n'
@@ -329,6 +341,7 @@ final List<Resource> seedResources = [
     ages: const [AgeStage.all],
     domains: const [LearningDomain.social],
     tags: const ['轉換時間', '免教具', '班級經營'],
+    themes: const ['school_start'],
     indicatorCodes: const ['社-小-2-3-2', '社-中-2-3-2'],
     content: '使用心法:口令要「少而固定」,全班熟了才有效;音量放低反而更快安靜。\n\n'
         '常用口令(老師說—孩子答):\n'
@@ -350,6 +363,7 @@ final List<Resource> seedResources = [
     ages: const [AgeStage.all],
     domains: const [LearningDomain.social, LearningDomain.physical],
     tags: const ['轉換時間', '免教具', '大團體'],
+    themes: const ['school_start'],
     indicatorCodes: const ['身-幼-1-1-2', '社-小-2-3-2'],
     content: '基本玩法:\n'
         '老師說「請你跟我這樣做」,一邊做動作(拍手、摸肩、比愛心),'

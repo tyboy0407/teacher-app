@@ -17,6 +17,7 @@ App 預設使用**內建示範資料**,不用任何設定就能跑起來。
 4. 再貼上 [`supabase/schema_v2.sql`](supabase/schema_v2.sql) 執行,啟用**帳號與投稿**(審核欄位、權限、投稿函式、圖片儲存桶)
 5. 再貼上 [`supabase/schema_v3.sql`](supabase/schema_v3.sql) 執行,啟用 **App 內審核**(管理者名單與審核函式;指定管理者的方法見第 8 節)
 6. (選用)再貼上 [`supabase/seed.sql`](supabase/seed.sql) 執行,會匯入與 App 內建相同的 14 筆種子內容
+7. 再貼上 [`supabase/schema_v4.sql`](supabase/schema_v4.sql) 執行,加入**主題/節慶**欄位(並補上示範內容的主題)
 
 > 註冊流程預設會寄 Email 驗證信;測試期想省略,可到 **Authentication → Sign In / Providers → Email** 關閉「Confirm email」。
 
@@ -72,6 +73,7 @@ flutter run -d chrome --dart-define-from-file=supabase.env.json
 | `age_stages` | 適用年齡代碼,可多選,如 `{k1,k2}` |
 | `domains` | 六大領域代碼,可多選,如 `{cognitive}` |
 | `indicator_codes` | 對應課綱學習指標代碼,如 `{認-小-1-2-1,認-小-1-2-3}`;代碼可在 App 的「課綱指標查詢」頁或 `curriculum_indicators` 表查到 |
+| `themes` | 主題/節慶代碼,可多選,如 `{spring,plants}`;代碼表見下方 |
 | `materials` | 材料清單,如 `{"鞋盒 1 個","瓶蓋 20 個"}` |
 | `steps` | 製作步驟 JSON:`[{"title":"...","description":"..."}]` |
 | `content` | 內文(玩法說明/教案內容/文章正文) |
@@ -115,6 +117,27 @@ flutter run -d chrome --dart-define-from-file=supabase.env.json
 | `social` | 社會 |
 | `emotional` | 情緒 |
 | `aesthetic` | 美感 |
+
+**themes(主題/節慶,可多選)**
+
+| 代碼 | 意義 | 代碼 | 意義 |
+|---|---|---|---|
+| `school_start` | 開學適應(8-9月) | `my_body` | 我的身體 |
+| `moon_festival` | 中秋節 | `family` | 家庭 |
+| `autumn` | 秋天 | `animals` | 動物 |
+| `halloween` | 萬聖節 | `plants` | 植物 |
+| `winter` | 冬天 | `food` | 食物 |
+| `christmas` | 聖誕節 | `vehicles` | 交通工具 |
+| `lunar_new_year` | 過年 | `community` | 社區 |
+| `spring` | 春天 | `colors_shapes` | 顏色與形狀 |
+| `childrens_day` | 兒童節 | `emotions` | 情緒 |
+| `mothers_day` | 母親節 | `recycling` | 環保回收 |
+| `dragon_boat` | 端午節 | `ocean` | 海洋 |
+| `graduation` | 畢業 | `weather` | 天氣 |
+| `summer` | 夏天 | | |
+| `fathers_day` | 父親節 | | |
+
+左欄是行事曆主題,首頁會依當月自動顯示;右欄是全年通用主題。完整定義在 `lib/data/theme_catalog.dart`。
 
 標籤:先在 **tags** 表新增標籤名稱,再到 **resource_tags** 表把資源 id 和標籤 id 建立關聯。
 

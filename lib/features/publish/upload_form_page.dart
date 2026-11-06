@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../core/navigation.dart';
 import '../../data/curriculum_service.dart';
+import '../../data/theme_catalog.dart';
 import '../../models/resource.dart';
 import '../../models/resource_draft.dart';
 import '../../models/taxonomy.dart';
@@ -53,6 +54,7 @@ class _UploadFormPageState extends ConsumerState<UploadFormPage> {
   ResourceType _type = ResourceType.craft;
   final Set<AgeStage> _ages = {};
   final Set<LearningDomain> _domains = {};
+  final Set<String> _themes = {};
   final List<String> _tags = [];
   List<String> _indicatorCodes = [];
   int? _difficulty;
@@ -158,6 +160,7 @@ class _UploadFormPageState extends ConsumerState<UploadFormPage> {
         domains: _domains.toList(),
         tags: _tags,
         indicatorCodes: _indicatorCodes,
+        themes: _themes.toList(),
         coverUrl: imageUrls.isEmpty ? null : imageUrls.first,
         imageUrls: imageUrls,
         videoUrl: _videoUrlController.text.trim().isEmpty
@@ -271,6 +274,21 @@ class _UploadFormPageState extends ConsumerState<UploadFormPage> {
                     selected: _domains.contains(domain),
                     onSelected: (_) => setState(() {
                       if (!_domains.remove(domain)) _domains.add(domain);
+                    }),
+                  ),
+              ],
+            ),
+            _SectionLabel('主題 / 節慶(選填,老師常用主題搜尋)'),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                for (final topic in themeTopics)
+                  FilterChip(
+                    label: Text(topic.display),
+                    selected: _themes.contains(topic.code),
+                    onSelected: (_) => setState(() {
+                      if (!_themes.remove(topic.code)) _themes.add(topic.code);
                     }),
                   ),
               ],

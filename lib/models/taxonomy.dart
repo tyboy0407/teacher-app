@@ -92,6 +92,7 @@ class ResourceFilter {
     this.ages = const {},
     this.domains = const {},
     this.tags = const {},
+    this.theme,
   });
 
   final String query;
@@ -100,14 +101,18 @@ class ResourceFilter {
   final Set<LearningDomain> domains;
   final Set<String> tags;
 
+  /// 主題/節慶代碼(見 theme_catalog.dart),單選
+  final String? theme;
+
   bool get isEmpty =>
       query.trim().isEmpty &&
       type == null &&
       ages.isEmpty &&
       domains.isEmpty &&
-      tags.isEmpty;
+      tags.isEmpty &&
+      theme == null;
 
-  /// [type] 需要能「清成 null」,所以用函式包一層:
+  /// [type]、[theme] 需要能「清成 null」,所以用函式包一層:
   /// copyWith(type: () => null) 清除、copyWith(type: () => t) 設定。
   ResourceFilter copyWith({
     String? query,
@@ -115,6 +120,7 @@ class ResourceFilter {
     Set<AgeStage>? ages,
     Set<LearningDomain>? domains,
     Set<String>? tags,
+    String? Function()? theme,
   }) {
     return ResourceFilter(
       query: query ?? this.query,
@@ -122,6 +128,7 @@ class ResourceFilter {
       ages: ages ?? this.ages,
       domains: domains ?? this.domains,
       tags: tags ?? this.tags,
+      theme: theme != null ? theme() : this.theme,
     );
   }
 }

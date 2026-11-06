@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,6 +19,29 @@ import 'package:teacher_app/widgets/resource_card.dart';
 Future<void> pumpApp(WidgetTester tester) async {
   await tester.pumpWidget(const ProviderScope(child: TeacherApp()));
   await tester.pumpAndSettle();
+}
+
+/// 到資源庫用關鍵字搜尋後點進詳情頁(列表是延遲建構,直接找舊資源會找不到)
+Future<void> openDetailBySearch(WidgetTester tester, String keyword) async {
+  await tester.tap(find.text('資源庫'));
+  await tester.pumpAndSettle();
+  await tester.enterText(find.byType(TextField), keyword);
+  await tester.pump(const Duration(milliseconds: 400)); // 搜尋防抖
+  await tester.pumpAndSettle();
+  await tester.tap(find.byType(ResourceCard).first);
+  await tester.pumpAndSettle();
+}
+
+/// 投稿表單的「送出審核」在延遲建構的清單底部:先捲到建出來,再確保進入可視範圍
+Future<void> tapSubmit(WidgetTester tester) async {
+  await tester.scrollUntilVisible(
+    find.text('送出審核'),
+    400,
+    scrollable: find.byType(Scrollable).first,
+  );
+  await tester.ensureVisible(find.text('送出審核'));
+  await tester.pumpAndSettle();
+  await tester.tap(find.text('送出審核'));
 }
 
 void main() {
@@ -58,10 +82,9 @@ void main() {
 
   testWidgets('點卡片進入詳情頁並顯示材料清單', (tester) async {
     await pumpApp(tester);
+    await openDetailBySearch(tester, '瓶蓋');
 
-    await tester.tap(find.text('瓶蓋顏色分類盒').first);
-    await tester.pumpAndSettle();
-
+    expect(find.text('瓶蓋顏色分類盒'), findsOneWidget);
     expect(find.text('材料清單'), findsOneWidget);
     expect(find.text('製作步驟'), findsOneWidget);
     // 課綱指標區塊
@@ -215,12 +238,7 @@ void main() {
 
     // 填了標題但沒選年齡
     await tester.enterText(find.byType(TextFormField).first, '測試教具');
-    await tester.scrollUntilVisible(
-      find.text('送出審核'),
-      400,
-      scrollable: find.byType(Scrollable).first,
-    );
-    await tester.tap(find.text('送出審核'));
+    await tapSubmit(tester);
     await tester.pump(const Duration(milliseconds: 300));
     expect(find.text('請選擇適用年齡'), findsOneWidget);
   });
@@ -234,12 +252,7 @@ void main() {
     await tester.pump();
     await tester.tap(find.widgetWithText(FilterChip, '認知'));
     await tester.pump();
-    await tester.scrollUntilVisible(
-      find.text('送出審核'),
-      400,
-      scrollable: find.byType(Scrollable).first,
-    );
-    await tester.tap(find.text('送出審核'));
+    await tapSubmit(tester);
     await tester.pumpAndSettle();
 
     expect(find.text('已送出審核 🎉'), findsOneWidget);
@@ -325,6 +338,83 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(repo.reviewed, [('p1', false, '缺少安全提醒')]);
+  });
+
+  testWidgets('加入備課籃後,備課頁彙整活動、材料與指標', (tester) async {
+    await pumpApp(tester);
+    await openDetailBySearch(tester, '瓶蓋');
+
+    await tester.tap(find.byIcon(Icons.playlist_add));
+    await tester.pumpAndSettle();
+    expect(find.text('已加入本週備課'), findsOneWidget);
+    expect(find.byIcon(Icons.playlist_add_check), findsOneWidget);
+
+    await tester.tap(find.byIcon(Icons.arrow_back));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('我的'));
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('本週備課'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('本週備課'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('1. 瓶蓋顏色分類盒'), findsOneWidget);
+    await tester.tap(find.textContaining('材料 缺'));
+    await tester.pumpAndSettle();
+    expect(find.text('各色瓶蓋 20~30 個'), findsOneWidget);
+
+    // 勾掉一項「我有了」,缺的數量減一
+    await tester.tap(find.text('各色瓶蓋 20~30 個'));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('還缺 5 項'), findsOneWidget);
+
+    await tester.tap(find.textContaining('指標 '));
+    await tester.pumpAndSettle();
+    expect(find.text('認-小-1-3-1'), findsOneWidget);
+  });
+
+  testWidgets('首頁有本月主題,資源庫可依主題篩選', (tester) async {
+    await pumpApp(tester);
+    expect(find.textContaining('本月主題'), findsOneWidget);
+
+    await tester.tap(find.text('資源庫'));
+    await tester.pumpAndSettle();
+
+    // 主題列是橫向捲動,「開學適應」排在最前面、不用捲就看得到
+    await tester.tap(find.text('🎒 開學適應'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('共 3 筆資源'), findsOneWidget);
+    expect(find.text('安靜排隊救急口令集'), findsOneWidget);
+    expect(find.text('清除篩選'), findsOneWidget);
+  });
+
+  testWidgets('詳情頁分享面板:LINE 排第一,複製的文字含標題與連結', (tester) async {
+    String? copied;
+    tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+      SystemChannels.platform,
+      (call) async {
+        if (call.method == 'Clipboard.setData') {
+          copied = (call.arguments as Map)['text'] as String?;
+        }
+        return null;
+      },
+    );
+    addTearDown(() => tester.binding.defaultBinaryMessenger
+        .setMockMethodCallHandler(SystemChannels.platform, null));
+
+    await pumpApp(tester);
+    await openDetailBySearch(tester, '瓶蓋');
+
+    await tester.tap(find.byIcon(Icons.share));
+    await tester.pumpAndSettle();
+    expect(find.text('分享到 LINE'), findsOneWidget);
+    expect(find.text('複製文字'), findsOneWidget);
+
+    await tester.tap(find.text('複製文字'));
+    await tester.pumpAndSettle();
+    expect(copied, contains('瓶蓋顏色分類盒'));
+    expect(copied, contains('#/resource/seed-001'));
   });
 
   testWidgets('非管理者看不到審核入口與審核列', (tester) async {

@@ -5,6 +5,7 @@ import 'config/supabase_config.dart';
 import 'data/auth_repository.dart';
 import 'data/favorites_notifier.dart';
 import 'data/mock_resource_repository.dart';
+import 'data/prep_basket_notifier.dart';
 import 'data/resource_repository.dart';
 import 'data/supabase_resource_repository.dart';
 import 'models/resource.dart';
@@ -12,6 +13,7 @@ import 'models/taxonomy.dart';
 
 export 'data/auth_repository.dart' show AppUser, AuthRepository;
 export 'data/favorites_notifier.dart' show favoritesProvider;
+export 'data/prep_basket_notifier.dart' show PrepBasket, prepBasketProvider;
 
 /// 依是否設定 Supabase 自動切換資料來源。
 final resourceRepositoryProvider = Provider<ResourceRepository>((ref) {
@@ -57,9 +59,14 @@ class LibraryFilterNotifier extends Notifier<ResourceFilter> {
     state = state.copyWith(tags: tags);
   }
 
+  void setTheme(String? theme) => state = state.copyWith(theme: () => theme);
+
   /// 首頁「依領域探索」入口:清空其他條件、只留該領域。
   void showDomain(LearningDomain domain) =>
       state = ResourceFilter(domains: {domain});
+
+  /// 首頁「本月主題」入口:清空其他條件、只留該主題。
+  void showTheme(String theme) => state = ResourceFilter(theme: theme);
 
   void reset() => state = const ResourceFilter();
 }
@@ -80,6 +87,19 @@ final favoriteResourcesProvider = FutureProvider<List<Resource>>((ref) async {
   final ids = ref.watch(favoritesProvider).value ?? const <String>{};
   if (ids.isEmpty) return const [];
   return ref.watch(resourceRepositoryProvider).fetchByIds(ids.toList());
+});
+
+/// 備課籃裡的資源,依老師排的順序
+final prepBasketResourcesProvider = FutureProvider<List<Resource>>((ref) async {
+  // 只在活動清單變動時重抓;勾材料不該觸發(否則備課頁會整個重建、跳回第一個分頁)
+  final idsKey = ref.watch(prepBasketProvider
+      .select((basket) => (basket.value?.ids ?? const <String>[]).join('|')));
+  final ids = idsKey.isEmpty ? const <String>[] : idsKey.split('|');
+  if (ids.isEmpty) return const [];
+  final resources =
+      await ref.watch(resourceRepositoryProvider).fetchByIds(ids);
+  final byId = {for (final r in resources) r.id: r};
+  return [for (final id in ids) if (byId[id] != null) byId[id]!];
 });
 
 final allTagsProvider = FutureProvider<List<String>>(

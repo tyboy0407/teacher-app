@@ -37,6 +37,9 @@ class MockResourceRepository implements ResourceRepository {
     if (filter.tags.isNotEmpty && !resource.tags.any(filter.tags.contains)) {
       return false;
     }
+    if (filter.theme != null && !resource.themes.contains(filter.theme)) {
+      return false;
+    }
     final query = filter.query.trim().toLowerCase();
     if (query.isNotEmpty) {
       final haystack = [

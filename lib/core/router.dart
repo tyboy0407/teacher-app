@@ -8,6 +8,7 @@ import '../features/curriculum/indicator_resources_page.dart';
 import '../features/favorites/favorites_page.dart';
 import '../features/home/home_page.dart';
 import '../features/library/library_page.dart';
+import '../features/prep/prep_basket_page.dart';
 import '../features/profile/profile_page.dart';
 import '../features/publish/publish_page.dart';
 import '../features/publish/upload_form_page.dart';
@@ -76,6 +77,11 @@ GoRouter createAppRouter() {
         path: '/publish/new',
         parentNavigatorKey: rootNavigatorKey,
         builder: (context, state) => const UploadFormPage(),
+      ),
+      GoRoute(
+        path: '/prep',
+        parentNavigatorKey: rootNavigatorKey,
+        builder: (context, state) => const PrepBasketPage(),
       ),
       GoRoute(
         path: '/admin/review',

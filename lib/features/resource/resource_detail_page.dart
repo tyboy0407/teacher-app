@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/navigation.dart';
+import '../../core/share.dart';
 import '../../data/curriculum_service.dart';
+import '../../data/theme_catalog.dart';
 import '../../models/resource.dart';
 import '../../models/taxonomy.dart';
 import '../../providers.dart';
@@ -81,6 +84,8 @@ class _DetailView extends ConsumerWidget {
     // 管理者看未核准的投稿時,底部多一條審核操作列
     final isAdmin = ref.watch(isAdminProvider).value ?? false;
     final reviewing = isAdmin && resource.reviewStatus != 'approved';
+    final inBasket =
+        ref.watch(prepBasketProvider).value?.contains(resource.id) ?? false;
     return Scaffold(
       bottomNavigationBar: reviewing ? _ReviewBar(resource: resource) : null,
       body: CustomScrollView(
@@ -103,6 +108,63 @@ class _DetailView extends ConsumerWidget {
               ),
             ),
             actions: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 6),
+                child: CircleAvatar(
+                  backgroundColor: Colors.black26,
+                  child: IconButton(
+                    padding: EdgeInsets.zero,
+                    tooltip: '分享',
+                    icon: const Icon(Icons.share, color: Colors.white, size: 20),
+                    onPressed: () => showShareSheet(
+                      context,
+                      title: resource.title,
+                      text: [resource.title, resource.summary]
+                          .where((s) => s.isNotEmpty)
+                          .join('\n'),
+                      url: resourceShareUrl(resource.id),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 6),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 6),
+                child: CircleAvatar(
+                  backgroundColor: Colors.black26,
+                  child: IconButton(
+                    padding: EdgeInsets.zero,
+                    tooltip: inBasket ? '移出備課籃' : '加入備課',
+                    icon: Icon(
+                      inBasket ? Icons.playlist_add_check : Icons.playlist_add,
+                      color: inBasket ? Colors.amberAccent : Colors.white,
+                      size: 22,
+                    ),
+                    onPressed: () async {
+                      await ref
+                          .read(prepBasketProvider.notifier)
+                          .toggle(resource.id);
+                      if (!context.mounted) return;
+                      ScaffoldMessenger.of(context)
+                        ..hideCurrentSnackBar()
+                        ..showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              inBasket ? '已從備課籃移除' : '已加入本週備課',
+                            ),
+                            action: inBasket
+                                ? null
+                                : SnackBarAction(
+                                    label: '查看',
+                                    onPressed: () => context.push('/prep'),
+                                  ),
+                          ),
+                        );
+                    },
+                  ),
+                ),
+              ),
+              const SizedBox(width: 6),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 6, 10, 6),
                 child: CircleAvatar(
@@ -173,6 +235,11 @@ class _DetailView extends ConsumerWidget {
                       ),
                       ...resource.tags.map(
                         (tag) => SmallInfoChip(label: '#$tag'),
+                      ),
+                      ...resource.themes.map(
+                        (code) => SmallInfoChip(
+                          label: themeByCode(code)?.display ?? code,
+                        ),
                       ),
                     ],
                   ),

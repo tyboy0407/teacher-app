@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../data/prep_summary.dart';
+import '../../data/theme_catalog.dart';
 import '../../models/taxonomy.dart';
 import '../../providers.dart';
 import '../../widgets/error_retry.dart';
@@ -50,6 +52,36 @@ class HomePage extends ConsumerWidget {
                     ),
                     const SizedBox(height: 16),
                     _SearchEntry(onTap: () => context.go('/library')),
+                    const SizedBox(height: 12),
+                    const _PrepBasketCard(),
+                  ],
+                ),
+              ),
+              _SectionHeader('本月主題(${DateTime.now().month} 月)'),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: [
+                    for (final topic in themesForMonth(DateTime.now().month))
+                      ActionChip(
+                        label: Text(topic.display),
+                        onPressed: () {
+                          ref
+                              .read(libraryFilterProvider.notifier)
+                              .showTheme(topic.code);
+                          context.go('/library');
+                        },
+                      ),
+                    ActionChip(
+                      avatar: const Icon(Icons.more_horiz, size: 18),
+                      label: const Text('更多主題'),
+                      onPressed: () {
+                        ref.read(libraryFilterProvider.notifier).reset();
+                        context.go('/library');
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -113,6 +145,50 @@ class HomePage extends ConsumerWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// 首頁的備課籃入口:顯示這週收了幾個活動、還缺幾項材料。
+class _PrepBasketCard extends ConsumerWidget {
+  const _PrepBasketCard();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final basket = ref.watch(prepBasketProvider).value ?? const PrepBasket();
+    final resources = ref.watch(prepBasketResourcesProvider).value;
+    final String subtitle;
+    if (basket.isEmpty) {
+      subtitle = '把要用的教具、教案加進來,自動彙整材料與課綱指標';
+    } else if (resources == null) {
+      subtitle = '${basket.ids.length} 個活動';
+    } else {
+      final summary = PrepSummary(resources, basket.ownedMaterials);
+      final missing = summary.missingMaterials.length;
+      subtitle = [
+        '${resources.length} 個活動',
+        if (summary.materials.isNotEmpty)
+          missing == 0 ? '材料已備齊' : '還缺 $missing 項材料',
+        if (summary.indicatorCodes.isNotEmpty)
+          '${summary.indicatorCodes.length} 條指標',
+      ].join(' · ');
+    }
+    return Card(
+      color: theme.colorScheme.primaryContainer,
+      child: ListTile(
+        onTap: () => context.push('/prep'),
+        leading: Icon(
+          Icons.shopping_basket_outlined,
+          color: theme.colorScheme.onPrimaryContainer,
+        ),
+        title: Text(
+          basket.isEmpty ? '本週備課' : '本週備課:${basket.ids.length} 個活動',
+          style: const TextStyle(fontWeight: FontWeight.w700),
+        ),
+        subtitle: Text(subtitle, maxLines: 2, overflow: TextOverflow.ellipsis),
+        trailing: const Icon(Icons.chevron_right),
       ),
     );
   }

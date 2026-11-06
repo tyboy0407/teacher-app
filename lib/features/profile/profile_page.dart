@@ -168,6 +168,14 @@ class ProfilePage extends ConsumerWidget {
                 ),
                 const Divider(height: 1, indent: 16, endIndent: 16),
                 ListTile(
+                  leading: const Icon(Icons.shopping_basket_outlined),
+                  title: const Text('本週備課'),
+                  subtitle: const Text('彙整這週活動的材料採買清單與指標'),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () => context.push('/prep'),
+                ),
+                const Divider(height: 1, indent: 16, endIndent: 16),
+                ListTile(
                   leading: const Icon(Icons.account_tree_outlined),
                   title: const Text('分類體系說明'),
                   trailing: const Icon(Icons.chevron_right),

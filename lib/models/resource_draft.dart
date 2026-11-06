@@ -11,6 +11,7 @@ class ResourceDraft {
     this.domains = const [],
     this.tags = const [],
     this.indicatorCodes = const [],
+    this.themes = const [],
     this.coverUrl,
     this.imageUrls = const [],
     this.videoUrl,
@@ -28,6 +29,7 @@ class ResourceDraft {
   final List<LearningDomain> domains;
   final List<String> tags;
   final List<String> indicatorCodes;
+  final List<String> themes;
   final String? coverUrl;
   final List<String> imageUrls;
   final String? videoUrl;
@@ -44,6 +46,7 @@ class ResourceDraft {
         'age_stages': ages.map((age) => age.code).toList(),
         'domains': domains.map((domain) => domain.code).toList(),
         'indicator_codes': indicatorCodes,
+        'themes': themes,
         'tags': tags,
         if (coverUrl != null) 'cover_url': coverUrl,
         'image_urls': imageUrls,

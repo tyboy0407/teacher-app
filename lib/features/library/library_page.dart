@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../data/theme_catalog.dart';
 import '../../models/taxonomy.dart';
 import '../../providers.dart';
 import '../../widgets/empty_state.dart';
@@ -115,6 +116,23 @@ class _LibraryPageState extends ConsumerState<LibraryPage> {
                   label: Text(type.label),
                   selected: filter.type == type,
                   onSelected: (_) => notifier.setType(type),
+                ),
+              ),
+            ],
+          ),
+          _FilterRow(
+            label: '主題',
+            children: [
+              ChoiceChip(
+                label: const Text('全部'),
+                selected: filter.theme == null,
+                onSelected: (_) => notifier.setTheme(null),
+              ),
+              ...themeTopics.map(
+                (topic) => ChoiceChip(
+                  label: Text(topic.display),
+                  selected: filter.theme == topic.code,
+                  onSelected: (_) => notifier.setTheme(topic.code),
                 ),
               ),
             ],

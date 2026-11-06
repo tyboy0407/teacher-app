@@ -33,6 +33,9 @@ class SupabaseResourceRepository implements ResourceRepository {
       query =
           query.overlaps('domains', filter.domains.map((d) => d.code).toList());
     }
+    if (filter.theme != null) {
+      query = query.contains('themes', [filter.theme!]);
+    }
     final keyword =
         filter.query.trim().replaceAll(',', ' ').replaceAll('%', '');
     if (keyword.isNotEmpty) {

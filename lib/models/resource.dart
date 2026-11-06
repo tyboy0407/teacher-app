@@ -31,6 +31,7 @@ class Resource {
     this.steps = const [],
     this.content = '',
     this.indicatorCodes = const [],
+    this.themes = const [],
     this.sourceName,
     this.sourceUrl,
     this.difficulty,
@@ -58,6 +59,9 @@ class Resource {
 
   /// 對應的課綱學習指標代碼,如「認-中-1-1-1」
   final List<String> indicatorCodes;
+
+  /// 主題/節慶代碼(見 theme_catalog.dart),如「spring」「mothers_day」
+  final List<String> themes;
   final String? sourceName;
   final String? sourceUrl;
   final int? difficulty;
@@ -103,6 +107,7 @@ class Resource {
       steps: _steps(json['steps']),
       content: json['content'] as String? ?? '',
       indicatorCodes: _stringList(json['indicator_codes']),
+      themes: _stringList(json['themes']),
       sourceName: json['source_name'] as String?,
       sourceUrl: json['source_url'] as String?,
       difficulty: (json['difficulty'] as num?)?.toInt(),
