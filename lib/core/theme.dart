@@ -30,7 +30,7 @@ class AppColors {
   static const inkSoft = Color(0xFF5B6660);
 
   /// 細線
-  static const line = Color(0xFFDCE2DB);
+  static const line = Color(0xFFCBD4CC); // 和圖畫紙底色約 1.5:1,戶外或低亮度下卡片邊緣仍看得見
 
   /// 莓紅:收藏、審核提示
   static const berry = Color(0xFFB83B5E);
