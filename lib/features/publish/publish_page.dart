@@ -165,10 +165,14 @@ class _UploadCard extends ConsumerWidget {
                       children: [
                         ReviewStatusChip(resource: resource),
                         const SizedBox(width: 8),
-                        Text(
-                          '${resource.createdAt.year}/${resource.createdAt.month}/${resource.createdAt.day}',
-                          style: theme.textTheme.labelSmall?.copyWith(
-                            color: theme.colorScheme.onSurfaceVariant,
+                        Flexible(
+                          child: Text(
+                            '${resource.createdAt.year}/${resource.createdAt.month}/${resource.createdAt.day}',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: theme.textTheme.labelSmall?.copyWith(
+                              color: theme.colorScheme.onSurfaceVariant,
+                            ),
                           ),
                         ),
                       ],

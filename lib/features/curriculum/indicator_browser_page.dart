@@ -126,8 +126,8 @@ class _IndicatorBrowserPageState extends State<IndicatorBrowserPage> {
                               ?.copyWith(height: 1.4),
                         ),
                         subtitle: Text(
-                          '${indicator.code} · ${indicator.age?.label ?? ''}'
-                          '${indicator.continued ? ' · 承上' : ''}',
+                          '${indicator.code}(${indicator.age?.label ?? ''})'
+                          '${indicator.continued ? ',承上' : ''}',
                           style: theme.textTheme.labelSmall?.copyWith(
                             color: theme.colorScheme.onSurfaceVariant,
                           ),

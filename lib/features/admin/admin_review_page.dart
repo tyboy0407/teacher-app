@@ -107,10 +107,14 @@ class _PendingCard extends StatelessWidget {
                       children: [
                         TypeBadge(type: resource.type),
                         const SizedBox(width: 8),
-                        Text(
-                          '${created.year}/${created.month}/${created.day} 投稿',
-                          style: theme.textTheme.labelSmall?.copyWith(
-                            color: theme.colorScheme.onSurfaceVariant,
+                        Flexible(
+                          child: Text(
+                            '${created.year}/${created.month}/${created.day} 投稿',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: theme.textTheme.labelSmall?.copyWith(
+                              color: theme.colorScheme.onSurfaceVariant,
+                            ),
                           ),
                         ),
                       ],

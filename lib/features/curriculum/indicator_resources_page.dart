@@ -63,7 +63,7 @@ class IndicatorResourcesPage extends ConsumerWidget {
                         ],
                         Expanded(
                           child: Text(
-                            '${indicator.domain?.label ?? ''} · '
+                            '${indicator.domain?.label ?? ''}領域,'
                             '${indicator.age?.fullLabel ?? ''}',
                             style: theme.textTheme.labelMedium?.copyWith(
                               color: theme.colorScheme.onSurfaceVariant,

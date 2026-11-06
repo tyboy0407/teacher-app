@@ -40,23 +40,11 @@ class _PlaceholderCover extends StatelessWidget {
     final base = resource.domains.isNotEmpty
         ? resource.domains.first.color
         : Theme.of(context).colorScheme.primary;
+    // 平塗的領域色色紙,圖示用同色深一階;不用漸層
     return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            base.withValues(alpha: .82),
-            base.withValues(alpha: .5),
-          ],
-        ),
-      ),
+      color: base.withValues(alpha: .18),
       alignment: Alignment.center,
-      child: Icon(
-        resource.type.icon,
-        size: iconSize,
-        color: Colors.white.withValues(alpha: .9),
-      ),
+      child: Icon(resource.type.icon, size: iconSize, color: base),
     );
   }
 }

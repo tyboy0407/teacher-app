@@ -26,6 +26,10 @@
 - 資源類型含「常規救急」(口令、轉換小遊戲),搭配情境標籤(轉換時間/雨天備案/免教具)
 - 未連線後端時使用**內建 14 筆示範資料**;接上 Supabase 後改讀雲端內容,可遠端更新
 
+## 視覺語言
+
+「教室的材料」:黑板綠 `#2F5D50` 主色、圖畫紙 `#F5F6F2` 底色、粉筆白卡片配 1px 細線(不用陰影)、蠟筆黃 `#F2C94C` 只給「本週備課」便利貼、墨色 `#1F2A26` 文字;字型全用台灣開源圓體**粉圓**(jf open 粉圓,裁切常用字集內嵌於 `assets/fonts/`)。首頁開頭的黑板區塊是唯一大膽的地方,其餘安靜。定義集中在 [lib/core/theme.dart](lib/core/theme.dart)。
+
 ## 技術棧
 
 Flutter · Riverpod · go_router · Supabase(`supabase_flutter`)· shared_preferences

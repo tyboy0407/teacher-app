@@ -10,19 +10,20 @@ class TypeBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 像學習區的小名牌:方角標籤,和圓形膠囊的年齡/領域資訊區分開
     final scheme = Theme.of(context).colorScheme;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
-        color: scheme.secondaryContainer,
-        borderRadius: BorderRadius.circular(8),
+        color: scheme.primaryContainer,
+        borderRadius: BorderRadius.circular(6),
       ),
       child: Text(
         type.label,
-        style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: scheme.onSecondaryContainer,
-              fontWeight: FontWeight.w600,
-            ),
+        style: Theme.of(context)
+            .textTheme
+            .labelSmall
+            ?.copyWith(color: scheme.onPrimaryContainer),
       ),
     );
   }

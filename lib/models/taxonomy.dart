@@ -30,12 +30,13 @@ enum AgeStage {
 /// 發展領域(對齊台灣《幼兒園教保活動課程大綱》六大領域)
 /// [shortCode] 為課綱代碼中的領域縮寫(如「認-中-1-1-1」的「認」)。
 enum LearningDomain {
-  physical('physical', '身體動作與健康', '身', Icons.directions_run, Color(0xFF43A047)),
-  cognitive('cognitive', '認知', '認', Icons.lightbulb_outline, Color(0xFFFB8C00)),
-  language('language', '語文', '語', Icons.menu_book, Color(0xFF3F51B5)),
-  social('social', '社會', '社', Icons.groups, Color(0xFF00897B)),
-  emotional('emotional', '情緒', '情', Icons.favorite_border, Color(0xFFE91E63)),
-  aesthetic('aesthetic', '美感', '美', Icons.palette, Color(0xFF8E24AA));
+  // 六色蠟筆:飽和度一致,放在圖畫紙底色上都站得住
+  physical('physical', '身體動作與健康', '身', Icons.directions_run, Color(0xFF4C8C4A)),
+  cognitive('cognitive', '認知', '認', Icons.lightbulb_outline, Color(0xFFD9922B)),
+  language('language', '語文', '語', Icons.menu_book, Color(0xFF3E6DB5)),
+  social('social', '社會', '社', Icons.groups, Color(0xFF2C8C8A)),
+  emotional('emotional', '情緒', '情', Icons.favorite_border, Color(0xFFD5567A)),
+  aesthetic('aesthetic', '美感', '美', Icons.palette, Color(0xFF8F5BB8));
 
   const LearningDomain(this.code, this.label, this.shortCode, this.icon, this.color);
 
