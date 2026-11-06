@@ -138,6 +138,13 @@ final isAdminProvider = FutureProvider<bool>((ref) {
   return ref.watch(resourceRepositoryProvider).isAdmin();
 });
 
+/// 已下架內容(非管理者為空)
+final unpublishedResourcesProvider = FutureProvider<List<Resource>>((ref) async {
+  final isAdmin = await ref.watch(isAdminProvider.future);
+  if (!isAdmin) return const [];
+  return ref.watch(resourceRepositoryProvider).fetchUnpublished();
+});
+
 /// 待審投稿(非管理者為空)
 final pendingReviewsProvider = FutureProvider<List<Resource>>((ref) async {
   final isAdmin = await ref.watch(isAdminProvider.future);

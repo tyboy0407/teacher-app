@@ -451,6 +451,89 @@ void main() {
     expect(copied, contains('#/resource/seed-001'));
   });
 
+  testWidgets('管理者:已上架內容可下架,刪除需確認且會回到上一頁', (tester) async {
+    final repo = _FakeVideoRepo(admin: true);
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          resourceRepositoryProvider.overrideWithValue(repo),
+          authRepositoryProvider.overrideWithValue(_FakeAuthRepo()),
+        ],
+        child: const TeacherApp(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('資源庫'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byType(ResourceCard).first);
+    await tester.pumpAndSettle();
+    expect(find.text('下架'), findsOneWidget);
+    expect(find.text('刪除'), findsOneWidget);
+    expect(find.text('通過並上架'), findsNothing);
+
+    // 下架:確認對話框 → 送出 unpublish
+    await tester.tap(find.text('下架'));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('下架後老師們會看不到'), findsOneWidget);
+    await tester.tap(find.widgetWithText(FilledButton, '下架').last);
+    await tester.pumpAndSettle();
+    expect(repo.moderated, [('v1', ModerationAction.unpublish)]);
+    expect(find.text('已下架'), findsOneWidget);
+
+    // 刪除:取消不會送出;確認後送出 delete 並離開詳情頁
+    await tester.tap(find.text('刪除'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('取消'));
+    await tester.pumpAndSettle();
+    expect(repo.moderated.length, 1);
+
+    await tester.tap(find.text('刪除'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('永久刪除'));
+    await tester.pumpAndSettle();
+    expect(repo.moderated.last, ('v1', ModerationAction.delete));
+    expect(find.text('刪除'), findsNothing);
+    expect(find.byType(ResourceCard), findsWidgets);
+  });
+
+  testWidgets('管理者:審核頁列出已下架內容,點進去可重新上架', (tester) async {
+    final hidden = Resource(
+      id: 'h1',
+      title: '下架中的教案',
+      type: ResourceType.lessonPlan,
+      createdAt: DateTime(2026, 8, 10),
+      published: false,
+    );
+    final repo = _FakeVideoRepo(admin: true, unpublished: [hidden]);
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          resourceRepositoryProvider.overrideWithValue(repo),
+          authRepositoryProvider.overrideWithValue(_FakeAuthRepo()),
+        ],
+        child: const TeacherApp(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('我的'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('審核投稿'));
+    await tester.pumpAndSettle();
+    expect(find.text('目前沒有待審投稿'), findsOneWidget);
+    expect(find.text('已下架(1)'), findsOneWidget);
+
+    await tester.tap(find.text('下架中的教案'));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('這筆內容已下架'), findsOneWidget);
+    await tester.tap(find.widgetWithText(FilledButton, '重新上架'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.widgetWithText(FilledButton, '重新上架').last);
+    await tester.pumpAndSettle();
+    expect(repo.moderated, [('h1', ModerationAction.publish)]);
+  });
+
   testWidgets('非管理者看不到審核入口與審核列', (tester) async {
     final repo = _FakeVideoRepo(pending: [pendingForReview]);
     await tester.pumpWidget(
@@ -467,6 +550,13 @@ void main() {
     await tester.tap(find.text('我的'));
     await tester.pumpAndSettle();
     expect(find.text('審核投稿'), findsNothing);
+
+    await tester.tap(find.text('資源庫'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byType(ResourceCard).first);
+    await tester.pumpAndSettle();
+    expect(find.text('下架'), findsNothing);
+    expect(find.text('刪除'), findsNothing);
   });
 }
 
@@ -502,13 +592,19 @@ class _FakeVideoRepo implements ResourceRepository {
   _FakeVideoRepo({
     this.myUploads = const [],
     List<Resource> pending = const [],
+    List<Resource> unpublished = const [],
     this.admin = false,
     this.adminCheckFails = false,
-  }) : pending = [...pending];
+  })  : pending = [...pending],
+        unpublished = [...unpublished];
 
   final List<Resource> myUploads;
   final List<Resource> pending;
+  final List<Resource> unpublished;
   final bool admin;
+
+  /// 管理者處置紀錄:(id, 動作)
+  final moderated = <(String, ModerationAction)>[];
 
   /// 模擬後端還沒建立 is_admin 函式(rpc 回 404)
   final bool adminCheckFails;
@@ -526,7 +622,8 @@ class _FakeVideoRepo implements ResourceRepository {
 
   @override
   Future<Resource?> fetchById(String id) async =>
-      pending.where((r) => r.id == id).firstOrNull ?? _video;
+      [...pending, ...unpublished].where((r) => r.id == id).firstOrNull ??
+      _video;
 
   @override
   Future<List<Resource>> fetchResources(
@@ -573,5 +670,16 @@ class _FakeVideoRepo implements ResourceRepository {
       {required bool approve, String? note}) async {
     reviewed.add((id, approve, note));
     pending.removeWhere((r) => r.id == id);
+  }
+
+  @override
+  Future<List<Resource>> fetchUnpublished() async => List.of(unpublished);
+
+  @override
+  Future<void> moderateResource(String id, ModerationAction action) async {
+    moderated.add((id, action));
+    if (action == ModerationAction.delete) {
+      unpublished.removeWhere((r) => r.id == id);
+    }
   }
 }

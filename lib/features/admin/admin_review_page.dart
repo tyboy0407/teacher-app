@@ -17,6 +17,8 @@ class AdminReviewPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final pending = ref.watch(pendingReviewsProvider);
+    final unpublished =
+        ref.watch(unpublishedResourcesProvider).valueOrNull ?? const <Resource>[];
     return Scaffold(
       appBar: AppBar(
         leading: const AppBackButton(),
@@ -25,42 +27,41 @@ class AdminReviewPage extends ConsumerWidget {
       body: RefreshIndicator(
         onRefresh: () async {
           ref.invalidate(pendingReviewsProvider);
+          ref.invalidate(unpublishedResourcesProvider);
           await ref.read(pendingReviewsProvider.future);
         },
         child: pending.when(
-          data: (resources) => resources.isEmpty
-              ? ListView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  children: const [
-                    SizedBox(height: 120),
-                    EmptyState(
-                      icon: Icons.task_alt,
-                      title: '目前沒有待審投稿',
-                      subtitle: '老師送出投稿後會出現在這裡',
-                    ),
-                  ],
-                )
-              : ListView.builder(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  padding: const EdgeInsets.only(top: 8, bottom: 32),
-                  itemCount: resources.length + 1,
-                  itemBuilder: (context, index) {
-                    if (index == 0) {
-                      return Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
-                        child: Text(
-                          '共 ${resources.length} 筆待審,依投稿時間先後排列',
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSurfaceVariant,
-                              ),
-                        ),
-                      );
-                    }
-                    return _PendingCard(resource: resources[index - 1]);
-                  },
+          data: (resources) => ListView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            padding: const EdgeInsets.only(top: 8, bottom: 32),
+            children: [
+              if (resources.isEmpty) ...[
+                SizedBox(height: unpublished.isEmpty ? 120 : 24),
+                const EmptyState(
+                  icon: Icons.task_alt,
+                  title: '目前沒有待審投稿',
+                  subtitle: '老師送出投稿後會出現在這裡',
                 ),
+              ] else ...[
+                _Hint('共 ${resources.length} 筆待審,依投稿時間先後排列'),
+                for (final resource in resources)
+                  _PendingCard(resource: resource),
+              ],
+              if (unpublished.isNotEmpty) ...[
+                const SizedBox(height: 24),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 2),
+                  child: Text(
+                    '已下架(${unpublished.length})',
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                ),
+                const _Hint('老師們看不到這些內容;點進去可重新上架或刪除'),
+                for (final resource in unpublished)
+                  _PendingCard(resource: resource, dateSuffix: '下架'),
+              ],
+            ],
+          ),
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (_, _) => ErrorRetry(
             onRetry: () => ref.invalidate(pendingReviewsProvider),
@@ -71,10 +72,30 @@ class AdminReviewPage extends ConsumerWidget {
   }
 }
 
+class _Hint extends StatelessWidget {
+  const _Hint(this.text);
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
+      child: Text(
+        text,
+        style: theme.textTheme.bodySmall
+            ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+      ),
+    );
+  }
+}
+
 class _PendingCard extends StatelessWidget {
-  const _PendingCard({required this.resource});
+  const _PendingCard({required this.resource, this.dateSuffix = '投稿'});
 
   final Resource resource;
+  final String dateSuffix;
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +130,7 @@ class _PendingCard extends StatelessWidget {
                         const SizedBox(width: 8),
                         Flexible(
                           child: Text(
-                            '${created.year}/${created.month}/${created.day} 投稿',
+                            '${created.year}/${created.month}/${created.day} $dateSuffix',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: theme.textTheme.labelSmall?.copyWith(

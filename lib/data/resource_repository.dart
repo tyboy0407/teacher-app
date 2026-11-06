@@ -49,4 +49,24 @@ abstract class ResourceRepository {
 
   /// 審核:通過即上架;退回必須附原因。
   Future<void> reviewResource(String id, {required bool approve, String? note});
+
+  /// 管理者:已下架(審核通過但不公開)的內容,最近更新在前。
+  Future<List<Resource>> fetchUnpublished();
+
+  /// 管理者對已上架內容的處置。
+  Future<void> moderateResource(String id, ModerationAction action);
+}
+
+/// 管理者處置動作(對應 supabase/schema_v5.sql 的 moderate_resource)。
+enum ModerationAction {
+  /// 下架:不公開,資料保留
+  unpublish,
+
+  /// 重新上架
+  publish,
+
+  /// 永久刪除
+  delete;
+
+  String get code => name;
 }

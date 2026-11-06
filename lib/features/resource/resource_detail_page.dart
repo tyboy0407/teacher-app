@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../core/navigation.dart';
 import '../../core/share.dart';
 import '../../data/curriculum_service.dart';
+import '../../data/resource_repository.dart' show ModerationAction;
 import '../../data/theme_catalog.dart';
 import '../../models/resource.dart';
 import '../../models/taxonomy.dart';
@@ -84,10 +85,16 @@ class _DetailView extends ConsumerWidget {
     // 管理者看未核准的投稿時,底部多一條審核操作列
     final isAdmin = ref.watch(isAdminProvider).valueOrNull ?? false;
     final reviewing = isAdmin && resource.reviewStatus != 'approved';
+    // 管理者看已通過的內容時,底部改為下架/刪除操作列
+    final moderating = isAdmin && !reviewing;
     final inBasket =
         ref.watch(prepBasketProvider).valueOrNull?.contains(resource.id) ?? false;
     return Scaffold(
-      bottomNavigationBar: reviewing ? _ReviewBar(resource: resource) : null,
+      bottomNavigationBar: reviewing
+          ? _ReviewBar(resource: resource)
+          : moderating
+              ? _ModerationBar(resource: resource)
+              : null,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -189,6 +196,10 @@ class _DetailView extends ConsumerWidget {
                 children: [
                   if (reviewing) ...[
                     _ReviewBanner(resource: resource),
+                    const SizedBox(height: 14),
+                  ],
+                  if (moderating && !resource.published) ...[
+                    const _UnpublishedBanner(),
                     const SizedBox(height: 14),
                   ],
                   Wrap(
@@ -623,6 +634,189 @@ class _ReviewBarState extends ConsumerState<_ReviewBar> {
                         )
                       : const Icon(Icons.check),
                   label: const Text('通過並上架'),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// 已下架內容的提示(只有管理者看得到這一頁)。
+class _UnpublishedBanner extends StatelessWidget {
+  const _UnpublishedBanner();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        children: [
+          Icon(Icons.visibility_off_outlined,
+              size: 18, color: theme.colorScheme.onSurfaceVariant),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              '這筆內容已下架,老師們看不到;可在下方重新上架或刪除',
+              style: theme.textTheme.labelMedium
+                  ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// 管理者對已上架內容的操作列:下架 / 重新上架,以及永久刪除。
+class _ModerationBar extends ConsumerStatefulWidget {
+  const _ModerationBar({required this.resource});
+
+  final Resource resource;
+
+  @override
+  ConsumerState<_ModerationBar> createState() => _ModerationBarState();
+}
+
+class _ModerationBarState extends ConsumerState<_ModerationBar> {
+  bool _busy = false;
+
+  Future<bool> _confirm({
+    required String title,
+    required String body,
+    required String action,
+    bool destructive = false,
+  }) async {
+    final theme = Theme.of(context);
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        content: Text(body),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('取消'),
+          ),
+          FilledButton(
+            style: destructive
+                ? FilledButton.styleFrom(
+                    backgroundColor: theme.colorScheme.error,
+                    foregroundColor: theme.colorScheme.onError,
+                  )
+                : null,
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text(action),
+          ),
+        ],
+      ),
+    );
+    return result == true;
+  }
+
+  Future<void> _run(ModerationAction action, String doneMessage) async {
+    setState(() => _busy = true);
+    try {
+      await ref
+          .read(resourceRepositoryProvider)
+          .moderateResource(widget.resource.id, action);
+      ref.invalidate(resourceByIdProvider(widget.resource.id));
+      ref.invalidate(unpublishedResourcesProvider);
+      ref.invalidate(libraryResultsProvider);
+      ref.invalidate(latestResourcesProvider);
+      ref.invalidate(featuredResourcesProvider);
+      ref.invalidate(favoriteResourcesProvider);
+      ref.invalidate(prepBasketResourcesProvider);
+      ref.invalidate(myUploadsProvider);
+      if (!mounted) return;
+      setState(() => _busy = false);
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(doneMessage)));
+      if (action == ModerationAction.delete) popPage(context);
+    } catch (error) {
+      if (!mounted) return;
+      setState(() => _busy = false);
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('操作失敗:$error')));
+    }
+  }
+
+  Future<void> _toggleVisibility() async {
+    final title = widget.resource.title;
+    if (widget.resource.published) {
+      final ok = await _confirm(
+        title: '下架「$title」',
+        body: '下架後老師們會看不到這筆內容,但資料會保留,隨時可以重新上架。',
+        action: '下架',
+      );
+      if (ok) await _run(ModerationAction.unpublish, '已下架');
+    } else {
+      final ok = await _confirm(
+        title: '重新上架「$title」',
+        body: '上架後所有老師都能再次看到這筆內容。',
+        action: '重新上架',
+      );
+      if (ok) await _run(ModerationAction.publish, '已重新上架');
+    }
+  }
+
+  Future<void> _delete() async {
+    final ok = await _confirm(
+      title: '永久刪除「${widget.resource.title}」',
+      body: '刪除後無法復原,其他老師的收藏與備課籃裡也會找不到它。'
+          '只是暫時不想公開的話,請改用「下架」。',
+      action: '永久刪除',
+      destructive: true,
+    );
+    if (ok) await _run(ModerationAction.delete, '已刪除');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final published = widget.resource.published;
+    return Material(
+      elevation: 8,
+      color: theme.colorScheme.surface,
+      child: SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
+          child: Row(
+            children: [
+              Expanded(
+                child: OutlinedButton.icon(
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: theme.colorScheme.error,
+                  ),
+                  onPressed: _busy ? null : _delete,
+                  icon: const Icon(Icons.delete_outline),
+                  label: const Text('刪除'),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                flex: 2,
+                child: FilledButton.tonalIcon(
+                  onPressed: _busy ? null : _toggleVisibility,
+                  icon: _busy
+                      ? const SizedBox(
+                          width: 16,
+                          height: 16,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : Icon(published
+                          ? Icons.visibility_off_outlined
+                          : Icons.visibility_outlined),
+                  label: Text(published ? '下架' : '重新上架'),
                 ),
               ),
             ],

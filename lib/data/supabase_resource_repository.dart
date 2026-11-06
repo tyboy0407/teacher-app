@@ -180,4 +180,23 @@ class SupabaseResourceRepository implements ResourceRepository {
       'note': note,
     });
   }
+
+  @override
+  Future<List<Resource>> fetchUnpublished() async {
+    final rows = await _client
+        .from('resources')
+        .select(_columns)
+        .eq('published', false)
+        .eq('review_status', 'approved')
+        .order('updated_at', ascending: false);
+    return rows.map(Resource.fromSupabase).toList();
+  }
+
+  @override
+  Future<void> moderateResource(String id, ModerationAction action) async {
+    await _client.rpc('moderate_resource', params: {
+      'resource_id': id,
+      'action': action.code,
+    });
+  }
 }

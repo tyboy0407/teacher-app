@@ -117,4 +117,11 @@ class MockResourceRepository implements ResourceRepository {
   Future<void> reviewResource(String id,
           {required bool approve, String? note}) async =>
       _needsSupabase();
+
+  @override
+  Future<List<Resource>> fetchUnpublished() async => const [];
+
+  @override
+  Future<void> moderateResource(String id, ModerationAction action) async =>
+      _needsSupabase();
 }
