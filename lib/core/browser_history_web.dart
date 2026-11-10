@@ -10,8 +10,5 @@ bool browserHistoryBack() {
 
 /// 監聽瀏覽器 popstate(側滑、返回鍵、上一頁/下一頁)。
 void installPopStateListener(void Function() onPopState) {
-  web.window.addEventListener(
-    'popstate',
-    ((web.Event _) => onPopState()).toJS,
-  );
+  web.window.addEventListener('popstate', ((web.Event _) => onPopState()).toJS);
 }

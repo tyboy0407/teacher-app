@@ -20,6 +20,7 @@ import '../../widgets/cover_hero.dart';
 import '../../widgets/empty_state.dart';
 import '../../widgets/error_retry.dart';
 import '../../widgets/favorite_button.dart';
+import '../../widgets/paper.dart';
 import '../../widgets/resource_cover.dart';
 import '../../widgets/review_status_chip.dart';
 
@@ -338,17 +339,18 @@ class _DetailView extends ConsumerWidget {
                   ],
                   if (resource.summary.isNotEmpty) ...[
                     const SizedBox(height: 14),
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: theme.colorScheme.surfaceContainerHighest,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        resource.summary,
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          height: 1.5,
+                    // 一句話簡介寫在便利貼上
+                    PaperCard(
+                      color: AppColors.stickyNote,
+                      tilt: 0.5,
+                      tape: AppColors.tapeBlue,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(14, 16, 14, 14),
+                        child: Text(
+                          resource.summary,
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            height: 1.5,
+                          ),
                         ),
                       ),
                     ),
@@ -1025,10 +1027,13 @@ class _IndicatorSection extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: Text(
-                  '對應課綱學習指標',
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w700,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: HighlightedTitle(
+                    '對應課綱學習指標',
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
               ),
@@ -1053,71 +1058,71 @@ class _IndicatorSection extends StatelessWidget {
             Builder(
               builder: (context) {
                 final indicator = CurriculumService.indicator(code);
-                return Container(
-                  width: double.infinity,
-                  margin: const EdgeInsets.only(bottom: 8),
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.surfaceContainerHighest,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: indicator == null
-                      ? Text(code, style: theme.textTheme.bodyMedium)
-                      : Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // 指標文字是老師要的,代碼是檔案編號:文字為主、代碼降級
-                            Text(
-                              indicator.text,
-                              style: theme.textTheme.bodyMedium?.copyWith(
-                                height: 1.4,
+                return PaperCard(
+                  margin: const EdgeInsets.only(bottom: 10),
+                  showTape: false,
+                  radius: 6,
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(10),
+                    child: indicator == null
+                        ? Text(code, style: theme.textTheme.bodyMedium)
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // 指標文字是老師要的,代碼是檔案編號:文字為主、代碼降級
+                              Text(
+                                indicator.text,
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  height: 1.4,
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 4),
-                            Row(
-                              children: [
-                                if (indicator.domain != null) ...[
-                                  Container(
-                                    width: 8,
-                                    height: 8,
-                                    decoration: BoxDecoration(
-                                      color: indicator.domain!.color,
-                                      shape: BoxShape.circle,
+                              const SizedBox(height: 4),
+                              Row(
+                                children: [
+                                  if (indicator.domain != null) ...[
+                                    Container(
+                                      width: 8,
+                                      height: 8,
+                                      decoration: BoxDecoration(
+                                        color: indicator.domain!.color,
+                                        shape: BoxShape.circle,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 6),
+                                  ],
+                                  Text(
+                                    indicator.age?.label ?? '',
+                                    style: theme.textTheme.labelSmall?.copyWith(
+                                      color: theme.colorScheme.onSurfaceVariant,
                                     ),
                                   ),
-                                  const SizedBox(width: 6),
+                                  const SizedBox(width: 8),
+                                  InkWell(
+                                    borderRadius: BorderRadius.circular(6),
+                                    onTap: () =>
+                                        _showIndicatorInfo(context, indicator),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 4,
+                                        vertical: 2,
+                                      ),
+                                      child: Text(
+                                        '${indicator.code} ⓘ',
+                                        style: theme.textTheme.labelSmall
+                                            ?.copyWith(
+                                              color: theme
+                                                  .colorScheme
+                                                  .onSurfaceVariant,
+                                            ),
+                                      ),
+                                    ),
+                                  ),
                                 ],
-                                Text(
-                                  indicator.age?.label ?? '',
-                                  style: theme.textTheme.labelSmall?.copyWith(
-                                    color: theme.colorScheme.onSurfaceVariant,
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                InkWell(
-                                  borderRadius: BorderRadius.circular(6),
-                                  onTap: () =>
-                                      _showIndicatorInfo(context, indicator),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 4,
-                                      vertical: 2,
-                                    ),
-                                    child: Text(
-                                      '${indicator.code} ⓘ',
-                                      style: theme.textTheme.labelSmall
-                                          ?.copyWith(
-                                            color: theme
-                                                .colorScheme
-                                                .onSurfaceVariant,
-                                          ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                              ),
+                            ],
+                          ),
+                  ),
                 );
               },
             ),
@@ -1181,13 +1186,16 @@ class _Section extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: Theme.of(
-              context,
-            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: HighlightedTitle(
+              title,
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+            ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 12),
           child,
         ],
       ),

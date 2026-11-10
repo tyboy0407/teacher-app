@@ -32,16 +32,22 @@ class PrepSummary {
   String shoppingListText() {
     final missing = missingMaterials;
     if (missing.isEmpty) return '材料都備齊了 🎉';
-    return ['材料採買清單(還缺 ${missing.length} 項):', ...missing.map((m) => '□ $m')]
-        .join('\n');
+    return [
+      '材料採買清單(還缺 ${missing.length} 項):',
+      ...missing.map((m) => '□ $m'),
+    ].join('\n');
   }
 
   /// 指標純文字(代碼 + 全文),可直接貼進教案
   String indicatorsText() {
-    return indicatorCodes.map((code) {
-      final indicator = CurriculumService.indicator(code);
-      return indicator == null ? code : '${indicator.code} ${indicator.text}';
-    }).join('\n');
+    return indicatorCodes
+        .map((code) {
+          final indicator = CurriculumService.indicator(code);
+          return indicator == null
+              ? code
+              : '${indicator.code} ${indicator.text}';
+        })
+        .join('\n');
   }
 
   /// 整份備課摘要(分享用)

@@ -86,4 +86,5 @@ class PrepBasketNotifier extends AsyncNotifier<PrepBasket> {
 
 final prepBasketProvider =
     AsyncNotifierProvider<PrepBasketNotifier, PrepBasket>(
-        PrepBasketNotifier.new);
+      PrepBasketNotifier.new,
+    );

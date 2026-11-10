@@ -27,8 +27,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   }
 
   void _showMessage(String message) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(message)));
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 
   Future<void> _submit() async {
@@ -86,14 +87,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           child: ListView(
             padding: const EdgeInsets.all(24),
             children: [
-              Icon(Icons.school,
-                  size: 56, color: theme.colorScheme.primary),
+              Icon(Icons.school, size: 56, color: theme.colorScheme.primary),
               const SizedBox(height: 8),
               Text(
                 _isRegister ? '建立帳號,開始分享你的教學好點子' : '歡迎回來,老師!',
                 textAlign: TextAlign.center,
-                style: theme.textTheme.titleMedium
-                    ?.copyWith(fontWeight: FontWeight.w600),
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               const SizedBox(height: 24),
               TextFormField(
@@ -120,7 +121,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   labelText: '密碼',
                   border: OutlineInputBorder(),
                 ),
-                validator: (value) => (value ?? '').length < 6 ? '密碼至少 6 碼' : null,
+                validator: (value) =>
+                    (value ?? '').length < 6 ? '密碼至少 6 碼' : null,
                 onFieldSubmitted: (_) => _submit(),
               ),
               const SizedBox(height: 20),

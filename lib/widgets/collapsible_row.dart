@@ -33,8 +33,10 @@ class _CollapsibleRowState extends State<CollapsibleRow>
     duration: AppMotion.normal,
     value: widget.appearing ? 0 : 1,
   );
-  late final Animation<double> _size =
-      CurvedAnimation(parent: _controller, curve: AppMotion.standard);
+  late final Animation<double> _size = CurvedAnimation(
+    parent: _controller,
+    curve: AppMotion.standard,
+  );
   bool _started = false;
 
   @override

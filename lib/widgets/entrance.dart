@@ -26,6 +26,7 @@ class StaggeredEntrance extends StatefulWidget {
 
   static const stagger = Duration(milliseconds: 40);
   static const offset = 12.0;
+  static const scaleIn = 0.04;
 
   @override
   State<StaggeredEntrance> createState() => _StaggeredEntranceState();
@@ -82,10 +83,11 @@ class _StaggeredEntranceState extends State<StaggeredEntrance>
     return AnimatedBuilder(
       animation: _curve!,
       child: widget.child,
+      // 像貼上去:從 1.04 縮到 1、同時淡入
       builder: (context, child) => Opacity(
         opacity: _curve!.value,
-        child: Transform.translate(
-          offset: Offset(0, StaggeredEntrance.offset * (1 - _curve!.value)),
+        child: Transform.scale(
+          scale: 1 + StaggeredEntrance.scaleIn * (1 - _curve!.value),
           child: child,
         ),
       ),

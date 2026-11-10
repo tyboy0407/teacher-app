@@ -18,8 +18,9 @@ class IndicatorResourcesPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final indicator = CurriculumService.indicator(indicatorCode);
-    final goal =
-        indicator == null ? null : CurriculumService.goal(indicator.goalCode);
+    final goal = indicator == null
+        ? null
+        : CurriculumService.goal(indicator.goalCode);
     final results = ref.watch(indicatorResourcesProvider(indicatorCode));
 
     return Scaffold(
@@ -43,10 +44,7 @@ class IndicatorResourcesPage extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if (indicator == null)
-                    Text(
-                      '查無此指標代碼',
-                      style: theme.textTheme.bodyMedium,
-                    )
+                    Text('查無此指標代碼', style: theme.textTheme.bodyMedium)
                   else ...[
                     Row(
                       children: [
@@ -98,8 +96,9 @@ class IndicatorResourcesPage extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text(
               '對應資源',
-              style: theme.textTheme.titleMedium
-                  ?.copyWith(fontWeight: FontWeight.w700),
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
           const SizedBox(height: 4),

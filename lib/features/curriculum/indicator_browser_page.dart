@@ -36,8 +36,9 @@ class _IndicatorBrowserPageState extends State<IndicatorBrowserPage> {
               alignment: Alignment.centerLeft,
               child: Text(
                 '《幼兒園教保活動課程大綱》六大領域學習指標,點指標可查對應資源。',
-                style: theme.textTheme.bodySmall
-                    ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
               ),
             ),
           ),
@@ -105,15 +106,16 @@ class _IndicatorBrowserPageState extends State<IndicatorBrowserPage> {
               itemCount: goals.length,
               itemBuilder: (context, index) {
                 final goal = goals[index];
-                final indicators = CurriculumService.indicatorsOf(goal.code)
-                    .where((i) => _ages.isEmpty || _ages.contains(i.age))
-                    .toList();
+                final indicators = CurriculumService.indicatorsOf(
+                  goal.code,
+                ).where((i) => _ages.isEmpty || _ages.contains(i.age)).toList();
                 if (indicators.isEmpty) return const SizedBox.shrink();
                 return ExpansionTile(
                   title: Text(
                     '${goal.code} ${goal.title}',
-                    style: theme.textTheme.titleSmall
-                        ?.copyWith(fontWeight: FontWeight.w600),
+                    style: theme.textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                   childrenPadding: const EdgeInsets.only(bottom: 8),
                   children: [
@@ -122,8 +124,9 @@ class _IndicatorBrowserPageState extends State<IndicatorBrowserPage> {
                         dense: true,
                         title: Text(
                           indicator.text,
-                          style: theme.textTheme.bodyMedium
-                              ?.copyWith(height: 1.4),
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            height: 1.4,
+                          ),
                         ),
                         subtitle: Text(
                           '${indicator.code}(${indicator.age?.label ?? ''})'

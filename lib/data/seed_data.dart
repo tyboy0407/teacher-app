@@ -31,16 +31,11 @@ final List<Resource> seedResources = [
         title: '開投入口(選用)',
         description: '在盒蓋割出 6 個圓形投入口,口緣貼上對應顏色,增加投擲樂趣。',
       ),
-      ResourceStep(
-        title: '收集瓶蓋',
-        description: '洗淨晾乾各色瓶蓋,每種顏色至少準備 4 個。',
-      ),
-      ResourceStep(
-        title: '示範玩法',
-        description: '示範拿起瓶蓋、說出顏色、放入對應格子,再讓孩子自己操作。',
-      ),
+      ResourceStep(title: '收集瓶蓋', description: '洗淨晾乾各色瓶蓋,每種顏色至少準備 4 個。'),
+      ResourceStep(title: '示範玩法', description: '示範拿起瓶蓋、說出顏色、放入對應格子,再讓孩子自己操作。'),
     ],
-    content: '延伸玩法:可以加入小夾子,讓孩子改用夾的方式放瓶蓋,增加精細動作難度;'
+    content:
+        '延伸玩法:可以加入小夾子,讓孩子改用夾的方式放瓶蓋,增加精細動作難度;'
         '也可以把顏色換成形狀,變成形狀分類盒。',
     difficulty: 1,
     durationMinutes: 30,
@@ -57,28 +52,17 @@ final List<Resource> seedResources = [
     tags: const ['情緒教育', '晨圈活動'],
     themes: const ['emotions'],
     indicatorCodes: const ['情-中-1-1-1', '情-大-1-1-2'],
-    materials: const [
-      '圓形厚紙板 1 張',
-      '雙腳釘 1 個',
-      '箭頭形紙板 1 支',
-      '彩色筆',
-      '護貝膜(選用)',
-    ],
+    materials: const ['圓形厚紙板 1 張', '雙腳釘 1 個', '箭頭形紙板 1 支', '彩色筆', '護貝膜(選用)'],
     steps: const [
       ResourceStep(
         title: '畫出情緒分區',
         description: '把圓形紙板均分成 6 區,分別畫上開心、生氣、難過、害怕、驚訝、平靜的臉譜。',
       ),
-      ResourceStep(
-        title: '製作指針',
-        description: '剪一支箭頭形紙板,用雙腳釘固定在圓心,確認可以順暢轉動。',
-      ),
-      ResourceStep(
-        title: '護貝加固',
-        description: '常用教具建議護貝或貼上透明膠帶,延長使用壽命。',
-      ),
+      ResourceStep(title: '製作指針', description: '剪一支箭頭形紙板,用雙腳釘固定在圓心,確認可以順暢轉動。'),
+      ResourceStep(title: '護貝加固', description: '常用教具建議護貝或貼上透明膠帶,延長使用壽命。'),
     ],
-    content: '使用方式:晨圈時間讓孩子轉動指針,說一說「我今天的心情」並分享原因;'
+    content:
+        '使用方式:晨圈時間讓孩子轉動指針,說一說「我今天的心情」並分享原因;'
         '也可以由老師描述情境,請孩子把指針轉到對應的情緒。',
     difficulty: 1,
     durationMinutes: 40,
@@ -94,28 +78,17 @@ final List<Resource> seedResources = [
     domains: const [LearningDomain.emotional],
     tags: const ['情緒安撫', '感官探索'],
     themes: const ['emotions', 'recycling'],
-    materials: const [
-      '小型透明寶特瓶 1 個',
-      '亮片與亮粉',
-      '透明膠水',
-      '溫水',
-      '熱熔膠(封蓋用,大人操作)',
-    ],
+    materials: const ['小型透明寶特瓶 1 個', '亮片與亮粉', '透明膠水', '溫水', '熱熔膠(封蓋用,大人操作)'],
     steps: const [
-      ResourceStep(
-        title: '調配比例',
-        description: '瓶中倒入約三分之一透明膠水、三分之二溫水,攪拌均勻。',
-      ),
+      ResourceStep(title: '調配比例', description: '瓶中倒入約三分之一透明膠水、三分之二溫水,攪拌均勻。'),
       ResourceStep(
         title: '加入亮片',
         description: '放入亮片與亮粉,蓋緊搖勻,測試落下速度;落太快就再補一點膠水。',
       ),
-      ResourceStep(
-        title: '封緊瓶蓋',
-        description: '用熱熔膠封住瓶蓋防止孩子打開,完成。',
-      ),
+      ResourceStep(title: '封緊瓶蓋', description: '用熱熔膠封住瓶蓋防止孩子打開,完成。'),
     ],
-    content: '使用時機:孩子情緒激動時,邀請他搖一搖冷靜瓶,一起看亮片落下、做三次深呼吸,'
+    content:
+        '使用時機:孩子情緒激動時,邀請他搖一搖冷靜瓶,一起看亮片落下、做三次深呼吸,'
         '等亮片都落到瓶底,再說說剛剛發生什麼事。',
     difficulty: 1,
     durationMinutes: 20,
@@ -131,7 +104,8 @@ final List<Resource> seedResources = [
     tags: const ['注音', '識字遊戲', '小組活動'],
     themes: const ['ocean'],
     materials: const ['注音符號魚形卡(護貝)', '迴紋針', '磁鐵釣竿'],
-    content: '基本玩法:\n'
+    content:
+        '基本玩法:\n'
         '一、老師唸出注音,孩子釣出正確的魚卡。\n'
         '二、孩子釣到魚卡後唸出符號,再想一個開頭是這個音的詞。\n\n'
         '進階玩法:兩人限時比賽釣魚,結束後輪流唸出手上的符號;'
@@ -149,29 +123,14 @@ final List<Resource> seedResources = [
     domains: const [LearningDomain.cognitive, LearningDomain.aesthetic],
     tags: const ['感官探索', '顏色認知'],
     themes: const ['colors_shapes'],
-    materials: const [
-      '白米 3~5 杯',
-      '食用色素',
-      '夾鏈袋',
-      '白醋少許',
-      '大收納箱',
-      '杯子、湯匙、漏斗等工具',
-    ],
+    materials: const ['白米 3~5 杯', '食用色素', '夾鏈袋', '白醋少許', '大收納箱', '杯子、湯匙、漏斗等工具'],
     steps: const [
-      ResourceStep(
-        title: '染色',
-        description: '每袋米加入幾滴色素與少許白醋,封緊袋口搓揉均勻。',
-      ),
-      ResourceStep(
-        title: '晾乾',
-        description: '把米平鋪在烘焙紙上,晾乾一個晚上。',
-      ),
-      ResourceStep(
-        title: '佈置感官箱',
-        description: '倒入收納箱,放進杯子、湯匙、漏斗和小玩偶,即完成。',
-      ),
+      ResourceStep(title: '染色', description: '每袋米加入幾滴色素與少許白醋,封緊袋口搓揉均勻。'),
+      ResourceStep(title: '晾乾', description: '把米平鋪在烘焙紙上,晾乾一個晚上。'),
+      ResourceStep(title: '佈置感官箱', description: '倒入收納箱,放進杯子、湯匙、漏斗和小玩偶,即完成。'),
     ],
-    content: '引導語舉例:「你聽,米流下來的聲音像什麼?」鼓勵孩子倒、舀、抓、藏寶。'
+    content:
+        '引導語舉例:「你聽,米流下來的聲音像什麼?」鼓勵孩子倒、舀、抓、藏寶。'
         '收拾也是活動的一部分,請孩子一起把米掃回箱子裡。',
     difficulty: 2,
     durationMinutes: 60,
@@ -187,7 +146,8 @@ final List<Resource> seedResources = [
     tags: const ['植物', '生命教育', '主題課程'],
     themes: const ['plants', 'spring'],
     indicatorCodes: const ['認-小-1-2-1', '認-小-1-2-3'],
-    content: '活動名稱:小種子長大了\n'
+    content:
+        '活動名稱:小種子長大了\n'
         '適用年齡:小班(3-4 歲)\n'
         '活動時間:約 40 分鐘(後續持續觀察兩週)\n\n'
         '一、教學目標\n'
@@ -218,7 +178,8 @@ final List<Resource> seedResources = [
     tags: const ['律動', '大肌肉', '免教具', '雨天備案'],
     themes: const ['animals'],
     indicatorCodes: const ['身-幼-1-1-2', '身-小-2-1-1'],
-    content: '活動名稱:動物運動會\n'
+    content:
+        '活動名稱:動物運動會\n'
         '適用年齡:幼幼班~小班\n'
         '活動時間:20 分鐘\n\n'
         '一、教學目標\n'
@@ -244,7 +205,8 @@ final List<Resource> seedResources = [
     tags: const ['形狀', '學習單'],
     themes: const ['colors_shapes'],
     indicatorCodes: const ['認-小-1-1-1'],
-    content: '內容說明:學習單共兩頁——第一頁為形狀與生活物品連連看'
+    content:
+        '內容說明:學習單共兩頁——第一頁為形狀與生活物品連連看'
         '(圓形-時鐘、三角形-三明治、正方形-窗戶);'
         '第二頁為形狀著色(圓形塗紅色、三角形塗黃色、正方形塗藍色)。\n\n'
         '使用建議:\n'
@@ -262,7 +224,8 @@ final List<Resource> seedResources = [
     domains: const [LearningDomain.emotional, LearningDomain.language],
     tags: const ['情緒教育', '書寫前準備'],
     themes: const ['emotions'],
-    content: '內容說明:表格式一週心情記錄,每天圈選一個心情臉譜(開心/平靜/難過/生氣),'
+    content:
+        '內容說明:表格式一週心情記錄,每天圈選一個心情臉譜(開心/平靜/難過/生氣),'
         '並在空格畫下「今天發生的一件事」。\n\n'
         '使用建議:\n'
         '一、固定在放學前 10 分鐘進行,養成回顧的習慣。\n'
@@ -280,7 +243,8 @@ final List<Resource> seedResources = [
     tags: const ['建構遊戲', '空間概念'],
     themes: const ['colors_shapes'],
     indicatorCodes: const ['認-大-1-1-1', '認-中-2-3-1'],
-    content: '挑選重點:\n'
+    content:
+        '挑選重點:\n'
         '一、磁力適中——太弱作品容易垮,太強小手拆不開。\n'
         '二、邊角圓滑,並通過 ST 安全玩具或 CNS 檢驗標章。\n'
         '三、基礎幾何片(三角形、正方形)數量要足,比特殊造型片實用。\n\n'
@@ -302,7 +266,8 @@ final List<Resource> seedResources = [
     tags: const ['感覺統合', '大肌肉'],
     themes: const ['my_body'],
     indicatorCodes: const ['身-幼-2-1-1', '身-小-2-1-1'],
-    content: '挑選重點:防滑底座、承重足夠,並且可以自由組合高低與彎直路線。\n\n'
+    content:
+        '挑選重點:防滑底座、承重足夠,並且可以自由組合高低與彎直路線。\n\n'
         '使用方式:\n'
         '一、基本走:雙手平舉走完步道。\n'
         '二、變化走:倒著走、踮腳走、端著沙包走。\n'
@@ -319,7 +284,8 @@ final List<Resource> seedResources = [
     domains: const [LearningDomain.social, LearningDomain.cognitive],
     tags: const ['環境佈置', '學習區', '新手老師'],
     themes: const ['school_start'],
-    content: '開學前佈置教室,學習區怎麼規劃才會真的被孩子用起來?分享五個原則:\n\n'
+    content:
+        '開學前佈置教室,學習區怎麼規劃才會真的被孩子用起來?分享五個原則:\n\n'
         '一、動靜分區\n'
         '積木區、扮演區等熱鬧的區域放在一起;圖書區、益智區放在安靜角落,中間用矮櫃區隔。\n\n'
         '二、材料看得見、拿得到\n'
@@ -343,7 +309,8 @@ final List<Resource> seedResources = [
     tags: const ['轉換時間', '免教具', '班級經營'],
     themes: const ['school_start'],
     indicatorCodes: const ['社-小-2-3-2', '社-中-2-3-2'],
-    content: '使用心法:口令要「少而固定」,全班熟了才有效;音量放低反而更快安靜。\n\n'
+    content:
+        '使用心法:口令要「少而固定」,全班熟了才有效;音量放低反而更快安靜。\n\n'
         '常用口令(老師說—孩子答):\n'
         '一、小眼睛—看老師。\n'
         '二、小嘴巴—閉起來。\n'
@@ -365,7 +332,8 @@ final List<Resource> seedResources = [
     tags: const ['轉換時間', '免教具', '大團體'],
     themes: const ['school_start'],
     indicatorCodes: const ['身-幼-1-1-2', '社-小-2-3-2'],
-    content: '基本玩法:\n'
+    content:
+        '基本玩法:\n'
         '老師說「請你跟我這樣做」,一邊做動作(拍手、摸肩、比愛心),'
         '孩子回「我會跟你這樣做」並模仿。動作由大變小、速度由快變慢,'
         '最後停在「手放腿上、嘴巴閉起來」,自然完成收心。\n\n'

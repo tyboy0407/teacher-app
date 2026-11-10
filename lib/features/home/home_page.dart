@@ -8,6 +8,7 @@ import '../../data/theme_catalog.dart';
 import '../../models/taxonomy.dart';
 import '../../providers.dart';
 import '../../widgets/error_retry.dart';
+import '../../widgets/paper.dart';
 import '../../widgets/resource_card.dart';
 import '../../widgets/skeleton.dart';
 import '../../widgets/entrance.dart';
@@ -107,10 +108,10 @@ class HomePage extends ConsumerWidget {
                             size: 18,
                             color: domain.color,
                           ),
-                          // 整顆 chip 帶淡淡的領域色,六個領域一眼分得出來
-                          backgroundColor: domain.color.withValues(alpha: .10),
+                          // 六張便利貼色的 chip,一眼分得出領域
+                          backgroundColor: domain.sticky,
                           side: BorderSide(
-                            color: domain.color.withValues(alpha: .35),
+                            color: domain.color.withValues(alpha: .45),
                           ),
                           label: Text(domain.label),
                           onPressed: () {
@@ -228,9 +229,10 @@ class _PrepBasketCard extends ConsumerWidget {
       ];
       subtitle = parts.isEmpty ? '點進去整理材料與指標' : parts.join(',');
     }
-    return Card(
+    return PaperCard(
       color: AppColors.crayonYellow,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      tilt: -0.6,
+      tape: AppColors.tapePink,
       child: ListTile(
         onTap: () => context.push('/prep'),
         leading: const Icon(
@@ -306,8 +308,11 @@ class _SectionHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 24, 16, 10),
-      child: Text(title, style: Theme.of(context).textTheme.titleLarge),
+      padding: const EdgeInsets.fromLTRB(16, 26, 16, 12),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: HighlightedTitle(title),
+      ),
     );
   }
 }

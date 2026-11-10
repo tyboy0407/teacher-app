@@ -30,8 +30,7 @@ abstract class AuthRepository {
 }
 
 class AuthUnavailableRepository implements AuthRepository {
-  Never _unsupported() =>
-      throw StateError('尚未連線 Supabase,無法使用帳號功能');
+  Never _unsupported() => throw StateError('尚未連線 Supabase,無法使用帳號功能');
 
   @override
   bool get isAvailable => false;
@@ -43,13 +42,16 @@ class AuthUnavailableRepository implements AuthRepository {
   Stream<AppUser?> authStateChanges() => Stream<AppUser?>.value(null);
 
   @override
-  Future<void> signInWithPassword(
-          {required String email, required String password}) async =>
-      _unsupported();
+  Future<void> signInWithPassword({
+    required String email,
+    required String password,
+  }) async => _unsupported();
 
   @override
-  Future<void> signUp({required String email, required String password}) async =>
-      _unsupported();
+  Future<void> signUp({
+    required String email,
+    required String password,
+  }) async => _unsupported();
 
   @override
   Future<void> sendPasswordReset(String email) async => _unsupported();
@@ -77,8 +79,10 @@ class SupabaseAuthRepository implements AuthRepository {
       _client.auth.onAuthStateChange.map((event) => _map(event.session?.user));
 
   @override
-  Future<void> signInWithPassword(
-      {required String email, required String password}) async {
+  Future<void> signInWithPassword({
+    required String email,
+    required String password,
+  }) async {
     await _client.auth.signInWithPassword(email: email, password: password);
   }
 

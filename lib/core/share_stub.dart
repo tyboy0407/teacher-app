@@ -7,5 +7,4 @@ Future<bool> shareNative({
   required String title,
   required String text,
   String? url,
-}) async =>
-    false;
+}) async => false;

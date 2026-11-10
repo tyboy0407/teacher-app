@@ -18,12 +18,10 @@ class AdminReviewPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final pending = ref.watch(pendingReviewsProvider);
     final unpublished =
-        ref.watch(unpublishedResourcesProvider).valueOrNull ?? const <Resource>[];
+        ref.watch(unpublishedResourcesProvider).valueOrNull ??
+        const <Resource>[];
     return Scaffold(
-      appBar: AppBar(
-        leading: const AppBackButton(),
-        title: const Text('審核投稿'),
-      ),
+      appBar: AppBar(leading: const AppBackButton(), title: const Text('審核投稿')),
       body: RefreshIndicator(
         onRefresh: () async {
           ref.invalidate(pendingReviewsProvider);
@@ -63,9 +61,8 @@ class AdminReviewPage extends ConsumerWidget {
             ],
           ),
           loading: () => const Center(child: CircularProgressIndicator()),
-          error: (_, _) => ErrorRetry(
-            onRetry: () => ref.invalidate(pendingReviewsProvider),
-          ),
+          error: (_, _) =>
+              ErrorRetry(onRetry: () => ref.invalidate(pendingReviewsProvider)),
         ),
       ),
     );
@@ -84,8 +81,9 @@ class _Hint extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
       child: Text(
         text,
-        style: theme.textTheme.bodySmall
-            ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+        style: theme.textTheme.bodySmall?.copyWith(
+          color: theme.colorScheme.onSurfaceVariant,
+        ),
       ),
     );
   }
@@ -145,8 +143,9 @@ class _PendingCard extends StatelessWidget {
                       resource.title,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: theme.textTheme.titleSmall
-                          ?.copyWith(fontWeight: FontWeight.w600),
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                     if (resource.summary.isNotEmpty)
                       Padding(

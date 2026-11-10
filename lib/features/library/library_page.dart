@@ -200,7 +200,7 @@ class _LibraryPageState extends ConsumerState<LibraryPage> {
                         : Icon(domain.icon, size: 16, color: domain.color),
                     label: Text(domain.label),
                     // 選中時整顆 chip 帶淡淡的領域色,不只圖示有顏色
-                    selectedColor: domain.color.withValues(alpha: .18),
+                    selectedColor: domain.sticky,
                     checkmarkColor: domain.color,
                     selected: filter.domains.contains(domain),
                     onSelected: (_) => notifier.toggleDomain(domain),

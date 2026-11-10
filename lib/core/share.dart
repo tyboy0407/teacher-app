@@ -32,8 +32,9 @@ Future<void> showShareSheet(
               title,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: theme.textTheme.titleMedium
-                  ?.copyWith(fontWeight: FontWeight.w700),
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
           ListTile(
@@ -71,9 +72,9 @@ Future<void> showShareSheet(
               Navigator.of(sheetContext).pop();
               await Clipboard.setData(ClipboardData(text: fullText));
               if (context.mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('已複製,可以貼上了')),
-                );
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(const SnackBar(content: Text('已複製,可以貼上了')));
               }
             },
           ),

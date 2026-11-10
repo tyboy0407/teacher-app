@@ -23,10 +23,10 @@ class ReviewStatusChip extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: Theme.of(context)
-            .textTheme
-            .labelSmall
-            ?.copyWith(color: color, fontWeight: FontWeight.w700),
+        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+          color: color,
+          fontWeight: FontWeight.w700,
+        ),
       ),
     );
   }

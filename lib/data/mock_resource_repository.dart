@@ -11,16 +11,19 @@ class MockResourceRepository implements ResourceRepository {
   /// 模擬一點網路延遲,讓載入狀態看得見。
   static const _latency = Duration(milliseconds: 250);
 
-  Future<T> _withLatency<T>(T Function() body) => Future.delayed(_latency, body);
+  Future<T> _withLatency<T>(T Function() body) =>
+      Future.delayed(_latency, body);
 
   List<Resource> get _sortedByNewest =>
       [...seedResources]..sort((a, b) => b.createdAt.compareTo(a.createdAt));
 
   @override
-  Future<List<Resource>> fetchResources(
-      {ResourceFilter filter = const ResourceFilter()}) {
+  Future<List<Resource>> fetchResources({
+    ResourceFilter filter = const ResourceFilter(),
+  }) {
     return _withLatency(
-        () => _sortedByNewest.where((r) => _matches(r, filter)).toList());
+      () => _sortedByNewest.where((r) => _matches(r, filter)).toList(),
+    );
   }
 
   bool _matches(Resource resource, ResourceFilter filter) {
@@ -57,7 +60,8 @@ class MockResourceRepository implements ResourceRepository {
   @override
   Future<List<Resource>> fetchFeatured() {
     return _withLatency(
-        () => _sortedByNewest.where((r) => r.isFeatured).toList());
+      () => _sortedByNewest.where((r) => r.isFeatured).toList(),
+    );
   }
 
   @override
@@ -72,8 +76,9 @@ class MockResourceRepository implements ResourceRepository {
 
   @override
   Future<List<Resource>> fetchByIds(List<String> ids) {
-    return _withLatency(() =>
-        seedResources.where((r) => ids.contains(r.id)).toList());
+    return _withLatency(
+      () => seedResources.where((r) => ids.contains(r.id)).toList(),
+    );
   }
 
   @override
@@ -86,9 +91,11 @@ class MockResourceRepository implements ResourceRepository {
 
   @override
   Future<List<Resource>> fetchByIndicator(String indicatorCode) {
-    return _withLatency(() => _sortedByNewest
-        .where((r) => r.indicatorCodes.contains(indicatorCode))
-        .toList());
+    return _withLatency(
+      () => _sortedByNewest
+          .where((r) => r.indicatorCodes.contains(indicatorCode))
+          .toList(),
+    );
   }
 
   // 投稿功能需要雲端;UI 在未連線時不會走到這裡
@@ -114,9 +121,11 @@ class MockResourceRepository implements ResourceRepository {
   Future<List<Resource>> fetchPendingReviews() async => const [];
 
   @override
-  Future<void> reviewResource(String id,
-          {required bool approve, String? note}) async =>
-      _needsSupabase();
+  Future<void> reviewResource(
+    String id, {
+    required bool approve,
+    String? note,
+  }) async => _needsSupabase();
 
   @override
   Future<List<Resource>> fetchUnpublished() async => const [];

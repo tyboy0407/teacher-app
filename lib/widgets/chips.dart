@@ -20,10 +20,9 @@ class TypeBadge extends StatelessWidget {
       ),
       child: Text(
         type.label,
-        style: Theme.of(context)
-            .textTheme
-            .labelSmall
-            ?.copyWith(color: scheme.onPrimaryContainer),
+        style: Theme.of(
+          context,
+        ).textTheme.labelSmall?.copyWith(color: scheme.onPrimaryContainer),
       ),
     );
   }
@@ -31,7 +30,12 @@ class TypeBadge extends StatelessWidget {
 
 /// 卡片與詳情頁上的小資訊膠囊(年齡、領域、標籤共用)
 class SmallInfoChip extends StatelessWidget {
-  const SmallInfoChip({super.key, required this.label, this.icon, this.dotColor});
+  const SmallInfoChip({
+    super.key,
+    required this.label,
+    this.icon,
+    this.dotColor,
+  });
 
   final String label;
   final IconData? icon;
@@ -57,16 +61,18 @@ class SmallInfoChip extends StatelessWidget {
             Container(
               width: 8,
               height: 8,
-              decoration: BoxDecoration(color: dotColor, shape: BoxShape.circle),
+              decoration: BoxDecoration(
+                color: dotColor,
+                shape: BoxShape.circle,
+              ),
             ),
             const SizedBox(width: 4),
           ],
           Text(
             label,
-            style: Theme.of(context)
-                .textTheme
-                .labelSmall
-                ?.copyWith(color: scheme.onSurfaceVariant),
+            style: Theme.of(
+              context,
+            ).textTheme.labelSmall?.copyWith(color: scheme.onSurfaceVariant),
           ),
         ],
       ),

@@ -15,13 +15,17 @@ class ErrorRetry extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.cloud_off,
-                size: 40, color: theme.colorScheme.outlineVariant),
+            Icon(
+              Icons.cloud_off,
+              size: 40,
+              color: theme.colorScheme.outlineVariant,
+            ),
             const SizedBox(height: 8),
             Text(
               message ?? '載入失敗,請稍後再試',
-              style: theme.textTheme.bodyMedium
-                  ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 8),

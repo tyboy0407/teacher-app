@@ -32,5 +32,6 @@ class FavoritesNotifier extends AsyncNotifier<Set<String>> {
   }
 }
 
-final favoritesProvider =
-    AsyncNotifierProvider<FavoritesNotifier, Set<String>>(FavoritesNotifier.new);
+final favoritesProvider = AsyncNotifierProvider<FavoritesNotifier, Set<String>>(
+  FavoritesNotifier.new,
+);

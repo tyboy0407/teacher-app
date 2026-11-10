@@ -9,6 +9,7 @@ class ThemeTopic {
 
   final String code;
   final String label;
+
   /// 向量圖示(不用 emoji:各平台字型渲染不一致,也無法跟著主題配色)
   final IconData icon;
 
@@ -16,13 +17,17 @@ class ThemeTopic {
   final List<int> months;
 
   bool get isSeasonal => months.isNotEmpty;
-
 }
 
 const List<ThemeTopic> themeTopics = [
   // 行事曆主題(依月份)
   ThemeTopic('school_start', '開學適應', Icons.backpack_outlined, months: [8, 9]),
-  ThemeTopic('moon_festival', '中秋節', Icons.nightlight_outlined, months: [9, 10]),
+  ThemeTopic(
+    'moon_festival',
+    '中秋節',
+    Icons.nightlight_outlined,
+    months: [9, 10],
+  ),
   ThemeTopic('autumn', '秋天', Icons.eco_outlined, months: [10, 11]),
   ThemeTopic('halloween', '萬聖節', Icons.celebration_outlined, months: [10]),
   ThemeTopic('winter', '冬天', Icons.ac_unit, months: [12, 1]),

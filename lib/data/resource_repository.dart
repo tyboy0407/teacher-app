@@ -9,7 +9,9 @@ import '../models/taxonomy.dart';
 /// SupabaseResourceRepository(雲端),依 SupabaseConfig 是否設定自動切換。
 abstract class ResourceRepository {
   /// 依篩選條件取得資源,依建立時間新到舊排序。
-  Future<List<Resource>> fetchResources({ResourceFilter filter = const ResourceFilter()});
+  Future<List<Resource>> fetchResources({
+    ResourceFilter filter = const ResourceFilter(),
+  });
 
   /// 首頁精選。
   Future<List<Resource>> fetchFeatured();

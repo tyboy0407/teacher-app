@@ -40,8 +40,9 @@ class _IndicatorPickerPageState extends State<IndicatorPickerPage> {
               alignment: Alignment.centerLeft,
               child: Text(
                 '建議每筆資源掛 1~3 條最貼近的指標,不用求多。',
-                style: theme.textTheme.bodySmall
-                    ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
               ),
             ),
           ),
@@ -75,19 +76,22 @@ class _IndicatorPickerPageState extends State<IndicatorPickerPage> {
               itemBuilder: (context, index) {
                 final goal = goals[index];
                 final indicators = CurriculumService.indicatorsOf(goal.code);
-                final selectedCount =
-                    indicators.where((i) => _selected.contains(i.code)).length;
+                final selectedCount = indicators
+                    .where((i) => _selected.contains(i.code))
+                    .length;
                 return ExpansionTile(
                   title: Text(
                     '${goal.code} ${goal.title}',
-                    style: theme.textTheme.titleSmall
-                        ?.copyWith(fontWeight: FontWeight.w600),
+                    style: theme.textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                   subtitle: selectedCount > 0
                       ? Text(
                           '已選 $selectedCount 條',
-                          style: theme.textTheme.labelSmall
-                              ?.copyWith(color: theme.colorScheme.primary),
+                          style: theme.textTheme.labelSmall?.copyWith(
+                            color: theme.colorScheme.primary,
+                          ),
                         )
                       : null,
                   childrenPadding: const EdgeInsets.only(bottom: 8),
@@ -106,8 +110,9 @@ class _IndicatorPickerPageState extends State<IndicatorPickerPage> {
                         }),
                         title: Text(
                           indicator.text,
-                          style:
-                              theme.textTheme.bodyMedium?.copyWith(height: 1.4),
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            height: 1.4,
+                          ),
                         ),
                         subtitle: Text(
                           '${indicator.code}(${indicator.age?.label ?? ''})',

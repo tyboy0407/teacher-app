@@ -38,13 +38,29 @@ enum LearningDomain {
   emotional('emotional', '情緒', '情', Icons.favorite_border, Color(0xFFD5567A)),
   aesthetic('aesthetic', '美感', '美', Icons.palette, Color(0xFF8F5BB8));
 
-  const LearningDomain(this.code, this.label, this.shortCode, this.icon, this.color);
+  const LearningDomain(
+    this.code,
+    this.label,
+    this.shortCode,
+    this.icon,
+    this.color,
+  );
 
   final String code;
   final String label;
   final String shortCode;
   final IconData icon;
   final Color color;
+
+  /// 便利貼色:封面色紙與 chip 的淡底(墨色文字放上去都有 10:1 以上)
+  Color get sticky => switch (this) {
+    LearningDomain.physical => const Color(0xFFCDEFC4),
+    LearningDomain.cognitive => const Color(0xFFFFE1A8),
+    LearningDomain.language => const Color(0xFFBFD7FF),
+    LearningDomain.social => const Color(0xFFC2EDE6),
+    LearningDomain.emotional => const Color(0xFFFFC9D6),
+    LearningDomain.aesthetic => const Color(0xFFDCD3FF),
+  };
 
   static LearningDomain? fromCode(String? code) {
     for (final domain in values) {

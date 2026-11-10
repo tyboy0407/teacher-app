@@ -24,11 +24,13 @@ final resourceRepositoryProvider = Provider<ResourceRepository>((ref) {
 });
 
 final featuredResourcesProvider = FutureProvider<List<Resource>>(
-    (ref) => ref.watch(resourceRepositoryProvider).fetchFeatured());
+  (ref) => ref.watch(resourceRepositoryProvider).fetchFeatured(),
+);
 
 final latestResourcesProvider = FutureProvider<List<Resource>>((ref) async {
-  final resources =
-      await ref.watch(resourceRepositoryProvider).fetchResources();
+  final resources = await ref
+      .watch(resourceRepositoryProvider)
+      .fetchResources();
   return resources.take(10).toList();
 });
 
@@ -73,7 +75,8 @@ class LibraryFilterNotifier extends Notifier<ResourceFilter> {
 
 final libraryFilterProvider =
     NotifierProvider<LibraryFilterNotifier, ResourceFilter>(
-        LibraryFilterNotifier.new);
+      LibraryFilterNotifier.new,
+    );
 
 final libraryResultsProvider = FutureProvider<List<Resource>>((ref) {
   final filter = ref.watch(libraryFilterProvider);
@@ -81,7 +84,8 @@ final libraryResultsProvider = FutureProvider<List<Resource>>((ref) {
 });
 
 final resourceByIdProvider = FutureProvider.family<Resource?, String>(
-    (ref, id) => ref.watch(resourceRepositoryProvider).fetchById(id));
+  (ref, id) => ref.watch(resourceRepositoryProvider).fetchById(id),
+);
 
 final favoriteResourcesProvider = FutureProvider<List<Resource>>((ref) async {
   final ids = ref.watch(favoritesProvider).valueOrNull ?? const <String>{};
@@ -92,23 +96,31 @@ final favoriteResourcesProvider = FutureProvider<List<Resource>>((ref) async {
 /// 備課籃裡的資源,依老師排的順序
 final prepBasketResourcesProvider = FutureProvider<List<Resource>>((ref) async {
   // 只在活動清單變動時重抓;勾材料不該觸發(否則備課頁會整個重建、跳回第一個分頁)
-  final idsKey = ref.watch(prepBasketProvider
-      .select((basket) => (basket.valueOrNull?.ids ?? const <String>[]).join('|')));
+  final idsKey = ref.watch(
+    prepBasketProvider.select(
+      (basket) => (basket.valueOrNull?.ids ?? const <String>[]).join('|'),
+    ),
+  );
   final ids = idsKey.isEmpty ? const <String>[] : idsKey.split('|');
   if (ids.isEmpty) return const [];
-  final resources =
-      await ref.watch(resourceRepositoryProvider).fetchByIds(ids);
+  final resources = await ref.watch(resourceRepositoryProvider).fetchByIds(ids);
   final byId = {for (final r in resources) r.id: r};
-  return [for (final id in ids) if (byId[id] != null) byId[id]!];
+  return [
+    for (final id in ids)
+      if (byId[id] != null) byId[id]!,
+  ];
 });
 
 final allTagsProvider = FutureProvider<List<String>>(
-    (ref) => ref.watch(resourceRepositoryProvider).fetchTagNames());
+  (ref) => ref.watch(resourceRepositoryProvider).fetchTagNames(),
+);
 
 /// 指標反查:某條課綱學習指標對應的資源
-final indicatorResourcesProvider = FutureProvider.family<List<Resource>, String>(
-    (ref, code) =>
-        ref.watch(resourceRepositoryProvider).fetchByIndicator(code));
+final indicatorResourcesProvider =
+    FutureProvider.family<List<Resource>, String>(
+      (ref, code) =>
+          ref.watch(resourceRepositoryProvider).fetchByIndicator(code),
+    );
 
 // ---- 階段 2:帳號與投稿 ----
 
@@ -121,7 +133,8 @@ final authRepositoryProvider = Provider<AuthRepository>((ref) {
 
 /// 目前登入者(未連線或未登入為 null)
 final authStateProvider = StreamProvider<AppUser?>(
-    (ref) => ref.watch(authRepositoryProvider).authStateChanges());
+  (ref) => ref.watch(authRepositoryProvider).authStateChanges(),
+);
 
 /// 目前登入者的投稿列表(含待審與被退回)
 final myUploadsProvider = FutureProvider<List<Resource>>((ref) {
@@ -139,7 +152,9 @@ final isAdminProvider = FutureProvider<bool>((ref) {
 });
 
 /// 已下架內容(非管理者為空)
-final unpublishedResourcesProvider = FutureProvider<List<Resource>>((ref) async {
+final unpublishedResourcesProvider = FutureProvider<List<Resource>>((
+  ref,
+) async {
   final isAdmin = await ref.watch(isAdminProvider.future);
   if (!isAdmin) return const [];
   return ref.watch(resourceRepositoryProvider).fetchUnpublished();

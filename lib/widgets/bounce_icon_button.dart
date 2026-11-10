@@ -45,13 +45,17 @@ class _BounceIconButtonState extends State<BounceIconButton>
 
   late final Animation<double> _scale = TweenSequence<double>([
     TweenSequenceItem(
-      tween: Tween(begin: 1.0, end: 1.25)
-          .chain(CurveTween(curve: AppMotion.enter)),
+      tween: Tween(
+        begin: 1.0,
+        end: 1.25,
+      ).chain(CurveTween(curve: AppMotion.enter)),
       weight: 40,
     ),
     TweenSequenceItem(
-      tween: Tween(begin: 1.25, end: 1.0)
-          .chain(CurveTween(curve: AppMotion.bounce)),
+      tween: Tween(
+        begin: 1.25,
+        end: 1.0,
+      ).chain(CurveTween(curve: AppMotion.bounce)),
       weight: 60,
     ),
   ]).animate(_controller);

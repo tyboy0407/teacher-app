@@ -40,25 +40,24 @@ class ResourceDraft {
   final int? durationMinutes;
 
   Map<String, dynamic> toPayload() => {
-        'title': title,
-        'summary': summary,
-        'type': type.code,
-        'age_stages': ages.map((age) => age.code).toList(),
-        'domains': domains.map((domain) => domain.code).toList(),
-        'indicator_codes': indicatorCodes,
-        'themes': themes,
-        'tags': tags,
-        if (coverUrl != null) 'cover_url': coverUrl,
-        'image_urls': imageUrls,
-        if (videoUrl != null) 'video_url': videoUrl,
-        'materials': materials,
-        'steps': [
-          for (final step in steps)
-            {'title': step.title, 'description': step.description},
-        ],
-        'content': content,
-        if (difficulty != null) 'difficulty': difficulty.toString(),
-        if (durationMinutes != null)
-          'duration_minutes': durationMinutes.toString(),
-      };
+    'title': title,
+    'summary': summary,
+    'type': type.code,
+    'age_stages': ages.map((age) => age.code).toList(),
+    'domains': domains.map((domain) => domain.code).toList(),
+    'indicator_codes': indicatorCodes,
+    'themes': themes,
+    'tags': tags,
+    if (coverUrl != null) 'cover_url': coverUrl,
+    'image_urls': imageUrls,
+    if (videoUrl != null) 'video_url': videoUrl,
+    'materials': materials,
+    'steps': [
+      for (final step in steps)
+        {'title': step.title, 'description': step.description},
+    ],
+    'content': content,
+    if (difficulty != null) 'difficulty': difficulty.toString(),
+    if (durationMinutes != null) 'duration_minutes': durationMinutes.toString(),
+  };
 }

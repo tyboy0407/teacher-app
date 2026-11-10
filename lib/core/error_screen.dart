@@ -26,7 +26,11 @@ class _ErrorScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Icon(Icons.construction, size: 40, color: Color(0xFF2F5D50)),
+              const Icon(
+                Icons.construction,
+                size: 40,
+                color: Color(0xFF2F5D50),
+              ),
               const SizedBox(height: 12),
               const Text(
                 '這一頁出了點問題',

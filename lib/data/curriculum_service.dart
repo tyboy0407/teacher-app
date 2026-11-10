@@ -20,12 +20,12 @@ class CurriculumService {
   static CurriculumGoal? goal(String code) => _goalByCode[code];
 
   static List<CurriculumGoal> goalsOf(LearningDomain domain) => [
-        for (final goal in curriculumGoals)
-          if (goal.domainShortCode == domain.shortCode) goal,
-      ];
+    for (final goal in curriculumGoals)
+      if (goal.domainShortCode == domain.shortCode) goal,
+  ];
 
   static List<CurriculumIndicator> indicatorsOf(String goalCode) => [
-        for (final indicator in curriculumIndicators)
-          if (indicator.goalCode == goalCode) indicator,
-      ];
+    for (final indicator in curriculumIndicators)
+      if (indicator.goalCode == goalCode) indicator,
+  ];
 }
