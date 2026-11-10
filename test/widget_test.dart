@@ -209,6 +209,29 @@ void main() {
     await check('詳情頁');
   });
 
+  testWidgets('收藏與加入備課的按鈕按下會彈一下,動畫不阻擋狀態切換', (tester) async {
+    await pumpApp(tester);
+    await tester.tap(find.text('資源庫'));
+    await tester.pumpAndSettle();
+
+    // 卡片上的愛心:按下後動畫進行中就已切換狀態
+    // (不用 byIcon 找:「情緒」領域的篩選 chip 也是愛心圖示)
+    final button = find.byType(FavoriteButton).first;
+    await tester.tap(button);
+    await tester.pump(); // 動畫的零幀
+    await tester.pump(const Duration(milliseconds: 60));
+    expect(
+      find.descendant(of: button, matching: find.byIcon(Icons.favorite)),
+      findsOneWidget,
+    );
+    final scale = tester.widget<ScaleTransition>(
+      find.descendant(of: button, matching: find.byType(ScaleTransition)),
+    );
+    expect(scale.scale.value, greaterThan(1.0), reason: '按下後應放大中');
+    await tester.pumpAndSettle();
+    expect(scale.scale.value, 1.0, reason: '動畫結束回到原尺寸');
+  });
+
   testWidgets('收藏後出現在收藏頁', (tester) async {
     await pumpApp(tester);
 
@@ -429,8 +452,13 @@ void main() {
 
     await tester.tap(find.byIcon(Icons.playlist_add));
     await tester.pumpAndSettle();
-    expect(find.text('已加入本週備課'), findsOneWidget);
+    // 第一次進籃:說明備課頁會幫忙整理;按鈕角落出現數字徽章
+    expect(find.textContaining('已加入本週備課'), findsOneWidget);
+    expect(find.textContaining('整理材料'), findsOneWidget);
     expect(find.byIcon(Icons.playlist_add_check), findsOneWidget);
+    expect(find.byType(Badge), findsOneWidget);
+    expect(find.descendant(of: find.byType(Badge), matching: find.text('1')),
+        findsOneWidget);
 
     await tester.tap(find.byIcon(Icons.arrow_back));
     await tester.pumpAndSettle();

@@ -6,12 +6,14 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/navigation.dart';
 import '../../core/share.dart';
+import '../../core/theme.dart';
 import '../../data/curriculum_service.dart';
 import '../../data/resource_repository.dart' show ModerationAction;
 import '../../data/theme_catalog.dart';
 import '../../models/resource.dart';
 import '../../models/taxonomy.dart';
 import '../../providers.dart';
+import '../../widgets/bounce_icon_button.dart';
 import '../../widgets/chips.dart';
 import '../../widgets/empty_state.dart';
 import '../../widgets/error_retry.dart';
@@ -93,8 +95,9 @@ class _DetailView extends ConsumerWidget {
     final reviewing = isAdmin && resource.reviewStatus != 'approved';
     // 管理者看已通過的內容時,底部改為下架/刪除操作列
     final moderating = isAdmin && !reviewing;
-    final inBasket =
-        ref.watch(prepBasketProvider).valueOrNull?.contains(resource.id) ?? false;
+    final basket = ref.watch(prepBasketProvider).valueOrNull;
+    final inBasket = basket?.contains(resource.id) ?? false;
+    final basketCount = basket?.ids.length ?? 0;
     return Scaffold(
       bottomNavigationBar: reviewing
           ? _ReviewBar(resource: resource)
@@ -148,26 +151,38 @@ class _DetailView extends ConsumerWidget {
                 child: CircleAvatar(
                   radius: _coverButtonRadius,
                   backgroundColor: _coverButtonScrim,
-                  child: IconButton(
-                    padding: EdgeInsets.zero,
+                  // 產品的高潮時刻:按下會彈一下、有觸覺,角落顯示籃子裡有幾個
+                  child: BounceIconButton(
+                    compact: true,
+                    haptic: true,
+                    badgeCount: basketCount,
                     tooltip: inBasket ? '移出備課籃' : '加入備課',
                     icon: Icon(
                       inBasket ? Icons.playlist_add_check : Icons.playlist_add,
-                      color: inBasket ? Colors.amberAccent : Colors.white,
+                      color: inBasket ? AppColors.crayonYellow : Colors.white,
                       size: 22,
                     ),
                     onPressed: () async {
-                      await ref
-                          .read(prepBasketProvider.notifier)
-                          .toggle(resource.id);
+                      final notifier = ref.read(prepBasketProvider.notifier);
+                      await notifier.toggle(resource.id);
                       if (!context.mounted) return;
+                      final countAfter =
+                          ref.read(prepBasketProvider).valueOrNull?.ids.length ??
+                              0;
+                      // 回饋隨重複遞減:第一次進籃說明會幫忙整理,之後只說已加入
+                      final String message;
+                      if (inBasket) {
+                        message = '已從備課籃移除';
+                      } else if (countAfter == 1) {
+                        message = '已加入本週備課,備課頁會幫你整理材料與課綱指標';
+                      } else {
+                        message = '已加入本週備課($countAfter 個活動)';
+                      }
                       ScaffoldMessenger.of(context)
                         ..hideCurrentSnackBar()
                         ..showSnackBar(
                           SnackBar(
-                            content: Text(
-                              inBasket ? '已從備課籃移除' : '已加入本週備課',
-                            ),
+                            content: Text(message),
                             action: inBasket
                                 ? null
                                 : SnackBarAction(
