@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:teacher_app/app.dart';
+import 'package:teacher_app/core/app_update.dart';
 import 'package:teacher_app/core/browser_navigation.dart';
 import 'package:teacher_app/core/navigation.dart';
 import 'package:teacher_app/data/resource_repository.dart';
@@ -562,6 +563,16 @@ void main() {
     await tester.pump(const Duration(milliseconds: 400));
     await tester.pumpAndSettle();
     expect(find.text('共 1 筆資源'), findsOneWidget);
+  });
+
+  testWidgets('發現新版本時顯示全頁「更新中」', (tester) async {
+    await pumpApp(tester);
+    expect(find.textContaining('更新中'), findsNothing);
+    AppUpdater.instance.updating.value = true;
+    addTearDown(() => AppUpdater.instance.updating.value = false);
+    await tester.pump();
+    expect(find.text('有新版本,更新中…'), findsOneWidget);
+    expect(find.text('幾秒後會自動重新載入'), findsOneWidget);
   });
 
   testWidgets('收藏後出現在收藏頁', (tester) async {

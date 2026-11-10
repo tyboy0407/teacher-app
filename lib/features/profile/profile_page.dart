@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../config/supabase_config.dart';
+import '../../core/app_update.dart';
 import '../../core/constants.dart';
 import '../../models/taxonomy.dart';
 import '../../providers.dart';
@@ -179,8 +180,19 @@ class ProfilePage extends ConsumerWidget {
                   onTap: () => showAboutDialog(
                     context: context,
                     applicationName: appName,
-                    applicationVersion: appVersion,
+                    applicationVersion: AppUpdater.buildId.isEmpty
+                        ? appVersion
+                        : '$appVersion (${AppUpdater.shortBuildId})',
                     children: [
+                      if (AppUpdater.enabled)
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: TextButton.icon(
+                            onPressed: () => _checkForUpdate(context),
+                            icon: const Icon(Icons.system_update_alt, size: 18),
+                            label: const Text('檢查更新'),
+                          ),
+                        ),
                       const Text('把分散在網路各處的教具、教案與教學新知整理在一起,讓老師備課更輕鬆。'),
                       const SizedBox(height: 12),
                       Text(
@@ -202,6 +214,21 @@ class ProfilePage extends ConsumerWidget {
         ],
       ),
     );
+  }
+
+  /// 手動檢查:老師懷疑自己看到舊畫面時,不用等自動檢查
+  Future<void> _checkForUpdate(BuildContext context) async {
+    final messenger = ScaffoldMessenger.of(context);
+    final result = await AppUpdater.instance.check(force: true);
+    final String message;
+    if (result == true) {
+      message = '已是最新版本';
+    } else if (result == null) {
+      message = '目前無法檢查,請確認網路後再試';
+    } else {
+      message = '發現新版本,更新中…';
+    }
+    messenger.showSnackBar(SnackBar(content: Text(message)));
   }
 
   void _showTaxonomyDialog(BuildContext context) {

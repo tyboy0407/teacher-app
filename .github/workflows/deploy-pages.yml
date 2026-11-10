@@ -37,6 +37,11 @@ jobs:
           flutter build web --release
           --base-href "/${{ github.event.repository.name }}/"
           --dart-define-from-file=supabase.env.json
+          --dart-define=BUILD_ID=${{ github.sha }}
+
+      # 建置之後才寫入,所以不在 service worker 的快取清單裡;App 用它比對是否有新版本
+      - name: Stamp build id
+        run: echo "${{ github.sha }}" > build/web/build_id.txt
 
       - uses: actions/configure-pages@v5
         with:
