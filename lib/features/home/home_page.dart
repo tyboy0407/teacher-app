@@ -9,6 +9,8 @@ import '../../models/taxonomy.dart';
 import '../../providers.dart';
 import '../../widgets/error_retry.dart';
 import '../../widgets/resource_card.dart';
+import '../../widgets/skeleton.dart';
+import '../../widgets/entrance.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -71,16 +73,21 @@ class HomePage extends ConsumerWidget {
               SizedBox(
                 height: 236,
                 child: featured.when(
-                  data: (resources) => ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    itemCount: resources.length,
-                    separatorBuilder: (_, _) => const SizedBox(width: 12),
-                    itemBuilder: (_, index) =>
-                        FeaturedResourceCard(resource: resources[index]),
+                  data: (resources) => EntranceWindow(
+                    builder: (context, entrance) => ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      itemCount: resources.length,
+                      separatorBuilder: (_, _) => const SizedBox(width: 12),
+                      itemBuilder: (_, index) => StaggeredEntrance(
+                        index: index,
+                        enabled: entrance,
+                        maxAnimated: 3,
+                        child: FeaturedResourceCard(resource: resources[index]),
+                      ),
+                    ),
                   ),
-                  loading: () =>
-                      const Center(child: CircularProgressIndicator()),
+                  loading: () => const SkeletonList(count: 3, horizontal: true),
                   error: (_, _) => ErrorRetry(
                     onRetry: () => ref.invalidate(featuredResourcesProvider),
                   ),
@@ -95,8 +102,11 @@ class HomePage extends ConsumerWidget {
                   children: LearningDomain.values
                       .map(
                         (domain) => ActionChip(
-                          avatar:
-                              Icon(domain.icon, size: 18, color: domain.color),
+                          avatar: Icon(
+                            domain.icon,
+                            size: 18,
+                            color: domain.color,
+                          ),
                           label: Text(domain.label),
                           onPressed: () {
                             ref
@@ -111,15 +121,19 @@ class HomePage extends ConsumerWidget {
               ),
               const _SectionHeader('最新資源'),
               latest.when(
-                data: (resources) => Column(
-                  children: resources
-                      .map((resource) => ResourceCard(resource: resource))
-                      .toList(),
+                data: (resources) => EntranceWindow(
+                  builder: (context, entrance) => Column(
+                    children: [
+                      for (var i = 0; i < resources.length; i++)
+                        StaggeredEntrance(
+                          index: i,
+                          enabled: entrance,
+                          child: ResourceCard(resource: resources[i]),
+                        ),
+                    ],
+                  ),
                 ),
-                loading: () => const Padding(
-                  padding: EdgeInsets.all(32),
-                  child: Center(child: CircularProgressIndicator()),
-                ),
+                loading: () => const SkeletonList(count: 3, shrinkWrap: true),
                 error: (_, _) => ErrorRetry(
                   onRetry: () => ref.invalidate(latestResourcesProvider),
                 ),
@@ -163,14 +177,17 @@ class _ChalkboardHeader extends StatelessWidget {
         children: [
           Text(
             '${now.month} 月 ${now.day} 日 星期${_weekdays[now.weekday - 1]}',
-            style: theme.textTheme.labelMedium
-                ?.copyWith(color: AppColors.chalk.withValues(alpha: .72)),
+            style: theme.textTheme.labelMedium?.copyWith(
+              color: AppColors.chalk.withValues(alpha: .72),
+            ),
           ),
           const SizedBox(height: 4),
           Text(
             _greeting,
-            style: theme.textTheme.headlineSmall
-                ?.copyWith(color: AppColors.chalk, fontSize: 30),
+            style: theme.textTheme.headlineSmall?.copyWith(
+              color: AppColors.chalk,
+              fontSize: 30,
+            ),
           ),
           const SizedBox(height: 16),
           _SearchEntry(onTap: onSearchTap),
@@ -187,7 +204,8 @@ class _PrepBasketCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-    final basket = ref.watch(prepBasketProvider).valueOrNull ?? const PrepBasket();
+    final basket =
+        ref.watch(prepBasketProvider).valueOrNull ?? const PrepBasket();
     final resources = ref.watch(prepBasketResourcesProvider).valueOrNull;
     final String subtitle;
     if (basket.isEmpty) {
@@ -216,15 +234,17 @@ class _PrepBasketCard extends ConsumerWidget {
         ),
         title: Text(
           basket.isEmpty ? '本週備課' : '本週備課:${basket.ids.length} 個活動',
-          style: theme.textTheme.titleMedium
-              ?.copyWith(color: AppColors.crayonYellowDeep),
+          style: theme.textTheme.titleMedium?.copyWith(
+            color: AppColors.crayonYellowDeep,
+          ),
         ),
         subtitle: Text(
           subtitle,
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
-          style: theme.textTheme.bodySmall
-              ?.copyWith(color: AppColors.crayonYellowDeep),
+          style: theme.textTheme.bodySmall?.copyWith(
+            color: AppColors.crayonYellowDeep,
+          ),
         ),
         trailing: const Icon(
           Icons.chevron_right,
@@ -260,10 +280,9 @@ class _SearchEntry extends StatelessWidget {
                   '找教具、教案、文章',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium
-                      ?.copyWith(color: AppColors.inkSoft),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(color: AppColors.inkSoft),
                 ),
               ),
             ],

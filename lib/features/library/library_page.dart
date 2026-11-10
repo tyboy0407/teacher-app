@@ -4,12 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/motion.dart';
 import '../../data/theme_catalog.dart';
 import '../../models/taxonomy.dart';
 import '../../providers.dart';
 import '../../widgets/empty_state.dart';
+import '../../widgets/entrance.dart';
 import '../../widgets/error_retry.dart';
 import '../../widgets/resource_card.dart';
+import '../../widgets/skeleton.dart';
 
 class LibraryPage extends ConsumerStatefulWidget {
   const LibraryPage({super.key});
@@ -25,8 +28,9 @@ class _LibraryPageState extends ConsumerState<LibraryPage> {
   @override
   void initState() {
     super.initState();
-    _searchController =
-        TextEditingController(text: ref.read(libraryFilterProvider).query);
+    _searchController = TextEditingController(
+      text: ref.read(libraryFilterProvider).query,
+    );
   }
 
   @override
@@ -185,10 +189,15 @@ class _LibraryPageState extends ConsumerState<LibraryPage> {
               height: 36,
               child: Row(
                 children: [
-                  Text(
-                    results.hasValue ? '共 ${results.value!.length} 筆資源' : '',
-                    style: theme.textTheme.bodySmall
-                        ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                  AnimatedSwitcher(
+                    duration: AppMotion.fast,
+                    child: Text(
+                      results.hasValue ? '共 ${results.value!.length} 筆資源' : '',
+                      key: ValueKey(results.valueOrNull?.length),
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
                   ),
                   const Spacer(),
                   if (!filter.isEmpty)
@@ -202,22 +211,33 @@ class _LibraryPageState extends ConsumerState<LibraryPage> {
             ),
           ),
           Expanded(
-            child: results.when(
-              data: (resources) => resources.isEmpty
-                  ? const EmptyState(
-                      icon: Icons.search_off,
-                      title: '找不到符合條件的資源',
-                      subtitle: '試試換個關鍵字,或放寬篩選條件',
-                    )
-                  : ListView.builder(
-                      padding: const EdgeInsets.only(top: 4, bottom: 24),
-                      itemCount: resources.length,
-                      itemBuilder: (_, index) =>
-                          ResourceCard(resource: resources[index]),
-                    ),
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (_, _) => ErrorRetry(
-                onRetry: () => ref.invalidate(libraryResultsProvider),
+            // 篩選切換、骨架 → 內容都交叉淡入;每批結果用自己的 key
+            child: CrossfadeSwitcher(
+              child: results.when(
+                data: (resources) => resources.isEmpty
+                    ? const EmptyState(
+                        key: ValueKey('empty'),
+                        icon: Icons.search_off,
+                        title: '找不到符合條件的資源',
+                        subtitle: '試試換個關鍵字,或放寬篩選條件',
+                      )
+                    : EntranceWindow(
+                        key: ValueKey(identityHashCode(resources)),
+                        builder: (context, entrance) => ListView.builder(
+                          padding: const EdgeInsets.only(top: 4, bottom: 24),
+                          itemCount: resources.length,
+                          itemBuilder: (_, index) => StaggeredEntrance(
+                            index: index,
+                            enabled: entrance,
+                            child: ResourceCard(resource: resources[index]),
+                          ),
+                        ),
+                      ),
+                loading: () => const SkeletonList(key: ValueKey('loading')),
+                error: (_, _) => ErrorRetry(
+                  key: const ValueKey('error'),
+                  onRetry: () => ref.invalidate(libraryResultsProvider),
+                ),
               ),
             ),
           ),

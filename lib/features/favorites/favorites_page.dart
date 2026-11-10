@@ -9,6 +9,7 @@ import '../../widgets/collapsible_row.dart';
 import '../../widgets/empty_state.dart';
 import '../../widgets/error_retry.dart';
 import '../../widgets/resource_card.dart';
+import '../../widgets/skeleton.dart';
 
 /// 我的收藏:在這頁點掉愛心,卡片會收合消失,5 秒內可復原。
 class FavoritesPage extends ConsumerStatefulWidget {
@@ -104,7 +105,7 @@ class _FavoritesPageState extends ConsumerState<FavoritesPage> {
             },
           );
         },
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const SkeletonList(count: 3),
         error: (_, _) => ErrorRetry(
           onRetry: () => ref.invalidate(favoriteResourcesProvider),
         ),

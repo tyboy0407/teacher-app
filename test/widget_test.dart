@@ -13,6 +13,8 @@ import 'package:teacher_app/models/resource_draft.dart';
 import 'package:teacher_app/models/taxonomy.dart';
 import 'package:teacher_app/providers.dart';
 import 'package:teacher_app/widgets/collapsible_row.dart';
+import 'package:teacher_app/widgets/entrance.dart';
+import 'package:teacher_app/widgets/skeleton.dart';
 import 'package:teacher_app/widgets/favorite_button.dart';
 import 'package:teacher_app/widgets/resource_card.dart';
 
@@ -304,6 +306,88 @@ void main() {
     await tester.tap(find.text('復原'));
     await tester.pumpAndSettle();
     expect(find.text('活動 2'), findsOneWidget);
+  });
+
+  testWidgets('列表載入:100ms 後顯示骨架,內容到了卡片依序進場', (tester) async {
+    final repo = _FakeVideoRepo(delay: const Duration(milliseconds: 400));
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [resourceRepositoryProvider.overrideWithValue(repo)],
+        child: const TeacherApp(),
+      ),
+    );
+    await tester.pump();
+    // 用資源庫頁看(首頁的「最新資源」在測試視窗畫面外,卡片不會被建構)
+    await tester.tap(find.text('資源庫'));
+    await tester.pump();
+    // 剛開始不閃骨架(快取命中時才不會閃一下)
+    expect(find.byType(SkeletonList), findsWidgets);
+    final reveal = tester.widget<Visibility>(
+      find.descendant(
+          of: find.byType(SkeletonList).first,
+          matching: find.byType(Visibility)),
+    );
+    expect(reveal.visible, isFalse);
+    await tester.pump(const Duration(milliseconds: 150));
+    expect(
+      tester
+          .widget<Visibility>(find
+              .descendant(
+                  of: find.byType(SkeletonList).first,
+                  matching: find.byType(Visibility))
+              .first)
+          .visible,
+      isTrue,
+      reason: '超過 100ms 就該看到骨架',
+    );
+    expect(find.byType(CircularProgressIndicator), findsNothing);
+
+    // 內容到了:骨架消失,第一張卡片從透明開始進場
+    await tester.pump(const Duration(milliseconds: 300));
+    await tester.pump();
+    expect(find.byType(ResourceCard), findsWidgets);
+    final entrance = tester.widget<StaggeredEntrance>(
+      find.ancestor(
+        of: find.byType(ResourceCard).first,
+        matching: find.byType(StaggeredEntrance),
+      ),
+    );
+    expect(entrance.enabled, isTrue);
+    final opacityNow = tester
+        .widget<Opacity>(find
+            .descendant(
+                of: find.byWidget(entrance), matching: find.byType(Opacity))
+            .first)
+        .opacity;
+    expect(opacityNow, lessThan(1.0), reason: '進場動畫應從透明開始');
+    await tester.pumpAndSettle();
+    expect(find.byType(SkeletonList), findsNothing);
+  });
+
+  testWidgets('減少動態效果:卡片直接完整顯示,不播進場', (tester) async {
+    tester.platformDispatcher.accessibilityFeaturesTestValue =
+        const FakeAccessibilityFeatures(disableAnimations: true);
+    addTearDown(tester.platformDispatcher.clearAccessibilityFeaturesTestValue);
+    final repo = _FakeVideoRepo(delay: const Duration(milliseconds: 200));
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [resourceRepositoryProvider.overrideWithValue(repo)],
+        child: const TeacherApp(),
+      ),
+    );
+    await tester.pump();
+    await tester.tap(find.text('資源庫'));
+    await tester.pump(); // 頁面建起來,資料才開始抓
+    await tester.pump(const Duration(milliseconds: 250));
+    await tester.pump();
+    expect(find.byType(ResourceCard), findsWidgets);
+    expect(
+      find.ancestor(
+          of: find.byType(ResourceCard).first, matching: find.byType(Opacity)),
+      findsNothing,
+      reason: '減少動態效果時不該有進場用的 Opacity',
+    );
+    await tester.pumpAndSettle();
   });
 
   testWidgets('收藏後出現在收藏頁', (tester) async {
@@ -746,8 +830,12 @@ class _FakeVideoRepo implements ResourceRepository {
     List<Resource> unpublished = const [],
     this.admin = false,
     this.adminCheckFails = false,
+    this.delay = Duration.zero,
   })  : pending = [...pending],
         unpublished = [...unpublished];
+
+  /// 模擬網路慢:列表要等這麼久才回來
+  final Duration delay;
 
   final List<Resource> myUploads;
   final List<Resource> pending;
@@ -778,11 +866,16 @@ class _FakeVideoRepo implements ResourceRepository {
 
   @override
   Future<List<Resource>> fetchResources(
-          {ResourceFilter filter = const ResourceFilter()}) async =>
-      [_video];
+      {ResourceFilter filter = const ResourceFilter()}) async {
+    await Future<void>.delayed(delay);
+    return [_video];
+  }
 
   @override
-  Future<List<Resource>> fetchFeatured() async => [_video];
+  Future<List<Resource>> fetchFeatured() async {
+    await Future<void>.delayed(delay);
+    return [_video];
+  }
 
   @override
   Future<List<Resource>> fetchByIds(List<String> ids) async => [_video];
