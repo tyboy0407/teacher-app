@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../core/theme.dart';
 import '../models/resource.dart';
 import 'chips.dart';
 import 'cover_hero.dart';
@@ -21,8 +20,6 @@ class ResourceCard extends StatelessWidget {
     return PressScale(
       child: PaperCard(
         margin: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-        tilt: PaperCard.tiltFor(resource.id),
-        tape: _tapeFor(resource),
         child: Semantics(
           button: true,
           child: InkWell(
@@ -117,12 +114,6 @@ class ResourceCard extends StatelessWidget {
   }
 }
 
-/// 紙膠帶顏色跟著資源 id 輪流換,一排卡片不會全是同一色
-Color _tapeFor(Resource resource) {
-  const tapes = [AppColors.tapeYellow, AppColors.tapePink, AppColors.tapeBlue];
-  return tapes[resource.id.hashCode.abs() % tapes.length];
-}
-
 /// 首頁「精選推薦」的直式卡片
 class FeaturedResourceCard extends StatelessWidget {
   const FeaturedResourceCard({super.key, required this.resource});
@@ -137,8 +128,6 @@ class FeaturedResourceCard extends StatelessWidget {
       child: PressScale(
         child: PaperCard(
           margin: const EdgeInsets.only(top: 8, bottom: 6),
-          tilt: PaperCard.tiltFor(resource.id),
-          tape: _tapeFor(resource),
           child: Semantics(
             button: true,
             child: InkWell(

@@ -251,6 +251,7 @@ class _DetailView extends ConsumerWidget {
                 child: ResourceCover(
                   resource: resource,
                   iconSize: resource.hasCover ? 56 : 40,
+                  sticker: true,
                 ),
               ),
             ),
@@ -342,8 +343,7 @@ class _DetailView extends ConsumerWidget {
                     // 一句話簡介寫在便利貼上
                     PaperCard(
                       color: AppColors.stickyNote,
-                      tilt: 0.5,
-                      tape: AppColors.tapeBlue,
+                      border: false,
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(14, 16, 14, 14),
                         child: Text(

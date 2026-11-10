@@ -108,11 +108,10 @@ class HomePage extends ConsumerWidget {
                             size: 18,
                             color: domain.color,
                           ),
-                          // 六張便利貼色的 chip,一眼分得出領域
-                          backgroundColor: domain.sticky,
-                          side: BorderSide(
-                            color: domain.color.withValues(alpha: .45),
-                          ),
+                          // 安靜的淡灰底,領域色只在圖示上
+                          backgroundColor: Theme.of(
+                            context,
+                          ).colorScheme.surfaceContainerLow,
                           label: Text(domain.label),
                           onPressed: () {
                             ref
@@ -231,8 +230,7 @@ class _PrepBasketCard extends ConsumerWidget {
     }
     return PaperCard(
       color: AppColors.crayonYellow,
-      tilt: -0.6,
-      tape: AppColors.tapePink,
+      border: false,
       child: ListTile(
         onTap: () => context.push('/prep'),
         leading: const Icon(

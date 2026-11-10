@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../core/theme.dart';
 import '../providers.dart';
 import 'bounce_icon_button.dart';
 
@@ -32,7 +33,7 @@ class FavoriteButton extends ConsumerWidget {
       icon: Icon(
         isFavorite ? Icons.favorite : Icons.favorite_border,
         color: isFavorite
-            ? Colors.redAccent
+            ? AppColors.terracotta
             : (color ?? Theme.of(context).colorScheme.outline),
       ),
     );

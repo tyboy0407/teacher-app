@@ -3,57 +3,59 @@ import 'package:flutter/material.dart';
 
 import 'browser_navigation.dart';
 
-/// 教學寶盒的視覺語言(方向 B「便利貼拼貼」):米白圖畫紙上貼滿紙片——
-/// 麥克筆藍的筆跡、螢光筆畫線、六色便利貼、紙膠帶、貼紙;首頁開頭仍是
-/// 一塊黑板綠(老師的角落)。字型全用台灣開源圓體「粉圓」。
+/// 教學寶盒的視覺語言(方向 A「鼠尾草綠」,簡約時尚):暖白圖畫紙上,
+/// 一個主色(鼠尾草綠)加一個點綴色(杏色),其餘都是墨色與暖灰。
+/// 卡片是乾淨的白紙加一條細線,沒有陰影、沒有裝飾;區塊標題底下一道杏色短線。
+/// 字型全用台灣開源圓體「粉圓」。
 ///
-/// 原則:年輕感來自「手作與親切」,不是科技感。卡片是紙片——小圓角、硬陰影
-/// (2px 偏移、不模糊)、微微歪一點;裝飾只給資源卡片與區塊標題,其餘安靜。
+/// 原則:安靜、留白、只用一個主色;年輕感來自乾淨與秩序,不是顏色的數量。
 class AppColors {
   AppColors._();
 
-  /// 麥克筆藍:主色(白字 5.5:1、當文字放在米白上 5.1:1)
-  static const marker = Color(0xFF2B64CC);
-  static const markerDeep = Color(0xFF1F4FAE);
-  static const markerLight = Color(0xFFDCE8FF);
+  /// 鼠尾草綠:主色(白字 5.3:1、當文字放在暖白上 4.9:1)
+  static const sage = Color(0xFF557263);
+  static const sageDeep = Color(0xFF3F5649);
+  static const sageLight = Color(0xFFE6EDE8);
 
-  /// 黑板綠:次要色,留給首頁的黑板區塊與少數強調
-  static const chalkboard = Color(0xFF2F5D50);
-  static const chalkboardDeep = Color(0xFF234639);
+  /// 首頁開頭的那一塊(老師的角落)用主色,名稱沿用
+  static const chalkboard = sage;
+  static const chalkboardDeep = sageDeep;
 
-  /// 米白圖畫紙:底色(偏暖)
-  static const paper = Color(0xFFFAF6EE);
+  /// 暖白圖畫紙:底色
+  static const paper = Color(0xFFF7F5F0);
 
-  /// 粉筆白:卡片
+  /// 白紙:卡片
   static const chalk = Color(0xFFFFFFFF);
 
-  /// 螢光筆黃:標題底下的那一道、提示條的動作文字
-  static const highlighter = Color(0xFFFFF275);
+  /// 杏色:唯一的點綴色——標題短線、本週備課便利貼、提示條的動作文字
+  static const apricot = Color(0xFFE8C9A8);
+  static const apricotDeep = Color(0xFF5C3F20);
 
-  /// 蠟筆黃便利貼:「本週備課」
-  static const crayonYellow = Color(0xFFF2C94C);
-  static const crayonYellowDeep = Color(0xFF4A3A05);
+  /// 陶土:杏色的深一階,給收藏愛心與需要跳出來的小東西(白底上 3.9:1)
+  static const terracotta = Color(0xFFB8703F);
 
-  /// 便利貼淡黃:詳情頁的簡介便利貼
-  static const stickyNote = Color(0xFFFFF8C6);
+  /// 標題底線用的點綴色(沿用舊名)
+  static const highlighter = apricot;
 
-  /// 紙膠帶:半透明的三種色帶
-  static const tapeYellow = Color(0xB3FFE66D);
-  static const tapePink = Color(0xB3FFADAD);
-  static const tapeBlue = Color(0xB3A0C4FF);
+  /// 「本週備課」便利貼(沿用舊名)
+  static const crayonYellow = Color(0xFFEFD9BE);
+  static const crayonYellowDeep = apricotDeep;
+
+  /// 詳情頁的簡介底色:比底色再深一點的暖灰
+  static const stickyNote = Color(0xFFF1ECE3);
 
   /// 墨色:文字
-  static const ink = Color(0xFF1F2A26);
-  static const inkSoft = Color(0xFF5B6660);
+  static const ink = Color(0xFF262A28);
+  static const inkSoft = Color(0xFF626864);
 
-  /// 細線(暖灰,和米白約 1.5:1)
-  static const line = Color(0xFFD9D2C3);
+  /// 細線(暖灰,和底色約 1.3:1)
+  static const line = Color(0xFFDCD6CA);
 
-  /// 莓紅:收藏、審核提示
+  /// 審核提示等語意色(沿用舊名)
   static const berry = Color(0xFFB83B5E);
 
-  /// 紙片的硬陰影(2px 偏移、不模糊)
-  static const paperShadow = Color(0x1F1F2A26);
+  /// 卡片的影子:幾乎看不見的一層,只讓紙片離開底色一點點
+  static const paperShadow = Color(0x14262A28);
 }
 
 const String appFontFamily = 'Huninn';
@@ -67,14 +69,14 @@ const List<String> appFontFallback = [
 ThemeData buildAppTheme() {
   const scheme = ColorScheme(
     brightness: Brightness.light,
-    primary: AppColors.marker,
+    primary: AppColors.sage,
     onPrimary: AppColors.chalk,
-    primaryContainer: AppColors.markerLight,
-    onPrimaryContainer: Color(0xFF0E2F6E),
-    secondary: AppColors.chalkboard,
+    primaryContainer: AppColors.sageLight,
+    onPrimaryContainer: AppColors.sageDeep,
+    secondary: AppColors.terracotta,
     onSecondary: AppColors.chalk,
-    secondaryContainer: Color(0xFFDDEBE3),
-    onSecondaryContainer: AppColors.chalkboardDeep,
+    secondaryContainer: Color(0xFFF3E3D2),
+    onSecondaryContainer: AppColors.apricotDeep,
     tertiary: AppColors.berry,
     onTertiary: AppColors.chalk,
     tertiaryContainer: Color(0xFFF8DCE4),
@@ -88,20 +90,20 @@ ThemeData buildAppTheme() {
     onSurfaceVariant: AppColors.inkSoft,
     surfaceContainerLowest: AppColors.chalk,
     surfaceContainerLow: AppColors.chalk,
-    surfaceContainer: Color(0xFFF1ECE0),
-    surfaceContainerHigh: Color(0xFFEAE4D6),
-    surfaceContainerHighest: Color(0xFFE3DCCC),
-    outline: Color(0xFF8C8A80),
+    surfaceContainer: Color(0xFFF0EDE6),
+    surfaceContainerHigh: Color(0xFFEAE6DD),
+    surfaceContainerHighest: Color(0xFFE4DFD5),
+    outline: Color(0xFF8A8E88),
     outlineVariant: AppColors.line,
     inverseSurface: AppColors.ink,
     onInverseSurface: AppColors.paper,
-    inversePrimary: Color(0xFFA9C3F5),
+    inversePrimary: Color(0xFFB7CBBE),
     shadow: Colors.black,
     scrim: Colors.black,
-    surfaceTint: AppColors.marker,
+    surfaceTint: AppColors.sage,
   );
 
-  // 粉圓只有一個字重,層級靠字級與顏色,不靠粗細
+  // 粉圓只有一個字重,層級靠字級、留白與顏色,不靠粗細
   final baseText = Typography.material2021(platform: defaultTargetPlatform)
       .black
       .apply(
@@ -124,7 +126,6 @@ ThemeData buildAppTheme() {
     labelSmall: baseText.labelSmall?.copyWith(fontSize: 12, letterSpacing: 0),
   );
 
-  // 一般卡片(我的、審核、備課籃):暖灰細線、圓角 10;資源卡片另有紙片樣式
   const cardShape = RoundedRectangleBorder(
     borderRadius: BorderRadius.all(Radius.circular(10)),
     side: BorderSide(color: AppColors.line),
@@ -164,13 +165,13 @@ ThemeData buildAppTheme() {
     ),
     chipTheme: ChipThemeData(
       backgroundColor: AppColors.chalk,
-      selectedColor: AppColors.marker,
+      selectedColor: AppColors.sage,
       checkmarkColor: AppColors.chalk,
       shape: const StadiumBorder(),
       side: WidgetStateBorderSide.resolveWith(
         (states) => BorderSide(
           color: states.contains(WidgetState.selected)
-              ? AppColors.marker
+              ? AppColors.sage
               : AppColors.line,
         ),
       ),
@@ -187,7 +188,7 @@ ThemeData buildAppTheme() {
     navigationBarTheme: NavigationBarThemeData(
       backgroundColor: AppColors.chalk,
       surfaceTintColor: Colors.transparent,
-      indicatorColor: AppColors.highlighter,
+      indicatorColor: AppColors.sageLight,
       elevation: 0,
       height: 68,
       labelTextStyle: WidgetStatePropertyAll(
@@ -196,7 +197,7 @@ ThemeData buildAppTheme() {
       iconTheme: WidgetStateProperty.resolveWith(
         (states) => IconThemeData(
           color: states.contains(WidgetState.selected)
-              ? AppColors.ink
+              ? AppColors.sageDeep
               : AppColors.inkSoft,
         ),
       ),
@@ -210,8 +211,8 @@ ThemeData buildAppTheme() {
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
-        foregroundColor: AppColors.markerDeep,
-        side: const BorderSide(color: AppColors.marker),
+        foregroundColor: AppColors.sageDeep,
+        side: const BorderSide(color: AppColors.sage),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
         textStyle: textTheme.labelLarge,
@@ -219,7 +220,7 @@ ThemeData buildAppTheme() {
     ),
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
-        foregroundColor: AppColors.markerDeep,
+        foregroundColor: AppColors.sageDeep,
         textStyle: textTheme.labelLarge,
       ),
     ),
@@ -238,13 +239,13 @@ ThemeData buildAppTheme() {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: AppColors.marker, width: 1.6),
+        borderSide: const BorderSide(color: AppColors.sage, width: 1.6),
       ),
     ),
     snackBarTheme: SnackBarThemeData(
       backgroundColor: AppColors.ink,
       contentTextStyle: textTheme.bodyMedium?.copyWith(color: AppColors.paper),
-      actionTextColor: AppColors.highlighter,
+      actionTextColor: AppColors.apricot,
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
     ),
@@ -263,20 +264,20 @@ ThemeData buildAppTheme() {
       ),
     ),
     tabBarTheme: TabBarThemeData(
-      labelColor: AppColors.markerDeep,
+      labelColor: AppColors.sageDeep,
       unselectedLabelColor: AppColors.inkSoft,
-      indicatorColor: AppColors.marker,
+      indicatorColor: AppColors.sage,
       dividerColor: AppColors.line,
       labelStyle: textTheme.labelLarge,
       unselectedLabelStyle: textTheme.labelLarge,
     ),
     dividerTheme: const DividerThemeData(color: AppColors.line, thickness: 1),
-    listTileTheme: const ListTileThemeData(iconColor: AppColors.marker),
+    listTileTheme: const ListTileThemeData(iconColor: AppColors.sage),
     checkboxTheme: CheckboxThemeData(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
     ),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
-      backgroundColor: AppColors.marker,
+      backgroundColor: AppColors.sage,
       foregroundColor: AppColors.chalk,
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),

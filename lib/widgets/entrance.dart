@@ -26,7 +26,7 @@ class StaggeredEntrance extends StatefulWidget {
 
   static const stagger = Duration(milliseconds: 40);
   static const offset = 12.0;
-  static const scaleIn = 0.04;
+  static const scaleIn = 0.02;
 
   @override
   State<StaggeredEntrance> createState() => _StaggeredEntranceState();
