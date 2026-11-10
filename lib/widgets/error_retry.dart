@@ -18,7 +18,7 @@ class ErrorRetry extends StatelessWidget {
             Icon(
               Icons.cloud_off,
               size: 40,
-              color: theme.colorScheme.outlineVariant,
+              color: theme.colorScheme.outline.withValues(alpha: .55),
             ),
             const SizedBox(height: 8),
             Text(

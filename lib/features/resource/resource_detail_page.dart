@@ -277,9 +277,7 @@ class _DetailView extends ConsumerWidget {
                     children: [
                       TypeBadge(type: resource.type),
                       if (resource.difficulty != null)
-                        SmallInfoChip(
-                          label: '難度 ${'★' * resource.difficulty!}',
-                        ),
+                        SmallInfoChip(label: '難度 ${'★' * resource.difficulty!}'),
                       if (resource.durationMinutes != null)
                         SmallInfoChip(
                           icon: Icons.schedule,
@@ -585,7 +583,7 @@ class _ReviewBanner extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: theme.colorScheme.tertiaryContainer,
+        color: theme.colorScheme.secondaryContainer,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -596,7 +594,7 @@ class _ReviewBanner extends StatelessWidget {
               Icon(
                 Icons.fact_check_outlined,
                 size: 18,
-                color: theme.colorScheme.onTertiaryContainer,
+                color: theme.colorScheme.onSecondaryContainer,
               ),
               const SizedBox(width: 8),
               ReviewStatusChip(resource: resource),
@@ -605,7 +603,7 @@ class _ReviewBanner extends StatelessWidget {
                 child: Text(
                   '${created.year}/${created.month}/${created.day} 投稿',
                   style: theme.textTheme.labelMedium?.copyWith(
-                    color: theme.colorScheme.onTertiaryContainer,
+                    color: theme.colorScheme.onSecondaryContainer,
                   ),
                 ),
               ),
@@ -617,7 +615,7 @@ class _ReviewBanner extends StatelessWidget {
               child: Text(
                 '退回原因:${resource.reviewNote}',
                 style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.onTertiaryContainer,
+                  color: theme.colorScheme.onSecondaryContainer,
                 ),
               ),
             ),

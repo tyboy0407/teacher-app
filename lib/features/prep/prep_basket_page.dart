@@ -330,7 +330,7 @@ class _MaterialsTab extends ConsumerWidget {
       return const EmptyState(
         icon: Icons.inventory_2_outlined,
         title: '這些活動不需要準備材料',
-        subtitle: '免教具的活動最省事 👍',
+        subtitle: '免教具的活動最省事',
       );
     }
     final missing = summary.missingMaterials.length;
@@ -344,7 +344,7 @@ class _MaterialsTab extends ConsumerWidget {
               Expanded(
                 child: Text(
                   missing == 0
-                      ? '共 ${summary.materials.length} 項,全部備齊 🎉'
+                      ? '共 ${summary.materials.length} 項,全部備齊'
                       : '共 ${summary.materials.length} 項,還缺 $missing 項',
                   style: theme.textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.w700,

@@ -31,7 +31,7 @@ class PrepSummary {
   /// 採買清單純文字(只列還缺的)
   String shoppingListText() {
     final missing = missingMaterials;
-    if (missing.isEmpty) return '材料都備齊了 🎉';
+    if (missing.isEmpty) return '材料都備齊了';
     return [
       '材料採買清單(還缺 ${missing.length} 項):',
       ...missing.map((m) => '□ $m'),

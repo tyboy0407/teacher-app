@@ -8,6 +8,7 @@ import '../../providers.dart';
 import '../../widgets/chips.dart';
 import '../../widgets/empty_state.dart';
 import '../../widgets/error_retry.dart';
+import '../../widgets/paper.dart';
 import '../../widgets/resource_cover.dart';
 
 /// 管理者:待審投稿清單。點進去是老師看到的詳情頁,底部多一條審核操作列。
@@ -49,9 +50,9 @@ class AdminReviewPage extends ConsumerWidget {
                 const SizedBox(height: 24),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 0, 16, 2),
-                  child: Text(
-                    '已下架(${unpublished.length})',
-                    style: Theme.of(context).textTheme.titleLarge,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: HighlightedTitle('已下架(${unpublished.length})'),
                   ),
                 ),
                 const _Hint('老師們看不到這些內容;點進去可重新上架或刪除'),

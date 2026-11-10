@@ -65,11 +65,11 @@ class ProfilePage extends ConsumerWidget {
           if (isAdmin) ...[
             const SizedBox(height: 12),
             Card(
-              color: theme.colorScheme.tertiaryContainer,
+              color: theme.colorScheme.secondaryContainer,
               child: ListTile(
                 leading: Icon(
                   Icons.fact_check_outlined,
-                  color: theme.colorScheme.onTertiaryContainer,
+                  color: theme.colorScheme.onSecondaryContainer,
                 ),
                 title: const Text(
                   '審核投稿',
@@ -292,7 +292,9 @@ class ProfilePage extends ConsumerWidget {
                             ? Icons.check_circle
                             : Icons.radio_button_unchecked,
                         size: 18,
-                        color: item.$3 ? Colors.green : Colors.grey,
+                        color: item.$3
+                            ? Theme.of(context).colorScheme.primary
+                            : Theme.of(context).colorScheme.outline,
                       ),
                       const SizedBox(width: 8),
                       Expanded(
@@ -308,7 +310,11 @@ class ProfilePage extends ConsumerWidget {
                             Text(
                               item.$2,
                               style: Theme.of(context).textTheme.bodySmall
-                                  ?.copyWith(color: Colors.grey),
+                                  ?.copyWith(
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onSurfaceVariant,
+                                  ),
                             ),
                           ],
                         ),
