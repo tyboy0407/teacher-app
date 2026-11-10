@@ -433,6 +433,76 @@ void main() {
     expect(find.byType(ResourceDetailPage), findsOneWidget);
   });
 
+  testWidgets('詳情頁:底部操作列有一顆寬的「加入本週備課」主按鈕', (tester) async {
+    tester.view.physicalSize = const Size(375, 812);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.reset);
+    await pumpApp(tester);
+    await openDetailBySearch(tester, '瓶蓋');
+
+    final primary = find.widgetWithText(FilledButton, '加入本週備課');
+    expect(primary, findsOneWidget);
+    // 主按鈕比次要的圖示按鈕寬得多
+    final primaryWidth = tester.getSize(primary).width;
+    final shareWidth = tester.getSize(find.byTooltip('分享')).width;
+    expect(primaryWidth, greaterThan(shareWidth * 3));
+    // 老師不是管理者:封面上沒有重複的分享/收藏按鈕
+    expect(find.byIcon(Icons.share), findsOneWidget);
+
+    await tester.tap(primary);
+    await tester.pumpAndSettle();
+    expect(find.widgetWithText(FilledButton, '已在備課籃,移出'), findsOneWidget);
+    expect(find.byType(Badge), findsOneWidget);
+  });
+
+  testWidgets('資源庫:已選條件顯示為可單獨移除的摘要', (tester) async {
+    await pumpApp(tester);
+    await tester.tap(find.text('資源庫'));
+    await tester.pumpAndSettle();
+    expect(find.byType(InputChip), findsNothing);
+
+    await tester.tap(find.widgetWithText(FilterChip, '小班'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.widgetWithText(FilterChip, '認知'));
+    await tester.pumpAndSettle();
+    expect(find.widgetWithText(InputChip, '小班'), findsOneWidget);
+    expect(find.widgetWithText(InputChip, '認知'), findsOneWidget);
+    expect(find.text('清除篩選'), findsOneWidget);
+
+    await tester.tap(find.byTooltip('移除條件 小班'));
+    await tester.pumpAndSettle();
+    expect(find.widgetWithText(InputChip, '小班'), findsNothing);
+    expect(find.widgetWithText(InputChip, '認知'), findsOneWidget);
+    // 篩選列上的 chip 也同步取消
+    final ageChip = tester.widget<FilterChip>(find.widgetWithText(FilterChip, '小班'));
+    expect(ageChip.selected, isFalse);
+  });
+
+  testWidgets('資源庫:篩選列右側有「還有更多」的淡出提示', (tester) async {
+    tester.view.physicalSize = const Size(375, 812);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.reset);
+    await pumpApp(tester);
+    await tester.tap(find.text('資源庫'));
+    await tester.pumpAndSettle();
+    // 主題有 26 個,一定超出手機寬度
+    final fade = tester.widget<AnimatedOpacity>(
+      find.ancestor(
+        of: find.byKey(const ValueKey('filter-fade-主題')),
+        matching: find.byType(AnimatedOpacity),
+      ),
+    );
+    expect(fade.opacity, 1.0);
+    // 年齡只有四個,放得下,不該有提示
+    final ageFade = tester.widget<AnimatedOpacity>(
+      find.ancestor(
+        of: find.byKey(const ValueKey('filter-fade-年齡')),
+        matching: find.byType(AnimatedOpacity),
+      ),
+    );
+    expect(ageFade.opacity, 0.0);
+  });
+
   testWidgets('收藏後出現在收藏頁', (tester) async {
     await pumpApp(tester);
 

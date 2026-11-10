@@ -58,6 +58,46 @@ class ResourceDetailPage extends ConsumerWidget {
   }
 }
 
+/// 加入/移出備課籃:產品的高潮時刻。回饋隨重複遞減(第一個進籃說明備課頁會
+/// 幫忙整理,之後只報數量);移出可復原。底部操作列與管理者的封面按鈕共用。
+Future<void> _toggleBasket(
+  BuildContext context,
+  WidgetRef ref,
+  Resource resource,
+) async {
+  final notifier = ref.read(prepBasketProvider.notifier);
+  final basket = ref.read(prepBasketProvider).valueOrNull;
+  final inBasket = basket?.contains(resource.id) ?? false;
+  final previousIndex = basket?.ids.indexOf(resource.id) ?? -1;
+  await notifier.toggle(resource.id);
+  if (!context.mounted) return;
+  final countAfter = ref.read(prepBasketProvider).valueOrNull?.ids.length ?? 0;
+  final String message;
+  if (inBasket) {
+    message = '已從備課籃移除';
+  } else if (countAfter == 1) {
+    message = '已加入本週備課,備課頁會幫你整理材料與課綱指標';
+  } else {
+    message = '已加入本週備課($countAfter 個活動)';
+  }
+  ScaffoldMessenger.of(context)
+    ..hideCurrentSnackBar()
+    ..showSnackBar(
+      SnackBar(
+        content: Text(message),
+        action: inBasket
+            ? SnackBarAction(
+                label: '復原',
+                onPressed: () => notifier.insertAt(resource.id, previousIndex),
+              )
+            : SnackBarAction(
+                label: '查看',
+                onPressed: () => context.push('/prep'),
+              ),
+      ),
+    );
+}
+
 class _DetailView extends ConsumerWidget {
   const _DetailView({required this.resource});
 
@@ -104,7 +144,11 @@ class _DetailView extends ConsumerWidget {
           ? _ReviewBar(resource: resource)
           : moderating
           ? _ModerationBar(resource: resource)
-          : null,
+          : _TeacherActionBar(
+              resource: resource,
+              inBasket: inBasket,
+              basketCount: basketCount,
+            ),
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -128,108 +172,76 @@ class _DetailView extends ConsumerWidget {
                 ),
               ),
             ),
-            actions: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 6),
-                child: CircleAvatar(
-                  radius: _coverButtonRadius,
-                  backgroundColor: _coverButtonScrim,
-                  child: IconButton(
-                    padding: EdgeInsets.zero,
-                    tooltip: '分享',
-                    icon: const Icon(
-                      Icons.share,
-                      color: Colors.white,
-                      size: 20,
-                    ),
-                    onPressed: () => showShareSheet(
-                      context,
-                      title: resource.title,
-                      text: [
-                        resource.title,
-                        resource.summary,
-                      ].where((s) => s.isNotEmpty).join('\n'),
-                      url: resourceShareUrl(resource.id),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 6),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 6),
-                child: CircleAvatar(
-                  radius: _coverButtonRadius,
-                  backgroundColor: _coverButtonScrim,
-                  // 產品的高潮時刻:按下會彈一下、有觸覺,角落顯示籃子裡有幾個
-                  child: BounceIconButton(
-                    compact: true,
-                    haptic: true,
-                    badgeCount: basketCount,
-                    tooltip: inBasket ? '移出備課籃' : '加入備課',
-                    icon: Icon(
-                      inBasket ? Icons.playlist_add_check : Icons.playlist_add,
-                      color: inBasket ? AppColors.crayonYellow : Colors.white,
-                      size: 22,
-                    ),
-                    onPressed: () async {
-                      final notifier = ref.read(prepBasketProvider.notifier);
-                      final previousIndex =
-                          basket?.ids.indexOf(resource.id) ?? -1;
-                      await notifier.toggle(resource.id);
-                      if (!context.mounted) return;
-                      final countAfter =
-                          ref
-                              .read(prepBasketProvider)
-                              .valueOrNull
-                              ?.ids
-                              .length ??
-                          0;
-                      // 回饋隨重複遞減:第一次進籃說明會幫忙整理,之後只說已加入
-                      final String message;
-                      if (inBasket) {
-                        message = '已從備課籃移除';
-                      } else if (countAfter == 1) {
-                        message = '已加入本週備課,備課頁會幫你整理材料與課綱指標';
-                      } else {
-                        message = '已加入本週備課($countAfter 個活動)';
-                      }
-                      ScaffoldMessenger.of(context)
-                        ..hideCurrentSnackBar()
-                        ..showSnackBar(
-                          SnackBar(
-                            content: Text(message),
-                            action: inBasket
-                                ? SnackBarAction(
-                                    label: '復原',
-                                    onPressed: () => notifier.insertAt(
-                                      resource.id,
-                                      previousIndex,
-                                    ),
-                                  )
-                                : SnackBarAction(
-                                    label: '查看',
-                                    onPressed: () => context.push('/prep'),
-                                  ),
+            // 老師的動作集中在底部操作列;管理者的底部是審核/處置列,
+            // 分享、備課、收藏才留在封面上
+            actions: !isAdmin
+                ? null
+                : [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 6),
+                      child: CircleAvatar(
+                        radius: _coverButtonRadius,
+                        backgroundColor: _coverButtonScrim,
+                        child: IconButton(
+                          padding: EdgeInsets.zero,
+                          tooltip: '分享',
+                          icon: const Icon(
+                            Icons.share,
+                            color: Colors.white,
+                            size: 20,
                           ),
-                        );
-                    },
-                  ),
-                ),
-              ),
-              const SizedBox(width: 6),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 6, 10, 6),
-                child: CircleAvatar(
-                  radius: _coverButtonRadius,
-                  backgroundColor: _coverButtonScrim,
-                  child: FavoriteButton(
-                    resourceId: resource.id,
-                    compact: true,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ],
+                          onPressed: () => showShareSheet(
+                            context,
+                            title: resource.title,
+                            text: [
+                              resource.title,
+                              resource.summary,
+                            ].where((s) => s.isNotEmpty).join('\n'),
+                            url: resourceShareUrl(resource.id),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 6),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 6),
+                      child: CircleAvatar(
+                        radius: _coverButtonRadius,
+                        backgroundColor: _coverButtonScrim,
+                        // 產品的高潮時刻:按下會彈一下、有觸覺,角落顯示籃子裡有幾個
+                        child: BounceIconButton(
+                          compact: true,
+                          haptic: true,
+                          badgeCount: basketCount,
+                          tooltip: inBasket ? '移出備課籃' : '加入備課',
+                          icon: Icon(
+                            inBasket
+                                ? Icons.playlist_add_check
+                                : Icons.playlist_add,
+                            color: inBasket
+                                ? AppColors.crayonYellow
+                                : Colors.white,
+                            size: 22,
+                          ),
+                          onPressed: () =>
+                              _toggleBasket(context, ref, resource),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 6),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 6, 10, 6),
+                      child: CircleAvatar(
+                        radius: _coverButtonRadius,
+                        backgroundColor: _coverButtonScrim,
+                        child: FavoriteButton(
+                          resourceId: resource.id,
+                          compact: true,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
             flexibleSpace: FlexibleSpaceBar(
               background: CoverHero(
                 resource: resource,
@@ -464,6 +476,89 @@ class _DetailView extends ConsumerWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// 老師的底部操作列:一顆寬的「加入本週備課」主按鈕(產品的主要動作),
+/// 收藏與分享退為次要的圖示按鈕。
+class _TeacherActionBar extends ConsumerWidget {
+  const _TeacherActionBar({
+    required this.resource,
+    required this.inBasket,
+    required this.basketCount,
+  });
+
+  final Resource resource;
+  final bool inBasket;
+  final int basketCount;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    Widget basketIcon = Icon(
+      inBasket ? Icons.playlist_add_check : Icons.playlist_add,
+    );
+    if (basketCount > 0) {
+      basketIcon = Badge.count(
+        count: basketCount,
+        offset: const Offset(10, -8),
+        child: basketIcon,
+      );
+    }
+    return Material(
+      color: theme.colorScheme.surface,
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            top: BorderSide(color: theme.colorScheme.outlineVariant),
+          ),
+        ),
+        child: SafeArea(
+          top: false,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
+            child: Row(
+              children: [
+                FavoriteButton(resourceId: resource.id),
+                BounceIconButton(
+                  tooltip: '分享',
+                  icon: const Icon(Icons.share),
+                  onPressed: () => showShareSheet(
+                    context,
+                    title: resource.title,
+                    text: [
+                      resource.title,
+                      resource.summary,
+                    ].where((s) => s.isNotEmpty).join('\n'),
+                    url: resourceShareUrl(resource.id),
+                  ),
+                ),
+                const SizedBox(width: 4),
+                Expanded(
+                  child: inBasket
+                      ? FilledButton.tonalIcon(
+                          onPressed: () {
+                            HapticFeedback.lightImpact();
+                            _toggleBasket(context, ref, resource);
+                          },
+                          icon: basketIcon,
+                          label: const Text('已在備課籃,移出'),
+                        )
+                      : FilledButton.icon(
+                          onPressed: () {
+                            HapticFeedback.lightImpact();
+                            _toggleBasket(context, ref, resource);
+                          },
+                          icon: basketIcon,
+                          label: const Text('加入本週備課'),
+                        ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

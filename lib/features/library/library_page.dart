@@ -49,10 +49,38 @@ class _LibraryPageState extends ConsumerState<LibraryPage> {
     });
   }
 
+  /// 本月行事曆上的主題在前,其餘照目錄順序
+  List<ThemeTopic> _orderedThemes() {
+    final now = themesForMonth(DateTime.now().month);
+    return [...now, ...themeTopics.where((t) => !now.contains(t))];
+  }
+
   void _clearQuery() {
     _debounce?.cancel();
     _searchController.clear();
     ref.read(libraryFilterProvider.notifier).setQuery('');
+  }
+
+  /// 目前生效的篩選條件,每一項附上「單獨取消」的動作
+  List<_ActiveFilter> _activeFilters(ResourceFilter filter) {
+    final notifier = ref.read(libraryFilterProvider.notifier);
+    return [
+      if (filter.query.trim().isNotEmpty)
+        _ActiveFilter('「${filter.query.trim()}」', _clearQuery),
+      if (filter.type != null)
+        _ActiveFilter(filter.type!.label, () => notifier.setType(null)),
+      if (filter.theme != null)
+        _ActiveFilter(
+          themeByCode(filter.theme!)?.label ?? filter.theme!,
+          () => notifier.setTheme(null),
+        ),
+      for (final age in filter.ages)
+        _ActiveFilter(age.label, () => notifier.toggleAge(age)),
+      for (final domain in filter.domains)
+        _ActiveFilter(domain.label, () => notifier.toggleDomain(domain)),
+      for (final tag in filter.tags)
+        _ActiveFilter('#$tag', () => notifier.toggleTag(tag)),
+    ];
   }
 
   void _clearAll() {
@@ -132,7 +160,8 @@ class _LibraryPageState extends ConsumerState<LibraryPage> {
                 selected: filter.theme == null,
                 onSelected: (_) => notifier.setTheme(null),
               ),
-              ...themeTopics.map(
+              // 本月的主題排最前面,其餘照目錄順序
+              ..._orderedThemes().map(
                 (topic) => ChoiceChip(
                   avatar: Icon(topic.icon, size: 16),
                   label: Text(topic.label),
@@ -185,29 +214,55 @@ class _LibraryPageState extends ConsumerState<LibraryPage> {
             ),
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 2, 16, 0),
-            child: SizedBox(
-              height: 36,
-              child: Row(
-                children: [
-                  AnimatedSwitcher(
-                    duration: AppMotion.fast,
-                    child: Text(
-                      results.hasValue ? '共 ${results.value!.length} 筆資源' : '',
-                      key: ValueKey(results.valueOrNull?.length),
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 36,
+                  child: Row(
+                    children: [
+                      AnimatedSwitcher(
+                        duration: AppMotion.fast,
+                        child: Text(
+                          results.hasValue
+                              ? '共 ${results.value!.length} 筆資源'
+                              : '',
+                          key: ValueKey(results.valueOrNull?.length),
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: theme.colorScheme.onSurfaceVariant,
+                          ),
+                        ),
                       ),
+                      const Spacer(),
+                      if (!filter.isEmpty)
+                        TextButton.icon(
+                          onPressed: _clearAll,
+                          icon: const Icon(Icons.filter_alt_off, size: 16),
+                          label: const Text('清除篩選'),
+                        ),
+                    ],
+                  ),
+                ),
+                // 已選條件的摘要:條件列捲出畫面後,老師仍看得到自己篩了什麼,
+                // 也能單獨取消某一個(辨識優於回憶)
+                if (!filter.isEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 6),
+                    child: Wrap(
+                      spacing: 6,
+                      runSpacing: 4,
+                      children: [
+                        for (final item in _activeFilters(filter))
+                          InputChip(
+                            label: Text(item.label),
+                            visualDensity: VisualDensity.compact,
+                            deleteButtonTooltipMessage: '移除條件 ${item.label}',
+                            onDeleted: item.remove,
+                          ),
+                      ],
                     ),
                   ),
-                  const Spacer(),
-                  if (!filter.isEmpty)
-                    TextButton.icon(
-                      onPressed: _clearAll,
-                      icon: const Icon(Icons.filter_alt_off, size: 16),
-                      label: const Text('清除篩選'),
-                    ),
-                ],
-              ),
+              ],
             ),
           ),
           Expanded(
@@ -247,37 +302,116 @@ class _LibraryPageState extends ConsumerState<LibraryPage> {
   }
 }
 
-class _FilterRow extends StatelessWidget {
+class _ActiveFilter {
+  const _ActiveFilter(this.label, this.remove);
+
+  final String label;
+  final VoidCallback remove;
+}
+
+/// 一列橫向捲動的篩選 chip。右側有一道淡出,告訴老師「後面還有」;
+/// 捲到底就消失。
+class _FilterRow extends StatefulWidget {
   const _FilterRow({required this.label, required this.children});
 
   final String label;
   final List<Widget> children;
 
   @override
+  State<_FilterRow> createState() => _FilterRowState();
+}
+
+class _FilterRowState extends State<_FilterRow> {
+  final _controller = ScrollController();
+  bool _moreToTheRight = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.addListener(_update);
+    WidgetsBinding.instance.addPostFrameCallback((_) => _update());
+  }
+
+  @override
+  void didUpdateWidget(covariant _FilterRow oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    WidgetsBinding.instance.addPostFrameCallback((_) => _update());
+  }
+
+  @override
+  void dispose() {
+    _controller.removeListener(_update);
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _update() {
+    if (!mounted || !_controller.hasClients) return;
+    final position = _controller.position;
+    final more =
+        position.maxScrollExtent > 0 &&
+        position.pixels < position.maxScrollExtent - 1;
+    if (more != _moreToTheRight) setState(() => _moreToTheRight = more);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final background = theme.scaffoldBackgroundColor;
     return SizedBox(
       height: 48,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Stack(
         children: [
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: Text(
-                label,
-                style: theme.textTheme.labelMedium?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
-                  fontWeight: FontWeight.w600,
+          ListView(
+            controller: _controller,
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            children: [
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: Text(
+                    widget.label,
+                    style: theme.textTheme.labelMedium?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ),
               ),
-            ),
+              ...widget.children.map(
+                (chip) => Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: Center(child: chip),
+                ),
+              ),
+            ],
           ),
-          ...children.map(
-            (chip) => Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: Center(child: chip),
+          Positioned(
+            top: 0,
+            bottom: 0,
+            right: 0,
+            child: IgnorePointer(
+              child: AnimatedOpacity(
+                duration: AppMotion.fast,
+                opacity: _moreToTheRight ? 1 : 0,
+                child: Container(
+                  key: ValueKey('filter-fade-${widget.label}'),
+                  width: 40,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [background.withValues(alpha: 0), background],
+                    ),
+                  ),
+                  alignment: Alignment.centerRight,
+                  padding: const EdgeInsets.only(right: 2),
+                  child: Icon(
+                    Icons.chevron_right,
+                    size: 18,
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              ),
             ),
           ),
         ],
