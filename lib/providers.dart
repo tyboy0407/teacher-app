@@ -93,7 +93,7 @@ final favoriteResourcesProvider = FutureProvider<List<Resource>>((ref) async {
 final prepBasketResourcesProvider = FutureProvider<List<Resource>>((ref) async {
   // 只在活動清單變動時重抓;勾材料不該觸發(否則備課頁會整個重建、跳回第一個分頁)
   final idsKey = ref.watch(prepBasketProvider
-      .select((basket) => (basket.value?.ids ?? const <String>[]).join('|')));
+      .select((basket) => (basket.valueOrNull?.ids ?? const <String>[]).join('|')));
   final ids = idsKey.isEmpty ? const <String>[] : idsKey.split('|');
   if (ids.isEmpty) return const [];
   final resources =

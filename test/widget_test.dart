@@ -12,6 +12,7 @@ import 'package:teacher_app/models/resource.dart';
 import 'package:teacher_app/models/resource_draft.dart';
 import 'package:teacher_app/models/taxonomy.dart';
 import 'package:teacher_app/providers.dart';
+import 'package:teacher_app/widgets/collapsible_row.dart';
 import 'package:teacher_app/widgets/favorite_button.dart';
 import 'package:teacher_app/widgets/resource_card.dart';
 
@@ -230,6 +231,79 @@ void main() {
     expect(scale.scale.value, greaterThan(1.0), reason: '按下後應放大中');
     await tester.pumpAndSettle();
     expect(scale.scale.value, 1.0, reason: '動畫結束回到原尺寸');
+  });
+
+  testWidgets('收藏頁點掉愛心:卡片收合消失,5 秒內可復原', (tester) async {
+    await pumpApp(tester);
+    await tester.tap(find.text('資源庫'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byType(FavoriteButton).first);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('收藏'));
+    await tester.pumpAndSettle();
+    expect(find.byType(ResourceCard), findsOneWidget);
+
+    await tester.tap(find.byType(FavoriteButton).first);
+    await tester.pump(); // 開始收合
+    await tester.pump(const Duration(milliseconds: 80));
+    final row = tester.widget<CollapsibleRow>(find.byType(CollapsibleRow));
+    expect(row.removing, isTrue, reason: '移除後應先播收合動畫,不是瞬間消失');
+    await tester.pumpAndSettle();
+    expect(find.text('還沒有收藏任何資源'), findsOneWidget);
+    expect(find.text('復原'), findsOneWidget);
+
+    await tester.tap(find.text('復原'));
+    await tester.pumpAndSettle();
+    expect(find.byType(ResourceCard), findsOneWidget);
+    expect(
+      find.descendant(
+          of: find.byType(ResourceCard), matching: find.byIcon(Icons.favorite)),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('備課籃:移出與清空不再跳確認框,都可復原', (tester) async {
+    await pumpApp(tester);
+    await openDetailBySearch(tester, '瓶蓋');
+    await tester.tap(find.byIcon(Icons.playlist_add));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byIcon(Icons.arrow_back));
+    await tester.pumpAndSettle();
+    // 先回首頁,搜尋 helper 才能用「資源庫」分頁標籤切頁(資源庫頁本身也有同名標題)
+    await tester.tap(find.text('首頁'));
+    await tester.pumpAndSettle();
+    // 清掉上一條「已加入」提示,別擋住等一下要點的卡片
+    ScaffoldMessenger.of(tester.element(find.text('首頁'))).clearSnackBars();
+    await tester.pumpAndSettle();
+    await openDetailBySearch(tester, '情緒臉譜');
+    await tester.tap(find.byIcon(Icons.playlist_add));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('查看'));
+    await tester.pumpAndSettle();
+    expect(find.text('活動 2'), findsOneWidget);
+
+    // 從「⋮」選單移出第一個活動:直接移出 + 復原
+    await tester.tap(find.byTooltip('更多動作').first);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('移出備課籃'));
+    await tester.pumpAndSettle();
+    expect(find.byType(AlertDialog), findsNothing);
+    expect(find.text('活動 1'), findsOneWidget);
+    expect(find.textContaining('已移出'), findsOneWidget);
+    await tester.tap(find.text('復原'));
+    await tester.pumpAndSettle();
+    expect(find.text('活動 2'), findsOneWidget);
+    expect(find.textContaining('1. '), findsOneWidget);
+    expect(find.textContaining('瓶蓋'), findsWidgets);
+
+    // 清空:直接清空 + 整籃復原
+    await tester.tap(find.byTooltip('清空備課籃'));
+    await tester.pumpAndSettle();
+    expect(find.byType(AlertDialog), findsNothing);
+    expect(find.text('備課籃是空的'), findsOneWidget);
+    await tester.tap(find.text('復原'));
+    await tester.pumpAndSettle();
+    expect(find.text('活動 2'), findsOneWidget);
   });
 
   testWidgets('收藏後出現在收藏頁', (tester) async {

@@ -13,10 +13,19 @@ class FavoritesNotifier extends AsyncNotifier<Set<String>> {
   }
 
   Future<void> toggle(String resourceId) async {
-    final current = {...state.value ?? const <String>{}};
+    final current = {...state.valueOrNull ?? const <String>{}};
     if (!current.remove(resourceId)) {
       current.add(resourceId);
     }
+    await _save(current);
+  }
+
+  /// 放回收藏(「復原」用)
+  Future<void> add(String resourceId) async {
+    await _save({...state.valueOrNull ?? const <String>{}, resourceId});
+  }
+
+  Future<void> _save(Set<String> current) async {
     state = AsyncData(current);
     final prefs = await SharedPreferences.getInstance();
     await prefs.setStringList(_prefsKey, current.toList());

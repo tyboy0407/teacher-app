@@ -45,6 +45,18 @@ class PrepBasketNotifier extends AsyncNotifier<PrepBasket> {
     await _save(_current.copyWith(ids: [..._current.ids]..remove(id)));
   }
 
+  /// 把活動放回原來的位置(「復原」用);[index] 超出範圍時放到最後
+  Future<void> insertAt(String id, int index) async {
+    final ids = [..._current.ids]..remove(id);
+    ids.insert(index.clamp(0, ids.length), id);
+    await _save(_current.copyWith(ids: ids));
+  }
+
+  /// 整籃還原(清空後「復原」用)
+  Future<void> replace(PrepBasket basket) async {
+    await _save(basket);
+  }
+
   /// [newIndex] 是移除舊位置後的目標索引(對應 ReorderableListView.onReorderItem)
   Future<void> reorder(int oldIndex, int newIndex) async {
     final ids = [..._current.ids];

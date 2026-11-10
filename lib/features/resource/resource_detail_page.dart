@@ -102,8 +102,8 @@ class _DetailView extends ConsumerWidget {
       bottomNavigationBar: reviewing
           ? _ReviewBar(resource: resource)
           : moderating
-              ? _ModerationBar(resource: resource)
-              : null,
+          ? _ModerationBar(resource: resource)
+          : null,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -118,8 +118,11 @@ class _DetailView extends ConsumerWidget {
                 child: IconButton(
                   padding: EdgeInsets.zero,
                   tooltip: '返回',
-                  icon: const Icon(Icons.arrow_back,
-                      color: Colors.white, size: 20),
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    color: Colors.white,
+                    size: 20,
+                  ),
                   onPressed: () => popPage(context),
                 ),
               ),
@@ -133,13 +136,18 @@ class _DetailView extends ConsumerWidget {
                   child: IconButton(
                     padding: EdgeInsets.zero,
                     tooltip: '分享',
-                    icon: const Icon(Icons.share, color: Colors.white, size: 20),
+                    icon: const Icon(
+                      Icons.share,
+                      color: Colors.white,
+                      size: 20,
+                    ),
                     onPressed: () => showShareSheet(
                       context,
                       title: resource.title,
-                      text: [resource.title, resource.summary]
-                          .where((s) => s.isNotEmpty)
-                          .join('\n'),
+                      text: [
+                        resource.title,
+                        resource.summary,
+                      ].where((s) => s.isNotEmpty).join('\n'),
                       url: resourceShareUrl(resource.id),
                     ),
                   ),
@@ -164,11 +172,17 @@ class _DetailView extends ConsumerWidget {
                     ),
                     onPressed: () async {
                       final notifier = ref.read(prepBasketProvider.notifier);
+                      final previousIndex =
+                          basket?.ids.indexOf(resource.id) ?? -1;
                       await notifier.toggle(resource.id);
                       if (!context.mounted) return;
                       final countAfter =
-                          ref.read(prepBasketProvider).valueOrNull?.ids.length ??
-                              0;
+                          ref
+                              .read(prepBasketProvider)
+                              .valueOrNull
+                              ?.ids
+                              .length ??
+                          0;
                       // 回饋隨重複遞減:第一次進籃說明會幫忙整理,之後只說已加入
                       final String message;
                       if (inBasket) {
@@ -184,7 +198,13 @@ class _DetailView extends ConsumerWidget {
                           SnackBar(
                             content: Text(message),
                             action: inBasket
-                                ? null
+                                ? SnackBarAction(
+                                    label: '復原',
+                                    onPressed: () => notifier.insertAt(
+                                      resource.id,
+                                      previousIndex,
+                                    ),
+                                  )
                                 : SnackBarAction(
                                     label: '查看',
                                     onPressed: () => context.push('/prep'),
@@ -306,8 +326,9 @@ class _DetailView extends ConsumerWidget {
                       ),
                       child: Text(
                         resource.summary,
-                        style:
-                            theme.textTheme.bodyMedium?.copyWith(height: 1.5),
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          height: 1.5,
+                        ),
                       ),
                     ),
                   ],
@@ -321,8 +342,9 @@ class _DetailView extends ConsumerWidget {
                         children: resource.materials
                             .map(
                               (material) => Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 3),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 3,
+                                ),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -368,7 +390,8 @@ class _DetailView extends ConsumerWidget {
                                         fontSize: 12,
                                         fontWeight: FontWeight.w700,
                                         color: theme
-                                            .colorScheme.onPrimaryContainer,
+                                            .colorScheme
+                                            .onPrimaryContainer,
                                       ),
                                     ),
                                   ),
@@ -382,21 +405,26 @@ class _DetailView extends ConsumerWidget {
                                           resource.steps[i].title,
                                           style: theme.textTheme.titleSmall
                                               ?.copyWith(
-                                                  fontWeight: FontWeight.w600),
+                                                fontWeight: FontWeight.w600,
+                                              ),
                                         ),
                                         if (resource
-                                            .steps[i].description.isNotEmpty)
+                                            .steps[i]
+                                            .description
+                                            .isNotEmpty)
                                           Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 2),
+                                            padding: const EdgeInsets.only(
+                                              top: 2,
+                                            ),
                                             child: Text(
                                               resource.steps[i].description,
                                               style: theme.textTheme.bodyMedium
                                                   ?.copyWith(
-                                                color: theme.colorScheme
-                                                    .onSurfaceVariant,
-                                                height: 1.5,
-                                              ),
+                                                    color: theme
+                                                        .colorScheme
+                                                        .onSurfaceVariant,
+                                                    height: 1.5,
+                                                  ),
                                             ),
                                           ),
                                       ],
@@ -413,8 +441,9 @@ class _DetailView extends ConsumerWidget {
                       title: _contentTitle,
                       child: Text(
                         resource.content,
-                        style:
-                            theme.textTheme.bodyMedium?.copyWith(height: 1.7),
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          height: 1.7,
+                        ),
                       ),
                     ),
                   if (resource.sourceName != null) ...[
@@ -422,7 +451,8 @@ class _DetailView extends ConsumerWidget {
                     Text(
                       '資料來源:${resource.sourceName}',
                       style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.onSurfaceVariant),
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
                     ),
                   ],
                 ],
@@ -601,11 +631,9 @@ class _ReviewBarState extends ConsumerState<_ReviewBar> {
   Future<void> _submit({required bool approve, String? note}) async {
     setState(() => _busy = true);
     try {
-      await ref.read(resourceRepositoryProvider).reviewResource(
-            widget.resource.id,
-            approve: approve,
-            note: note,
-          );
+      await ref
+          .read(resourceRepositoryProvider)
+          .reviewResource(widget.resource.id, approve: approve, note: note);
       ref.invalidate(pendingReviewsProvider);
       ref.invalidate(resourceByIdProvider(widget.resource.id));
       ref.invalidate(libraryResultsProvider);
@@ -624,7 +652,9 @@ class _ReviewBarState extends ConsumerState<_ReviewBar> {
   }
 
   void _showMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 
   @override
@@ -641,8 +671,9 @@ class _ReviewBarState extends ConsumerState<_ReviewBar> {
             children: [
               Expanded(
                 child: OutlinedButton.icon(
-                  onPressed:
-                      _busy || widget.resource.isRejected ? null : _reject,
+                  onPressed: _busy || widget.resource.isRejected
+                      ? null
+                      : _reject,
                   icon: const Icon(Icons.undo),
                   label: const Text('退回'),
                 ),
@@ -686,14 +717,18 @@ class _UnpublishedBanner extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(Icons.visibility_off_outlined,
-              size: 18, color: theme.colorScheme.onSurfaceVariant),
+          Icon(
+            Icons.visibility_off_outlined,
+            size: 18,
+            color: theme.colorScheme.onSurfaceVariant,
+          ),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
               '這筆內容已下架,老師們看不到;可在下方重新上架或刪除',
-              style: theme.textTheme.labelMedium
-                  ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+              style: theme.textTheme.labelMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
             ),
           ),
         ],
@@ -764,14 +799,16 @@ class _ModerationBarState extends ConsumerState<_ModerationBar> {
       ref.invalidate(myUploadsProvider);
       if (!mounted) return;
       setState(() => _busy = false);
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(doneMessage)));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(doneMessage)));
       if (action == ModerationAction.delete) popPage(context);
     } catch (error) {
       if (!mounted) return;
       setState(() => _busy = false);
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('操作失敗:$error')));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('操作失敗:$error')));
     }
   }
 
@@ -797,7 +834,8 @@ class _ModerationBarState extends ConsumerState<_ModerationBar> {
   Future<void> _delete() async {
     final ok = await _confirm(
       title: '永久刪除「${widget.resource.title}」',
-      body: '刪除後無法復原,其他老師的收藏與備課籃裡也會找不到它。'
+      body:
+          '刪除後無法復原,其他老師的收藏與備課籃裡也會找不到它。'
           '只是暫時不想公開的話,請改用「下架」。',
       action: '永久刪除',
       destructive: true,
@@ -839,9 +877,11 @@ class _ModerationBarState extends ConsumerState<_ModerationBar> {
                           height: 16,
                           child: CircularProgressIndicator(strokeWidth: 2),
                         )
-                      : Icon(published
-                          ? Icons.visibility_off_outlined
-                          : Icons.visibility_outlined),
+                      : Icon(
+                          published
+                              ? Icons.visibility_off_outlined
+                              : Icons.visibility_outlined,
+                        ),
                   label: Text(published ? '下架' : '重新上架'),
                 ),
               ),
@@ -860,10 +900,14 @@ class _IndicatorSection extends StatelessWidget {
   final List<String> codes;
 
   String get _copyText {
-    return codes.map((code) {
-      final indicator = CurriculumService.indicator(code);
-      return indicator == null ? code : '${indicator.code} ${indicator.text}';
-    }).join('\n');
+    return codes
+        .map((code) {
+          final indicator = CurriculumService.indicator(code);
+          return indicator == null
+              ? code
+              : '${indicator.code} ${indicator.text}';
+        })
+        .join('\n');
   }
 
   @override
@@ -879,8 +923,9 @@ class _IndicatorSection extends StatelessWidget {
               Expanded(
                 child: Text(
                   '對應課綱學習指標',
-                  style: theme.textTheme.titleMedium
-                      ?.copyWith(fontWeight: FontWeight.w700),
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
               TextButton.icon(
@@ -948,8 +993,9 @@ class _IndicatorSection extends StatelessWidget {
                             const SizedBox(height: 3),
                             Text(
                               indicator.text,
-                              style: theme.textTheme.bodyMedium
-                                  ?.copyWith(height: 1.4),
+                              style: theme.textTheme.bodyMedium?.copyWith(
+                                height: 1.4,
+                              ),
                             ),
                           ],
                         ),
@@ -977,10 +1023,9 @@ class _Section extends StatelessWidget {
         children: [
           Text(
             title,
-            style: Theme.of(context)
-                .textTheme
-                .titleMedium
-                ?.copyWith(fontWeight: FontWeight.w700),
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
           ),
           const SizedBox(height: 10),
           child,
