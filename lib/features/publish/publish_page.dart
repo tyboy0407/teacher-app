@@ -24,7 +24,8 @@ class PublishPage extends ConsumerWidget {
         body: const EmptyState(
           icon: Icons.cloud_off,
           title: '投稿功能需要連線雲端',
-          subtitle: '完成 Supabase 設定後(見專案內 SUPABASE_SETUP.md),'
+          subtitle:
+              '完成 Supabase 設定後(見專案內 SUPABASE_SETUP.md),'
               '即可註冊帳號、上傳你的教具與教案',
         ),
       );
@@ -34,9 +35,12 @@ class PublishPage extends ConsumerWidget {
       return Scaffold(
         appBar: AppBar(title: const Text('發布')),
         body: EmptyState(
-          icon: Icons.lock_outline,
-          title: '登入後即可投稿',
-          subtitle: '上傳你的教具、教案,審核通過後與所有老師分享',
+          icon: Icons.volunteer_activism_outlined,
+          title: '把你的好點子分享給其他老師',
+          subtitle:
+              '可以投稿:教具做法、教具玩法、教案、學習單、常規口令\n'
+              '審核:由現職老師把關,通常幾天內完成\n'
+              '通過後署名上架,全台老師都看得到',
           action: FilledButton.icon(
             onPressed: () => context.push('/login'),
             icon: const Icon(Icons.login),
@@ -116,13 +120,15 @@ class _UploadCard extends ConsumerWidget {
       await ref.read(resourceRepositoryProvider).deleteMyUpload(resource.id);
       ref.invalidate(myUploadsProvider);
       if (context.mounted) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('已刪除')));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('已刪除')));
       }
     } catch (_) {
       if (context.mounted) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('刪除失敗,請稍後再試')));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('刪除失敗,請稍後再試')));
       }
     }
   }
@@ -157,8 +163,9 @@ class _UploadCard extends ConsumerWidget {
                       resource.title,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: theme.textTheme.titleSmall
-                          ?.copyWith(fontWeight: FontWeight.w600),
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                     const SizedBox(height: 4),
                     Row(
@@ -194,8 +201,10 @@ class _UploadCard extends ConsumerWidget {
               if (resource.reviewStatus != 'approved')
                 IconButton(
                   tooltip: '刪除投稿',
-                  icon: Icon(Icons.delete_outline,
-                      color: theme.colorScheme.outline),
+                  icon: Icon(
+                    Icons.delete_outline,
+                    color: theme.colorScheme.outline,
+                  ),
                   onPressed: () => _confirmDelete(context, ref),
                 ),
             ],

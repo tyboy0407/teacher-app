@@ -10,6 +10,7 @@ import '../../core/theme.dart';
 import '../../data/curriculum_service.dart';
 import '../../data/resource_repository.dart' show ModerationAction;
 import '../../data/theme_catalog.dart';
+import '../../models/curriculum.dart';
 import '../../models/resource.dart';
 import '../../models/taxonomy.dart';
 import '../../providers.dart';
@@ -152,7 +153,8 @@ class _DetailView extends ConsumerWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            expandedHeight: 210,
+            // 沒有照片的封面只是色紙 + 圖示,不值得佔三分之一畫面
+            expandedHeight: resource.hasCover ? 210 : 120,
             pinned: true,
             automaticallyImplyLeading: false,
             leading: Padding(
@@ -245,7 +247,10 @@ class _DetailView extends ConsumerWidget {
             flexibleSpace: FlexibleSpaceBar(
               background: CoverHero(
                 resource: resource,
-                child: ResourceCover(resource: resource, iconSize: 56),
+                child: ResourceCover(
+                  resource: resource,
+                  iconSize: resource.hasCover ? 56 : 40,
+                ),
               ),
             ),
           ),
@@ -1061,6 +1066,14 @@ class _IndicatorSection extends StatelessWidget {
                       : Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            // 指標文字是老師要的,代碼是檔案編號:文字為主、代碼降級
+                            Text(
+                              indicator.text,
+                              style: theme.textTheme.bodyMedium?.copyWith(
+                                height: 1.4,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
                             Row(
                               children: [
                                 if (indicator.domain != null) ...[
@@ -1075,26 +1088,33 @@ class _IndicatorSection extends StatelessWidget {
                                   const SizedBox(width: 6),
                                 ],
                                 Text(
-                                  indicator.code,
-                                  style: theme.textTheme.labelMedium?.copyWith(
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                const SizedBox(width: 6),
-                                Text(
                                   indicator.age?.label ?? '',
                                   style: theme.textTheme.labelSmall?.copyWith(
                                     color: theme.colorScheme.onSurfaceVariant,
                                   ),
                                 ),
+                                const SizedBox(width: 8),
+                                InkWell(
+                                  borderRadius: BorderRadius.circular(6),
+                                  onTap: () =>
+                                      _showIndicatorInfo(context, indicator),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 4,
+                                      vertical: 2,
+                                    ),
+                                    child: Text(
+                                      '${indicator.code} ⓘ',
+                                      style: theme.textTheme.labelSmall
+                                          ?.copyWith(
+                                            color: theme
+                                                .colorScheme
+                                                .onSurfaceVariant,
+                                          ),
+                                    ),
+                                  ),
+                                ),
                               ],
-                            ),
-                            const SizedBox(height: 3),
-                            Text(
-                              indicator.text,
-                              style: theme.textTheme.bodyMedium?.copyWith(
-                                height: 1.4,
-                              ),
                             ),
                           ],
                         ),
@@ -1105,6 +1125,47 @@ class _IndicatorSection extends StatelessWidget {
       ),
     );
   }
+}
+
+/// 新進老師不一定看得懂「認-小-1-3-1」:點代碼看它屬於哪條課程目標、代碼怎麼讀
+void _showIndicatorInfo(BuildContext context, CurriculumIndicator indicator) {
+  final goal = CurriculumService.goal(indicator.goalCode);
+  showDialog<void>(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text(indicator.code),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (goal != null) ...[
+            Text(
+              '課程目標 ${goal.code}',
+              style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
+            ),
+            Text(goal.title),
+            const SizedBox(height: 12),
+          ],
+          Text('適用:${indicator.age?.fullLabel ?? '不限年齡'}'),
+          const SizedBox(height: 12),
+          Text(
+            '代碼怎麼讀:領域-年齡-課程目標-指標序號',
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
+          ),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text('知道了'),
+        ),
+      ],
+    ),
+  );
 }
 
 class _Section extends StatelessWidget {

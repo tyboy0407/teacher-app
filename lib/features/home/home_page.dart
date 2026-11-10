@@ -71,7 +71,7 @@ class HomePage extends ConsumerWidget {
               ),
               const _SectionHeader('精選推薦'),
               SizedBox(
-                height: 236,
+                height: 212,
                 child: featured.when(
                   data: (resources) => EntranceWindow(
                     builder: (context, entrance) => ListView.separated(
@@ -211,7 +211,7 @@ class _PrepBasketCard extends ConsumerWidget {
     if (basket.isEmpty) {
       subtitle = '把要用的教具、教案加進來,材料和課綱指標會自動整理好';
     } else if (resources == null) {
-      subtitle = '${basket.ids.length} 個活動';
+      subtitle = '整理材料與指標中…';
     } else {
       final summary = PrepSummary(resources, basket.ownedMaterials);
       final missing = summary.missingMaterials.length;

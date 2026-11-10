@@ -377,29 +377,69 @@ class _MaterialsTab extends ConsumerWidget {
             ),
           ),
         ),
-        for (final entry in summary.materials.entries)
+        // 依活動分組:組標題寫一次活動名,組內只列材料;同一材料只在第一次出現的
+        // 活動下列出,附註還有哪些活動也用到
+        ..._groupedMaterials(context, ref, theme),
+      ],
+    );
+  }
+}
+
+extension on _MaterialsTab {
+  List<Widget> _groupedMaterials(
+    BuildContext context,
+    WidgetRef ref,
+    ThemeData theme,
+  ) {
+    final shown = <String>{};
+    final widgets = <Widget>[];
+    for (final resource in summary.resources) {
+      final items = resource.materials.where(shown.add).toList();
+      if (items.isEmpty) continue;
+      widgets.add(
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 14, 16, 2),
+          child: Text(
+            resource.title,
+            style: theme.textTheme.titleSmall?.copyWith(
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
+      );
+      for (final material in items) {
+        final owned = summary.ownedMaterials.contains(material);
+        final others = (summary.materials[material] ?? const [])
+            .where((title) => title != resource.title)
+            .toList();
+        widgets.add(
           CheckboxListTile(
-            value: summary.ownedMaterials.contains(entry.key),
+            value: owned,
             onChanged: (_) =>
-                ref.read(prepBasketProvider.notifier).toggleMaterial(entry.key),
+                ref.read(prepBasketProvider.notifier).toggleMaterial(material),
             controlAffinity: ListTileControlAffinity.leading,
+            dense: true,
             title: Text(
-              entry.key,
-              style: summary.ownedMaterials.contains(entry.key)
+              material,
+              style: owned
                   ? TextStyle(
                       decoration: TextDecoration.lineThrough,
                       color: theme.colorScheme.outline,
                     )
                   : null,
             ),
-            subtitle: Text(
-              '用於:${entry.value.join('、')}',
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
+            subtitle: others.isEmpty
+                ? null
+                : Text(
+                    '也用於:${others.join('、')}',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
           ),
-      ],
-    );
+        );
+      }
+    }
+    return widgets;
   }
 }
 

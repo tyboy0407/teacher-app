@@ -93,7 +93,7 @@ void main() {
     expect(find.text('製作步驟'), findsOneWidget);
     // 課綱指標區塊
     expect(find.text('對應課綱學習指標'), findsOneWidget);
-    expect(find.text('認-小-1-3-1'), findsOneWidget);
+    expect(find.textContaining('認-小-1-3-1'), findsOneWidget);
   });
 
   testWidgets('課綱指標查詢可反查到對應資源', (tester) async {
@@ -501,6 +501,51 @@ void main() {
       ),
     );
     expect(ageFade.opacity, 0.0);
+  });
+
+  testWidgets('詳情頁:指標以文字為主,點代碼可看課程目標', (tester) async {
+    await pumpApp(tester);
+    await openDetailBySearch(tester, '瓶蓋');
+    final code = find.textContaining('認-小-1-3-1');
+    await tester.ensureVisible(code.first);
+    await tester.pumpAndSettle();
+    await tester.tap(code.first);
+    await tester.pumpAndSettle();
+    expect(find.byType(AlertDialog), findsOneWidget);
+    expect(find.textContaining('課程目標'), findsWidgets);
+    expect(find.textContaining('代碼怎麼讀'), findsOneWidget);
+    await tester.tap(find.text('知道了'));
+    await tester.pumpAndSettle();
+  });
+
+  testWidgets('備課籃材料依活動分組,共用材料只列一次並附註', (tester) async {
+    await pumpApp(tester);
+    await openDetailBySearch(tester, '瓶蓋');
+    await tester.tap(find.widgetWithText(FilledButton, '加入本週備課'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byIcon(Icons.arrow_back));
+    await tester.pumpAndSettle();
+    ScaffoldMessenger.of(tester.element(find.text('首頁'))).clearSnackBars();
+    await tester.tap(find.text('首頁'));
+    await tester.pumpAndSettle();
+    await openDetailBySearch(tester, '彩虹米');
+    await tester.tap(find.widgetWithText(FilledButton, '加入本週備課'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('查看'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.textContaining('材料'));
+    await tester.pumpAndSettle();
+    // 兩個活動各自成組
+    expect(find.text('瓶蓋顏色分類盒'), findsOneWidget);
+    expect(find.text('彩虹米感官箱'), findsOneWidget);
+    expect(find.textContaining('用於:'), findsNothing);
+    // 每項材料只出現一次
+    final checkboxes = find.byType(CheckboxListTile).evaluate().length;
+    final unique = find.byType(CheckboxListTile).evaluate().map((e) {
+      final tile = e.widget as CheckboxListTile;
+      return (tile.title as Text).data;
+    }).toSet().length;
+    expect(checkboxes, unique);
   });
 
   testWidgets('收藏後出現在收藏頁', (tester) async {

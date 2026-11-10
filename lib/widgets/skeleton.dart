@@ -106,7 +106,8 @@ class FeaturedCardSkeleton extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: const [
-            AspectRatio(aspectRatio: 16 / 9, child: SkeletonBox(radius: 0)),
+            // 和沒有照片的精選卡片一樣矮
+            AspectRatio(aspectRatio: 2.6, child: SkeletonBox(radius: 0)),
             Expanded(
               child: Padding(
                 padding: EdgeInsets.all(10),

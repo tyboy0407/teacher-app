@@ -44,21 +44,21 @@ class ProfilePage extends ConsumerWidget {
               trailing: !auth.isAvailable
                   ? null
                   : (user != null
-                      ? TextButton(
-                          onPressed: () async {
-                            await auth.signOut();
-                            if (context.mounted) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('已登出')),
-                              );
-                            }
-                          },
-                          child: const Text('登出'),
-                        )
-                      : TextButton(
-                          onPressed: () => context.push('/login'),
-                          child: const Text('登入'),
-                        )),
+                        ? TextButton(
+                            onPressed: () async {
+                              await auth.signOut();
+                              if (context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('已登出')),
+                                );
+                              }
+                            },
+                            child: const Text('登出'),
+                          )
+                        : TextButton(
+                            onPressed: () => context.push('/login'),
+                            child: const Text('登入'),
+                          )),
             ),
           ),
           if (isAdmin) ...[
@@ -77,9 +77,7 @@ class ProfilePage extends ConsumerWidget {
                 subtitle: Text(
                   pendingCount == null
                       ? '管理者專用'
-                      : (pendingCount == 0
-                          ? '目前沒有待審投稿'
-                          : '待審 $pendingCount 筆'),
+                      : (pendingCount == 0 ? '目前沒有待審投稿' : '待審 $pendingCount 筆'),
                 ),
                 trailing: const Icon(Icons.chevron_right),
                 onTap: () => context.push('/admin/review'),
@@ -108,12 +106,21 @@ class ProfilePage extends ConsumerWidget {
                       children: [
                         Text(
                           appName,
-                          style: theme.textTheme.titleLarge
-                              ?.copyWith(fontWeight: FontWeight.w700),
+                          style: theme.textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                         const SizedBox(height: 2),
                         Text(
                           appTagline,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: theme.colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        // 老師不需要知道後端叫什麼,只要知道內容會不會更新
+                        Text(
+                          connected ? '內容來自雲端,隨時更新' : '目前為內建示範資料',
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: theme.colorScheme.onSurfaceVariant,
                           ),
@@ -125,37 +132,7 @@ class ProfilePage extends ConsumerWidget {
               ),
             ),
           ),
-          const SizedBox(height: 12),
-          Card(
-            child: Column(
-              children: [
-                ListTile(
-                  leading: Icon(
-                    connected ? Icons.cloud_done : Icons.cloud_off,
-                    color: connected
-                        ? Colors.green
-                        : theme.colorScheme.outline,
-                  ),
-                  title: const Text('資料來源'),
-                  subtitle: Text(
-                    connected ? '已連線 Supabase' : '內建示範資料(尚未連線 Supabase)',
-                  ),
-                ),
-                if (!connected)
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 14),
-                    child: Text(
-                      '執行時加上 --dart-define=SUPABASE_URL 與 SUPABASE_ANON_KEY '
-                      '即可切換為雲端內容,設定步驟見專案內的 SUPABASE_SETUP.md。',
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 12),
+          const _GroupLabel('工具'),
           Card(
             child: Column(
               children: [
@@ -174,7 +151,13 @@ class ProfilePage extends ConsumerWidget {
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () => context.push('/prep'),
                 ),
-                const Divider(height: 1, indent: 16, endIndent: 16),
+              ],
+            ),
+          ),
+          const _GroupLabel('說明'),
+          Card(
+            child: Column(
+              children: [
                 ListTile(
                   leading: const Icon(Icons.account_tree_outlined),
                   title: const Text('分類體系說明'),
@@ -197,8 +180,19 @@ class ProfilePage extends ConsumerWidget {
                     context: context,
                     applicationName: appName,
                     applicationVersion: appVersion,
-                    children: const [
-                      Text('把分散在網路各處的教具、教案與教學新知整理在一起,讓老師備課更輕鬆。'),
+                    children: [
+                      const Text('把分散在網路各處的教具、教案與教學新知整理在一起,讓老師備課更輕鬆。'),
+                      const SizedBox(height: 12),
+                      Text(
+                        connected
+                            ? '資料來源:雲端(Supabase)'
+                            : '資料來源:內建示範資料。執行時加上 --dart-define 的 '
+                                  'SUPABASE_URL 與 SUPABASE_ANON_KEY 即可切換為雲端內容,'
+                                  '設定步驟見專案內的 SUPABASE_SETUP.md。',
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -227,9 +221,7 @@ class ProfilePage extends ConsumerWidget {
               const _DialogSubtitle('成長階段'),
               Text(ages),
               const _DialogSubtitle('發展領域(六大領域)'),
-              const Text(
-                '對齊台灣《幼兒園教保活動課程大綱》:\n身體動作與健康、認知、語文、社會、情緒、美感',
-              ),
+              const Text('對齊台灣《幼兒園教保活動課程大綱》:\n身體動作與健康、認知、語文、社會、情緒、美感'),
               const _DialogSubtitle('資源類型'),
               Text(ResourceType.values.map((type) => type.label).join('、')),
             ],
@@ -282,14 +274,13 @@ class ProfilePage extends ConsumerWidget {
                           children: [
                             Text(
                               item.$1,
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.w600),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                             Text(
                               item.$2,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall
+                              style: Theme.of(context).textTheme.bodySmall
                                   ?.copyWith(color: Colors.grey),
                             ),
                           ],
@@ -312,6 +303,26 @@ class ProfilePage extends ConsumerWidget {
   }
 }
 
+/// 卡片群組的小標題:把每天用的「工具」和偶爾看的「說明」分開
+class _GroupLabel extends StatelessWidget {
+  const _GroupLabel(this.text);
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(4, 18, 4, 6),
+      child: Text(
+        text,
+        style: Theme.of(context).textTheme.labelLarge?.copyWith(
+          color: Theme.of(context).colorScheme.onSurfaceVariant,
+        ),
+      ),
+    );
+  }
+}
+
 class _DialogSubtitle extends StatelessWidget {
   const _DialogSubtitle(this.text);
 
@@ -323,10 +334,9 @@ class _DialogSubtitle extends StatelessWidget {
       padding: const EdgeInsets.only(top: 14, bottom: 4),
       child: Text(
         text,
-        style: Theme.of(context)
-            .textTheme
-            .titleSmall
-            ?.copyWith(fontWeight: FontWeight.w700),
+        style: Theme.of(
+          context,
+        ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700),
       ),
     );
   }

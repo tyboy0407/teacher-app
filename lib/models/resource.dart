@@ -8,9 +8,9 @@ class ResourceStep {
   final String description;
 
   factory ResourceStep.fromJson(Map<String, dynamic> json) => ResourceStep(
-        title: json['title'] as String? ?? '',
-        description: json['description'] as String? ?? '',
-      );
+    title: json['title'] as String? ?? '',
+    description: json['description'] as String? ?? '',
+  );
 }
 
 /// 教學資源:教具製作 / 教具玩法 / 成品教玩具 / 教案 / 學習單 / 文章 共用同一模型
@@ -81,6 +81,9 @@ class Resource {
   /// 是否上架(管理者控制的顯示開關)
   final bool published;
 
+  /// 有真正的封面照片(沒有時封面只是色紙 + 類型圖示,版面應該讓位給文字)
+  bool get hasCover => coverUrl != null && coverUrl!.isNotEmpty;
+
   bool get isPendingReview => reviewStatus == 'pending';
   bool get isRejected => reviewStatus == 'rejected';
 
@@ -90,15 +93,15 @@ class Resource {
       id: json['id'].toString(),
       title: json['title'] as String? ?? '',
       summary: json['summary'] as String? ?? '',
-      type: ResourceType.fromCode(json['type'] as String?) ?? ResourceType.article,
-      ages: _stringList(json['age_stages'])
-          .map(AgeStage.fromCode)
-          .whereType<AgeStage>()
-          .toList(),
-      domains: _stringList(json['domains'])
-          .map(LearningDomain.fromCode)
-          .whereType<LearningDomain>()
-          .toList(),
+      type:
+          ResourceType.fromCode(json['type'] as String?) ??
+          ResourceType.article,
+      ages: _stringList(
+        json['age_stages'],
+      ).map(AgeStage.fromCode).whereType<AgeStage>().toList(),
+      domains: _stringList(
+        json['domains'],
+      ).map(LearningDomain.fromCode).whereType<LearningDomain>().toList(),
       tags: _embeddedTagNames(json['resource_tags']),
       coverUrl: json['cover_url'] as String?,
       imageUrls: _stringList(json['image_urls']),
@@ -114,7 +117,8 @@ class Resource {
       durationMinutes: (json['duration_minutes'] as num?)?.toInt(),
       isFeatured: json['is_featured'] as bool? ?? false,
       createdAt:
-          DateTime.tryParse(json['created_at'] as String? ?? '') ?? DateTime(2026),
+          DateTime.tryParse(json['created_at'] as String? ?? '') ??
+          DateTime(2026),
       createdBy: json['created_by'] as String?,
       reviewStatus: json['review_status'] as String? ?? 'approved',
       reviewNote: json['review_note'] as String?,

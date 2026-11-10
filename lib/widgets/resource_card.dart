@@ -132,9 +132,13 @@ class FeaturedResourceCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // 沒有照片時封面壓矮,把空間還給標題
                 AspectRatio(
-                  aspectRatio: 16 / 9,
-                  child: ResourceCover(resource: resource),
+                  aspectRatio: resource.hasCover ? 16 / 9 : 2.6,
+                  child: ResourceCover(
+                    resource: resource,
+                    iconSize: resource.hasCover ? 40 : 28,
+                  ),
                 ),
                 Expanded(
                   child: Padding(
