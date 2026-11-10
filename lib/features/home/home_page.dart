@@ -107,6 +107,11 @@ class HomePage extends ConsumerWidget {
                             size: 18,
                             color: domain.color,
                           ),
+                          // 整顆 chip 帶淡淡的領域色,六個領域一眼分得出來
+                          backgroundColor: domain.color.withValues(alpha: .10),
+                          side: BorderSide(
+                            color: domain.color.withValues(alpha: .35),
+                          ),
                           label: Text(domain.label),
                           onPressed: () {
                             ref

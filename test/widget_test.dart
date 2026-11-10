@@ -548,6 +548,22 @@ void main() {
     expect(checkboxes, unique);
   });
 
+  testWidgets('資源庫:搜尋框在標題列,頁面不再重複「資源庫」字樣', (tester) async {
+    await pumpApp(tester);
+    await tester.tap(find.text('資源庫'));
+    await tester.pumpAndSettle();
+    // 只剩分頁標籤那一個「資源庫」
+    expect(find.text('資源庫'), findsOneWidget);
+    expect(
+      find.descendant(of: find.byType(AppBar), matching: find.byType(TextField)),
+      findsOneWidget,
+    );
+    await tester.enterText(find.byType(TextField), '瓶蓋');
+    await tester.pump(const Duration(milliseconds: 400));
+    await tester.pumpAndSettle();
+    expect(find.text('共 1 筆資源'), findsOneWidget);
+  });
+
   testWidgets('收藏後出現在收藏頁', (tester) async {
     await pumpApp(tester);
 

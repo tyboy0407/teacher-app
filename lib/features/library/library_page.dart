@@ -98,8 +98,38 @@ class _LibraryPageState extends ConsumerState<LibraryPage> {
     final theme = Theme.of(context);
 
     return Scaffold(
+      // 標題列直接放搜尋框:分頁標籤已經叫「資源庫」,不用再寫一次,
+      // 也省下一行高度給篩選列
       appBar: AppBar(
-        title: const Text('資源庫'),
+        titleSpacing: 16,
+        title: SizedBox(
+          height: 44,
+          child: TextField(
+            controller: _searchController,
+            onChanged: _onQueryChanged,
+            textInputAction: TextInputAction.search,
+            style: theme.textTheme.bodyLarge,
+            decoration: InputDecoration(
+              hintText: '搜尋教具、教案關鍵字',
+              prefixIcon: const Icon(Icons.search),
+              suffixIcon: filter.query.isNotEmpty
+                  ? IconButton(
+                      icon: const Icon(Icons.clear),
+                      tooltip: '清除關鍵字',
+                      onPressed: _clearQuery,
+                    )
+                  : null,
+              isDense: true,
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+              filled: true,
+              fillColor: theme.colorScheme.surfaceContainerHighest,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(999),
+                borderSide: BorderSide.none,
+              ),
+            ),
+          ),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.rule),
@@ -110,31 +140,7 @@ class _LibraryPageState extends ConsumerState<LibraryPage> {
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
-            child: TextField(
-              controller: _searchController,
-              onChanged: _onQueryChanged,
-              textInputAction: TextInputAction.search,
-              decoration: InputDecoration(
-                hintText: '搜尋教具、教案關鍵字',
-                prefixIcon: const Icon(Icons.search),
-                suffixIcon: filter.query.isNotEmpty
-                    ? IconButton(
-                        icon: const Icon(Icons.clear),
-                        tooltip: '清除關鍵字',
-                        onPressed: _clearQuery,
-                      )
-                    : null,
-                filled: true,
-                fillColor: theme.colorScheme.surfaceContainerHighest,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(999),
-                  borderSide: BorderSide.none,
-                ),
-              ),
-            ),
-          ),
+          const SizedBox(height: 6),
           _FilterRow(
             label: '類型',
             children: [
@@ -193,6 +199,9 @@ class _LibraryPageState extends ConsumerState<LibraryPage> {
                         ? null
                         : Icon(domain.icon, size: 16, color: domain.color),
                     label: Text(domain.label),
+                    // 選中時整顆 chip 帶淡淡的領域色,不只圖示有顏色
+                    selectedColor: domain.color.withValues(alpha: .18),
+                    checkmarkColor: domain.color,
                     selected: filter.domains.contains(domain),
                     onSelected: (_) => notifier.toggleDomain(domain),
                   ),
