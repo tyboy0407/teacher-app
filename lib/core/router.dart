@@ -25,40 +25,63 @@ GoRouter createAppRouter() {
     navigatorKey: rootNavigatorKey,
     initialLocation: '/home',
     routes: [
-      StatefulShellRoute.indexedStack(
+      StatefulShellRoute(
         builder: (context, state, navigationShell) =>
             ShellScaffold(shell: navigationShell),
+        // 和 indexedStack 一樣保留各分頁狀態,但只有目前顯示的分頁啟用 Hero:
+        // 同一筆資源的卡片會同時出現在首頁、資源庫、收藏,否則 Hero tag 會重複
+        navigatorContainerBuilder: (context, navigationShell, children) =>
+            IndexedStack(
+              index: navigationShell.currentIndex,
+              children: [
+                for (var i = 0; i < children.length; i++)
+                  HeroMode(
+                    enabled: i == navigationShell.currentIndex,
+                    child: children[i],
+                  ),
+              ],
+            ),
         branches: [
-          StatefulShellBranch(routes: [
-            GoRoute(
-              path: '/home',
-              builder: (context, state) => const HomePage(),
-            ),
-          ]),
-          StatefulShellBranch(routes: [
-            GoRoute(
-              path: '/library',
-              builder: (context, state) => const LibraryPage(),
-            ),
-          ]),
-          StatefulShellBranch(routes: [
-            GoRoute(
-              path: '/publish',
-              builder: (context, state) => const PublishPage(),
-            ),
-          ]),
-          StatefulShellBranch(routes: [
-            GoRoute(
-              path: '/favorites',
-              builder: (context, state) => const FavoritesPage(),
-            ),
-          ]),
-          StatefulShellBranch(routes: [
-            GoRoute(
-              path: '/profile',
-              builder: (context, state) => const ProfilePage(),
-            ),
-          ]),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/home',
+                builder: (context, state) => const HomePage(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/library',
+                builder: (context, state) => const LibraryPage(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/publish',
+                builder: (context, state) => const PublishPage(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/favorites',
+                builder: (context, state) => const FavoritesPage(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/profile',
+                builder: (context, state) => const ProfilePage(),
+              ),
+            ],
+          ),
         ],
       ),
       // 詳情頁蓋在底部導覽之上(全螢幕)
@@ -97,7 +120,8 @@ GoRouter createAppRouter() {
         path: '/indicators/:code',
         parentNavigatorKey: rootNavigatorKey,
         builder: (context, state) => IndicatorResourcesPage(
-            indicatorCode: state.pathParameters['code']!),
+          indicatorCode: state.pathParameters['code']!,
+        ),
       ),
     ],
   );

@@ -15,8 +15,12 @@ class BrowserNavigation {
   static Timer? _ownBackTimer;
   static Timer? _suppressTimer;
 
-  /// 目前是否應略過頁面轉場動畫。
-  static bool suppressTransitions = false;
+  /// 目前是否應略過頁面轉場動畫。要在 widget 裡跟著變(例如關掉 Hero 飛行)
+  /// 就聽 [transitionsSuppressed]。
+  static final transitionsSuppressed = ValueNotifier<bool>(false);
+  static bool get suppressTransitions => transitionsSuppressed.value;
+  static set suppressTransitions(bool value) =>
+      transitionsSuppressed.value = value;
 
   /// App 自己即將呼叫 history.back():接下來那一次 popstate 不是瀏覽器發起的。
   static void markOwnBack() {
@@ -55,7 +59,8 @@ class WebPageTransitionsBuilder extends PageTransitionsBuilder {
   Duration get transitionDuration => duration;
 
   @override
-  DelegatedTransitionBuilder? get delegatedTransition => (
+  DelegatedTransitionBuilder? get delegatedTransition =>
+      (
         BuildContext context,
         Animation<double> animation,
         Animation<double> secondaryAnimation,
@@ -87,7 +92,8 @@ class WebPageTransitionsBuilder extends PageTransitionsBuilder {
     if (BrowserNavigation.suppressTransitions ||
         MediaQuery.disableAnimationsOf(context)) {
       // 正在退出的頁面立刻隱藏(動畫仍會跑完才真正移除),進入的頁面立刻完整顯示。
-      final leaving = animation.status == AnimationStatus.reverse ||
+      final leaving =
+          animation.status == AnimationStatus.reverse ||
           animation.status == AnimationStatus.dismissed;
       return Offstage(offstage: leaving, child: child);
     }

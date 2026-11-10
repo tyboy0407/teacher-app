@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../models/resource.dart';
 import 'chips.dart';
+import 'cover_hero.dart';
 import 'favorite_button.dart';
 import 'resource_cover.dart';
 
@@ -30,12 +31,18 @@ class ResourceCard extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: SizedBox(
-                        width: 88,
-                        height: 88,
-                        child: ResourceCover(resource: resource, iconSize: 32),
+                    CoverHero(
+                      resource: resource,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: SizedBox(
+                          width: 88,
+                          height: 88,
+                          child: ResourceCover(
+                            resource: resource,
+                            iconSize: 32,
+                          ),
+                        ),
                       ),
                     ),
                     const SizedBox(width: 12),

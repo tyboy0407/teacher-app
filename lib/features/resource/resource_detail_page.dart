@@ -15,6 +15,7 @@ import '../../models/taxonomy.dart';
 import '../../providers.dart';
 import '../../widgets/bounce_icon_button.dart';
 import '../../widgets/chips.dart';
+import '../../widgets/cover_hero.dart';
 import '../../widgets/empty_state.dart';
 import '../../widgets/error_retry.dart';
 import '../../widgets/favorite_button.dart';
@@ -230,7 +231,10 @@ class _DetailView extends ConsumerWidget {
               ),
             ],
             flexibleSpace: FlexibleSpaceBar(
-              background: ResourceCover(resource: resource, iconSize: 56),
+              background: CoverHero(
+                resource: resource,
+                child: ResourceCover(resource: resource, iconSize: 56),
+              ),
             ),
           ),
           SliverToBoxAdapter(

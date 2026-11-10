@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:teacher_app/app.dart';
+import 'package:teacher_app/core/browser_navigation.dart';
 import 'package:teacher_app/core/navigation.dart';
 import 'package:teacher_app/data/resource_repository.dart';
 import 'package:teacher_app/features/resource/resource_detail_page.dart';
@@ -389,6 +390,47 @@ void main() {
       reason: '減少動態效果時不該有進場用的 Opacity',
     );
     await tester.pumpAndSettle();
+  });
+
+  testWidgets('封面共享元素轉場:卡片與詳情頁共用同一個 Hero,瀏覽器返回時關閉', (tester) async {
+    await pumpApp(tester);
+    await tester.tap(find.text('資源庫'));
+    await tester.pumpAndSettle();
+    final cardHero = tester.widget<Hero>(
+      find.descendant(
+          of: find.byType(ResourceCard).first, matching: find.byType(Hero)),
+    );
+    await tester.tap(find.byType(ResourceCard).first);
+    await tester.pumpAndSettle();
+    final detailHero = tester.widget<Hero>(
+      find.descendant(
+          of: find.byType(ResourceDetailPage), matching: find.byType(Hero)),
+    );
+    expect(detailHero.tag, cardHero.tag);
+
+    // 瀏覽器發起的返回:HeroMode 關閉,不播飛行
+    BrowserNavigation.suppressTransitions = true;
+    await tester.pump();
+    final mode = tester.widget<HeroMode>(
+      find.descendant(
+          of: find.byType(ResourceDetailPage), matching: find.byType(HeroMode)),
+    );
+    expect(mode.enabled, isFalse);
+    BrowserNavigation.suppressTransitions = false;
+    await tester.pump();
+  });
+
+  testWidgets('首頁最新資源點進詳情頁:精選與最新重複的資源不會有重複 Hero', (tester) async {
+    await pumpApp(tester);
+    await tester.dragUntilVisible(
+      find.text('最新資源'),
+      find.byType(ListView).first,
+      const Offset(0, -300),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.byType(ResourceCard).first);
+    await tester.pumpAndSettle();
+    expect(find.byType(ResourceDetailPage), findsOneWidget);
   });
 
   testWidgets('收藏後出現在收藏頁', (tester) async {

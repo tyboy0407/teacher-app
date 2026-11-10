@@ -160,9 +160,18 @@ class CrossfadeSwitcher extends StatelessWidget {
       duration: AppMotion.reduced(context) ? Duration.zero : AppMotion.fast,
       switchInCurve: AppMotion.enter,
       switchOutCurve: AppMotion.exit,
-      // 兩邊都要撐滿(ListView 需要有邊界的高度),不用預設的置中堆疊
-      layoutBuilder: (current, previous) =>
-          Stack(fit: StackFit.expand, children: [...previous, ?current]),
+      // 兩邊都要撐滿(ListView 需要有邊界的高度),不用預設的置中堆疊。
+      // 淡出中的舊內容關掉 Hero:新舊列表可能各有同一筆資源的封面,tag 會重複。
+      // 用和子樹相同的 key 包起來,Stack 才能對上同一個元素、不重建。
+      layoutBuilder: (current, previous) => Stack(
+        fit: StackFit.expand,
+        children: [
+          for (final child in previous)
+            HeroMode(key: child.key, enabled: false, child: child),
+          if (current != null)
+            HeroMode(key: current.key, enabled: true, child: current),
+        ],
+      ),
       child: child,
     );
   }
