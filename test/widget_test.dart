@@ -12,6 +12,7 @@ import 'package:teacher_app/models/resource.dart';
 import 'package:teacher_app/models/resource_draft.dart';
 import 'package:teacher_app/models/taxonomy.dart';
 import 'package:teacher_app/providers.dart';
+import 'package:teacher_app/widgets/animated_checkmark.dart';
 import 'package:teacher_app/widgets/collapsible_row.dart';
 import 'package:teacher_app/widgets/entrance.dart';
 import 'package:teacher_app/widgets/skeleton.dart';
@@ -468,7 +469,7 @@ void main() {
     // 填了標題但沒選年齡
     await tester.enterText(find.byType(TextFormField).first, '測試教具');
     await tapSubmit(tester);
-    await tester.pump(const Duration(milliseconds: 300));
+    await tester.pumpAndSettle(); // 會先捲回年齡區塊再顯示錯誤
     expect(find.text('請選擇適用年齡'), findsOneWidget);
   });
 
@@ -484,8 +485,11 @@ void main() {
     await tapSubmit(tester);
     await tester.pumpAndSettle();
 
-    expect(find.text('已送出審核 🎉'), findsOneWidget);
-    await tester.tap(find.text('好'));
+    // 整頁成功畫面:勾勾、說明、兩個下一步
+    expect(find.text('送出了!'), findsOneWidget);
+    expect(find.byType(AnimatedCheckmark), findsOneWidget);
+    expect(find.textContaining('「測試教具」已進入審核'), findsOneWidget);
+    await tester.tap(find.text('回到我的投稿'));
     await tester.pumpAndSettle();
     expect(find.text('我的投稿'), findsOneWidget);
   });
@@ -499,6 +503,84 @@ void main() {
     reviewStatus: 'pending',
     published: false,
   );
+
+  testWidgets('投稿表單:送出失敗給「重試」,內容保留,重試成功進成功頁', (tester) async {
+    final repo = _FakeVideoRepo()..submitFails = true;
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          resourceRepositoryProvider.overrideWithValue(repo),
+          authRepositoryProvider.overrideWithValue(_FakeAuthRepo()),
+        ],
+        child: const TeacherApp(),
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('發布'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('新增投稿'));
+    await tester.pumpAndSettle();
+    await tester.enterText(find.byType(TextFormField).first, '測試教具');
+    await tester.tap(find.widgetWithText(FilterChip, '小班'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.widgetWithText(FilterChip, '認知'));
+    await tester.pumpAndSettle();
+    await tapSubmit(tester);
+    await tester.pumpAndSettle();
+    expect(find.text('重試'), findsOneWidget);
+    expect(find.text('送出了!'), findsNothing);
+    // 表單是延遲建構的清單,標題在頂端:捲回去確認內容還在
+    await tester.scrollUntilVisible(
+      find.text('測試教具'),
+      -300,
+      scrollable: find.byType(Scrollable).first,
+    );
+    expect(find.text('測試教具'), findsOneWidget, reason: '填好的內容要保留');
+
+    repo.submitFails = false;
+    await tester.tap(find.text('重試'));
+    await tester.pumpAndSettle();
+    expect(find.text('送出了!'), findsOneWidget);
+
+    // 再投一篇:換一張乾淨的表單
+    await tester.tap(find.text('再投一篇'));
+    await tester.pumpAndSettle();
+    expect(find.text('新增投稿'), findsOneWidget);
+    expect(find.text('測試教具'), findsNothing);
+  });
+
+  testWidgets('投稿表單:缺年齡時錯誤顯示在該區塊下方並捲到該處', (tester) async {
+    tester.view.physicalSize = const Size(375, 812);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.reset);
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          resourceRepositoryProvider.overrideWithValue(_FakeVideoRepo()),
+          authRepositoryProvider.overrideWithValue(_FakeAuthRepo()),
+        ],
+        child: const TeacherApp(),
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('發布'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('新增投稿'));
+    await tester.pumpAndSettle();
+    await tester.enterText(find.byType(TextFormField).first, '測試教具');
+    await tapSubmit(tester);
+    await tester.pumpAndSettle();
+    expect(find.byType(SnackBar), findsNothing, reason: '錯誤不再用提示條');
+    final error = find.text('請選擇適用年齡');
+    expect(error, findsOneWidget);
+    final y = tester.getTopLeft(error).dy;
+    expect(y, inInclusiveRange(0, 812), reason: '應已捲到錯誤區塊');
+
+    // 選了年齡,錯誤就消失
+    await tester.tap(find.widgetWithText(FilterChip, '小班'));
+    await tester.pumpAndSettle();
+    expect(find.text('請選擇適用年齡'), findsNothing);
+  });
 
   testWidgets('已登入但管理者查詢失敗:詳情頁與我的頁仍正常顯示', (tester) async {
     // 線上曾發生:schema_v3 未執行 → is_admin 回 404。登入狀態早已載入時,
@@ -887,8 +969,14 @@ class _FakeVideoRepo implements ResourceRepository {
   Future<List<Resource>> fetchByIndicator(String indicatorCode) async =>
       const [];
 
+  /// 模擬送出失敗(網路問題);可在測試中途改回 false 驗證「重試」
+  bool submitFails = false;
+
   @override
-  Future<String> submitResource(ResourceDraft draft) async => 'fake-id';
+  Future<String> submitResource(ResourceDraft draft) async {
+    if (submitFails) throw Exception('network');
+    return 'fake-id';
+  }
 
   @override
   Future<List<Resource>> fetchMyUploads() async => myUploads;

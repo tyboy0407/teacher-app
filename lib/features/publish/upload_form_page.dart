@@ -2,8 +2,10 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../core/motion.dart';
 import '../../core/navigation.dart';
 import '../../data/curriculum_service.dart';
 import '../../data/theme_catalog.dart';
@@ -11,6 +13,7 @@ import '../../models/resource.dart';
 import '../../models/resource_draft.dart';
 import '../../models/taxonomy.dart';
 import '../../providers.dart';
+import '../../widgets/animated_checkmark.dart';
 import 'indicator_picker_page.dart';
 
 class _PickedImage {
@@ -22,8 +25,8 @@ class _PickedImage {
 
 class _StepFields {
   _StepFields()
-      : title = TextEditingController(),
-        description = TextEditingController();
+    : title = TextEditingController(),
+      description = TextEditingController();
 
   final TextEditingController title;
   final TextEditingController description;
@@ -63,6 +66,21 @@ class _UploadFormPageState extends ConsumerState<UploadFormPage> {
   final List<_PickedImage> _images = [];
   bool _submitting = false;
 
+  /// 送出成功後顯示成功頁(表單的「結尾」)
+  bool _submitted = false;
+
+  /// 送出失敗過一次後,欄位邊打邊驗證,錯誤會隨修正消失
+  AutovalidateMode _autovalidate = AutovalidateMode.disabled;
+
+  /// 年齡、領域這兩組 chip 不是 Form 欄位,錯誤自己管;顯示在該區塊下方
+  String? _ageError;
+  String? _domainError;
+
+  final _titleFocus = FocusNode();
+  final _scroll = ScrollController();
+  final _ageSectionKey = GlobalKey();
+  final _domainSectionKey = GlobalKey();
+
   bool get _needsCraftFields => _type == ResourceType.craft;
 
   bool get _needsMaterials =>
@@ -70,6 +88,8 @@ class _UploadFormPageState extends ConsumerState<UploadFormPage> {
 
   @override
   void dispose() {
+    _titleFocus.dispose();
+    _scroll.dispose();
     _titleController.dispose();
     _summaryController.dispose();
     _contentController.dispose();
@@ -83,11 +103,6 @@ class _UploadFormPageState extends ConsumerState<UploadFormPage> {
       step.dispose();
     }
     super.dispose();
-  }
-
-  void _showMessage(String message) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(message)));
   }
 
   void _addTagFromInput() {
@@ -122,14 +137,47 @@ class _UploadFormPageState extends ConsumerState<UploadFormPage> {
     }
   }
 
+  /// 捲到出錯的區塊,老師不用自己找哪裡沒填
+  Future<void> _revealError(GlobalKey key) async {
+    final reduced = AppMotion.reduced(context);
+    if (key.currentContext == null && _scroll.hasClients) {
+      // 表單是延遲建構的清單,區塊捲出畫面後就不存在:先捲回頂端讓它建起來
+      // (年齡、領域都在表單前段)
+      await _scroll.animateTo(
+        0,
+        duration: reduced ? const Duration(milliseconds: 1) : AppMotion.slow,
+        curve: AppMotion.standard,
+      );
+      await WidgetsBinding.instance.endOfFrame;
+    }
+    final target = key.currentContext;
+    if (target == null || !target.mounted) return;
+    await Scrollable.ensureVisible(
+      target,
+      alignment: 0.1,
+      duration: reduced ? Duration.zero : AppMotion.slow,
+      curve: AppMotion.standard,
+    );
+  }
+
   Future<void> _submit() async {
-    if (!(_formKey.currentState?.validate() ?? false)) return;
-    if (_ages.isEmpty) {
-      _showMessage('請選擇適用年齡');
+    final formValid = _formKey.currentState?.validate() ?? false;
+    setState(() {
+      _autovalidate = AutovalidateMode.onUserInteraction;
+      _ageError = _ages.isEmpty ? '請選擇適用年齡' : null;
+      _domainError = _domains.isEmpty ? '請選擇至少一個領域' : null;
+    });
+    if (!formValid) {
+      // 標題是唯一的必填文字欄位:聚焦它,輸入框會自己捲進畫面
+      _titleFocus.requestFocus();
       return;
     }
-    if (_domains.isEmpty) {
-      _showMessage('請選擇至少一個領域');
+    if (_ageError != null) {
+      await _revealError(_ageSectionKey);
+      return;
+    }
+    if (_domainError != null) {
+      await _revealError(_domainSectionKey);
       return;
     }
 
@@ -175,24 +223,23 @@ class _UploadFormPageState extends ConsumerState<UploadFormPage> {
       await repo.submitResource(draft);
       ref.invalidate(myUploadsProvider);
       if (!mounted) return;
-      // 先結束送出狀態,對話框開啟時按鈕才不會停在轉圈
-      setState(() => _submitting = false);
-      await showDialog<void>(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('已送出審核 🎉'),
-          content: const Text('審核通過後就會出現在資源庫。\n可以在「發布」頁追蹤審核狀態。'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('好'),
-            ),
-          ],
-        ),
-      );
-      if (mounted) popPage(context);
+      // 老師付出最多的時刻,值得一個完整的結尾:整頁成功畫面,不是一個小對話框
+      setState(() {
+        _submitting = false;
+        _submitted = true;
+      });
     } catch (error) {
-      if (mounted) _showMessage('送出失敗:$error');
+      if (!mounted) return;
+      // 失敗要有回復路徑:直接給「重試」,填好的內容都還在
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+          SnackBar(
+            content: const Text('送出失敗,請檢查網路後再試一次'),
+            duration: const Duration(seconds: 8),
+            action: SnackBarAction(label: '重試', onPressed: _submit),
+          ),
+        );
     } finally {
       if (mounted && _submitting) setState(() => _submitting = false);
     }
@@ -201,18 +248,32 @@ class _UploadFormPageState extends ConsumerState<UploadFormPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    if (_submitted) {
+      return Scaffold(
+        appBar: AppBar(
+          leading: const AppBackButton(),
+          title: const Text('已送出'),
+        ),
+        body: _SubmitSuccessView(
+          title: _titleController.text.trim(),
+          onDone: () => popPage(context),
+          // 換一張乾淨的表單:用取代而不是再推一層,返回仍回到「我的投稿」
+          onAgain: () => context.pushReplacement('/publish/new'),
+        ),
+      );
+    }
     return Scaffold(
-      appBar: AppBar(
-        leading: const AppBackButton(),
-        title: const Text('新增投稿'),
-      ),
+      appBar: AppBar(leading: const AppBackButton(), title: const Text('新增投稿')),
       body: Form(
         key: _formKey,
+        autovalidateMode: _autovalidate,
         child: ListView(
+          controller: _scroll,
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
           children: [
             TextFormField(
               controller: _titleController,
+              focusNode: _titleFocus,
               maxLength: 30,
               decoration: const InputDecoration(
                 labelText: '標題 *',
@@ -245,7 +306,7 @@ class _UploadFormPageState extends ConsumerState<UploadFormPage> {
                   ),
               ],
             ),
-            _SectionLabel('適用年齡 *'),
+            _SectionLabel('適用年齡 *', key: _ageSectionKey),
             Wrap(
               spacing: 8,
               runSpacing: 8,
@@ -256,11 +317,13 @@ class _UploadFormPageState extends ConsumerState<UploadFormPage> {
                     selected: _ages.contains(age),
                     onSelected: (_) => setState(() {
                       if (!_ages.remove(age)) _ages.add(age);
+                      _ageError = null;
                     }),
                   ),
               ],
             ),
-            _SectionLabel('發展領域 *(最多 2~3 個)'),
+            _FieldError(_ageError),
+            _SectionLabel('發展領域 *(最多 2~3 個)', key: _domainSectionKey),
             Wrap(
               spacing: 8,
               runSpacing: 8,
@@ -274,10 +337,12 @@ class _UploadFormPageState extends ConsumerState<UploadFormPage> {
                     selected: _domains.contains(domain),
                     onSelected: (_) => setState(() {
                       if (!_domains.remove(domain)) _domains.add(domain);
+                      _domainError = null;
                     }),
                   ),
               ],
             ),
+            _FieldError(_domainError),
             _SectionLabel('主題 / 節慶(選填,老師常用主題搜尋)'),
             Wrap(
               spacing: 8,
@@ -338,13 +403,15 @@ class _UploadFormPageState extends ConsumerState<UploadFormPage> {
                             top: 2,
                             right: 2,
                             child: InkWell(
-                              onTap: () =>
-                                  setState(() => _images.removeAt(i)),
+                              onTap: () => setState(() => _images.removeAt(i)),
                               child: const CircleAvatar(
                                 radius: 10,
                                 backgroundColor: Colors.black54,
-                                child: Icon(Icons.close,
-                                    size: 12, color: Colors.white),
+                                child: Icon(
+                                  Icons.close,
+                                  size: 12,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ),
@@ -391,15 +458,18 @@ class _UploadFormPageState extends ConsumerState<UploadFormPage> {
                             isDense: true,
                             border: const OutlineInputBorder(),
                             contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 10),
+                              horizontal: 12,
+                              vertical: 10,
+                            ),
                           ),
                         ),
                       ),
                       IconButton(
                         tooltip: '移除這項材料',
                         icon: const Icon(Icons.remove_circle_outline),
-                        onPressed: () => setState(() =>
-                            _materialControllers.removeAt(i).dispose()),
+                        onPressed: () => setState(
+                          () => _materialControllers.removeAt(i).dispose(),
+                        ),
                       ),
                     ],
                   ),
@@ -408,7 +478,8 @@ class _UploadFormPageState extends ConsumerState<UploadFormPage> {
                 alignment: Alignment.centerLeft,
                 child: TextButton.icon(
                   onPressed: () => setState(
-                      () => _materialControllers.add(TextEditingController())),
+                    () => _materialControllers.add(TextEditingController()),
+                  ),
                   icon: const Icon(Icons.add, size: 18),
                   label: const Text('新增材料'),
                 ),
@@ -452,8 +523,8 @@ class _UploadFormPageState extends ConsumerState<UploadFormPage> {
                             IconButton(
                               tooltip: '移除這個步驟',
                               icon: const Icon(Icons.remove_circle_outline),
-                              onPressed: () => setState(
-                                  () => _steps.removeAt(i).dispose()),
+                              onPressed: () =>
+                                  setState(() => _steps.removeAt(i).dispose()),
                             ),
                           ],
                         ),
@@ -486,8 +557,8 @@ class _UploadFormPageState extends ConsumerState<UploadFormPage> {
                     ChoiceChip(
                       label: Text('★' * level),
                       selected: _difficulty == level,
-                      onSelected: (selected) => setState(
-                          () => _difficulty = selected ? level : null),
+                      onSelected: (selected) =>
+                          setState(() => _difficulty = selected ? level : null),
                     ),
                 ],
               ),
@@ -506,7 +577,8 @@ class _UploadFormPageState extends ConsumerState<UploadFormPage> {
               controller: _contentController,
               maxLines: 8,
               decoration: const InputDecoration(
-                hintText: '把另一位老師看了就能照做的細節寫進來;'
+                hintText:
+                    '把另一位老師看了就能照做的細節寫進來;'
                     '含小物件或工具時,記得在結尾加「小提醒」安全說明。',
                 border: OutlineInputBorder(),
               ),
@@ -554,8 +626,9 @@ class _UploadFormPageState extends ConsumerState<UploadFormPage> {
             Text(
               '送出即代表內容為原創或已取得授權,照片不含孩子的臉。',
               textAlign: TextAlign.center,
-              style: theme.textTheme.bodySmall
-                  ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
             ),
           ],
         ),
@@ -564,8 +637,116 @@ class _UploadFormPageState extends ConsumerState<UploadFormPage> {
   }
 }
 
+/// chip 群組的錯誤訊息:顯示在該區塊正下方,和輸入框的錯誤同一種樣子
+class _FieldError extends StatelessWidget {
+  const _FieldError(this.message);
+
+  final String? message;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return AnimatedSize(
+      duration: AppMotion.normal,
+      curve: AppMotion.standard,
+      alignment: Alignment.topLeft,
+      child: message == null
+          ? const SizedBox(width: double.infinity)
+          : Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.error_outline,
+                    size: 16,
+                    color: theme.colorScheme.error,
+                  ),
+                  const SizedBox(width: 6),
+                  Expanded(
+                    child: Text(
+                      message!,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: theme.colorScheme.error,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+    );
+  }
+}
+
+/// 送出成功的結尾:勾勾畫出來、說清楚接下來會發生什麼、給兩個明確的下一步。
+class _SubmitSuccessView extends StatelessWidget {
+  const _SubmitSuccessView({
+    required this.title,
+    required this.onDone,
+    required this.onAgain,
+  });
+
+  final String title;
+  final VoidCallback onDone;
+  final VoidCallback onAgain;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return SafeArea(
+      child: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(32, 24, 32, 32),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const AnimatedCheckmark(),
+              const SizedBox(height: 24),
+              Text(
+                '送出了!',
+                textAlign: TextAlign.center,
+                style: theme.textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                title.isEmpty
+                    ? '審核通過後會出現在資源庫,你可以在「發布」頁追蹤狀態。'
+                    : '「$title」已進入審核。通過後會出現在資源庫,你可以在「發布」頁追蹤狀態。',
+                textAlign: TextAlign.center,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                  height: 1.6,
+                ),
+              ),
+              const SizedBox(height: 28),
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton.icon(
+                  onPressed: onDone,
+                  icon: const Icon(Icons.list_alt),
+                  label: const Text('回到我的投稿'),
+                ),
+              ),
+              const SizedBox(height: 10),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
+                  onPressed: onAgain,
+                  icon: const Icon(Icons.add),
+                  label: const Text('再投一篇'),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class _SectionLabel extends StatelessWidget {
-  const _SectionLabel(this.text);
+  const _SectionLabel(this.text, {super.key});
 
   final String text;
 
@@ -575,10 +756,9 @@ class _SectionLabel extends StatelessWidget {
       padding: const EdgeInsets.only(top: 16, bottom: 8),
       child: Text(
         text,
-        style: Theme.of(context)
-            .textTheme
-            .titleSmall
-            ?.copyWith(fontWeight: FontWeight.w700),
+        style: Theme.of(
+          context,
+        ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700),
       ),
     );
   }
