@@ -277,7 +277,9 @@ class _DetailView extends ConsumerWidget {
                     children: [
                       TypeBadge(type: resource.type),
                       if (resource.difficulty != null)
-                        SmallInfoChip(label: '難度 ${'★' * resource.difficulty!}'),
+                        SmallInfoChip(
+                          label: '難度 ${'★' * resource.difficulty!}',
+                        ),
                       if (resource.durationMinutes != null)
                         SmallInfoChip(
                           icon: Icons.schedule,
@@ -468,13 +470,8 @@ class _DetailView extends ConsumerWidget {
                       ),
                     ),
                   if (resource.sourceName != null) ...[
-                    const SizedBox(height: 20),
-                    Text(
-                      '資料來源:${resource.sourceName}',
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
-                      ),
-                    ),
+                    const SizedBox(height: 24),
+                    _SourceNote(resource: resource),
                   ],
                 ],
               ),
@@ -801,6 +798,49 @@ class _ReviewBarState extends ConsumerState<_ReviewBar> {
           ),
         ),
       ),
+    );
+  }
+}
+
+/// 參考來源:寫明這篇參考了誰的教案,有連結就能點開原始資料。
+/// 內容是參考後重新設計的,不是原文轉載,這裡也講清楚。
+class _SourceNote extends StatelessWidget {
+  const _SourceNote({required this.resource});
+
+  final Resource resource;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final url = resource.sourceUrl;
+    final muted = theme.textTheme.bodySmall?.copyWith(
+      color: theme.colorScheme.onSurfaceVariant,
+    );
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Divider(height: 1),
+        const SizedBox(height: 12),
+        Text('參考來源:${resource.sourceName}', style: muted),
+        const SizedBox(height: 2),
+        Text('本篇是參考後重新設計的內容,不是原文轉載。', style: muted),
+        if (url != null && url.isNotEmpty)
+          Align(
+            alignment: Alignment.centerLeft,
+            child: TextButton.icon(
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                minimumSize: const Size(44, 44),
+              ),
+              onPressed: () => launchUrl(
+                Uri.parse(url),
+                mode: LaunchMode.externalApplication,
+              ),
+              icon: const Icon(Icons.open_in_new, size: 16),
+              label: const Text('開啟原始資料'),
+            ),
+          ),
+      ],
     );
   }
 }

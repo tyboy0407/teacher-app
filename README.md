@@ -65,13 +65,16 @@ supabase/
   schema_v3.sql    管理者名單與 App 內審核函式
   schema_v4.sql    主題/節慶欄位(themes)
   schema_v5.sql    管理者下架 / 重新上架 / 刪除函式
+  seed_lessons.sql 10 篇範本教案(由 scripts/build_lesson_seeds.py 產生)
   curriculum.sql   課綱課程目標與學習指標(由腳本產生)
   seed.sql         與內建示範資料相同的 14 筆種子內容
 scripts/
   build_curriculum.py   解析官方課綱 PDF → 產生課綱資料檔(Dart/SQL/核對清單)
+  build_lesson_seeds.py 範本教案的單一來源 → 產生 App 內建資料、SQL 種子與來源清單
 docs/
   content-guidelines.md   內容錄入規範(給錄入內容的老師)
   curriculum-review.md    課綱指標逐條核對清單(含官方 PDF 頁碼)
+  lesson-sources.md       範本教案的參考來源(每篇都是參考後重新設計的原創內容)
 ```
 
 ## 三維分類體系

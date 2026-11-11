@@ -1,9 +1,12 @@
 import '../models/resource.dart';
 import '../models/taxonomy.dart';
+import 'seed_lessons.dart';
 
 /// 內建示範資料:未連線 Supabase 時的資料來源。
 /// 內容與 supabase/seed.sql 相同,修改時請兩邊同步。
+/// 範本教案另由 scripts/build_lesson_seeds.py 產生(seed_lessons.dart / seed_lessons.sql)。
 final List<Resource> seedResources = [
+  ...seedLessons,
   Resource(
     id: 'seed-001',
     title: '瓶蓋顏色分類盒',

@@ -8,6 +8,8 @@ import 'package:teacher_app/app.dart';
 import 'package:teacher_app/core/app_update.dart';
 import 'package:teacher_app/core/browser_navigation.dart';
 import 'package:teacher_app/core/navigation.dart';
+import 'package:teacher_app/data/curriculum_service.dart';
+import 'package:teacher_app/data/seed_lessons.dart';
 import 'package:teacher_app/data/resource_repository.dart';
 import 'package:teacher_app/features/resource/resource_detail_page.dart';
 import 'package:teacher_app/models/resource.dart';
@@ -122,9 +124,7 @@ void main() {
         overrides: [
           resourceRepositoryProvider.overrideWithValue(_FakeVideoRepo()),
         ],
-        child: const MaterialApp(
-          home: ResourceDetailPage(resourceId: 'v1'),
-        ),
+        child: const MaterialApp(home: ResourceDetailPage(resourceId: 'v1')),
       ),
     );
     await tester.pumpAndSettle();
@@ -198,8 +198,7 @@ void main() {
     Future<void> check(String page) async {
       for (final element in find.byType(IconButton).evaluate()) {
         final button = element.widget as IconButton;
-        expect(button.tooltip?.isNotEmpty, isTrue,
-            reason: '$page 有沒有名稱的圖示按鈕');
+        expect(button.tooltip?.isNotEmpty, isTrue, reason: '$page 有沒有名稱的圖示按鈕');
         final size = element.size!;
         expect(size.width, greaterThanOrEqualTo(44), reason: '$page 按鈕太窄');
         expect(size.height, greaterThanOrEqualTo(44), reason: '$page 按鈕太矮');
@@ -262,7 +261,9 @@ void main() {
     expect(find.byType(ResourceCard), findsOneWidget);
     expect(
       find.descendant(
-          of: find.byType(ResourceCard), matching: find.byIcon(Icons.favorite)),
+        of: find.byType(ResourceCard),
+        matching: find.byIcon(Icons.favorite),
+      ),
       findsOneWidget,
     );
   });
@@ -327,18 +328,22 @@ void main() {
     expect(find.byType(SkeletonList), findsWidgets);
     final reveal = tester.widget<Visibility>(
       find.descendant(
-          of: find.byType(SkeletonList).first,
-          matching: find.byType(Visibility)),
+        of: find.byType(SkeletonList).first,
+        matching: find.byType(Visibility),
+      ),
     );
     expect(reveal.visible, isFalse);
     await tester.pump(const Duration(milliseconds: 150));
     expect(
       tester
-          .widget<Visibility>(find
-              .descendant(
+          .widget<Visibility>(
+            find
+                .descendant(
                   of: find.byType(SkeletonList).first,
-                  matching: find.byType(Visibility))
-              .first)
+                  matching: find.byType(Visibility),
+                )
+                .first,
+          )
           .visible,
       isTrue,
       reason: '超過 100ms 就該看到骨架',
@@ -357,10 +362,14 @@ void main() {
     );
     expect(entrance.enabled, isTrue);
     final opacityNow = tester
-        .widget<Opacity>(find
-            .descendant(
-                of: find.byWidget(entrance), matching: find.byType(Opacity))
-            .first)
+        .widget<Opacity>(
+          find
+              .descendant(
+                of: find.byWidget(entrance),
+                matching: find.byType(Opacity),
+              )
+              .first,
+        )
         .opacity;
     expect(opacityNow, lessThan(1.0), reason: '進場動畫應從透明開始');
     await tester.pumpAndSettle();
@@ -386,7 +395,9 @@ void main() {
     expect(find.byType(ResourceCard), findsWidgets);
     expect(
       find.ancestor(
-          of: find.byType(ResourceCard).first, matching: find.byType(Opacity)),
+        of: find.byType(ResourceCard).first,
+        matching: find.byType(Opacity),
+      ),
       findsNothing,
       reason: '減少動態效果時不該有進場用的 Opacity',
     );
@@ -399,13 +410,17 @@ void main() {
     await tester.pumpAndSettle();
     final cardHero = tester.widget<Hero>(
       find.descendant(
-          of: find.byType(ResourceCard).first, matching: find.byType(Hero)),
+        of: find.byType(ResourceCard).first,
+        matching: find.byType(Hero),
+      ),
     );
     await tester.tap(find.byType(ResourceCard).first);
     await tester.pumpAndSettle();
     final detailHero = tester.widget<Hero>(
       find.descendant(
-          of: find.byType(ResourceDetailPage), matching: find.byType(Hero)),
+        of: find.byType(ResourceDetailPage),
+        matching: find.byType(Hero),
+      ),
     );
     expect(detailHero.tag, cardHero.tag);
 
@@ -414,7 +429,9 @@ void main() {
     await tester.pump();
     final mode = tester.widget<HeroMode>(
       find.descendant(
-          of: find.byType(ResourceDetailPage), matching: find.byType(HeroMode)),
+        of: find.byType(ResourceDetailPage),
+        matching: find.byType(HeroMode),
+      ),
     );
     expect(mode.enabled, isFalse);
     BrowserNavigation.suppressTransitions = false;
@@ -475,7 +492,9 @@ void main() {
     expect(find.widgetWithText(InputChip, '小班'), findsNothing);
     expect(find.widgetWithText(InputChip, '認知'), findsOneWidget);
     // 篩選列上的 chip 也同步取消
-    final ageChip = tester.widget<FilterChip>(find.widgetWithText(FilterChip, '小班'));
+    final ageChip = tester.widget<FilterChip>(
+      find.widgetWithText(FilterChip, '小班'),
+    );
     expect(ageChip.selected, isFalse);
   });
 
@@ -542,10 +561,15 @@ void main() {
     expect(find.textContaining('用於:'), findsNothing);
     // 每項材料只出現一次
     final checkboxes = find.byType(CheckboxListTile).evaluate().length;
-    final unique = find.byType(CheckboxListTile).evaluate().map((e) {
-      final tile = e.widget as CheckboxListTile;
-      return (tile.title as Text).data;
-    }).toSet().length;
+    final unique = find
+        .byType(CheckboxListTile)
+        .evaluate()
+        .map((e) {
+          final tile = e.widget as CheckboxListTile;
+          return (tile.title as Text).data;
+        })
+        .toSet()
+        .length;
     expect(checkboxes, unique);
   });
 
@@ -556,7 +580,10 @@ void main() {
     // 只剩分頁標籤那一個「資源庫」
     expect(find.text('資源庫'), findsOneWidget);
     expect(
-      find.descendant(of: find.byType(AppBar), matching: find.byType(TextField)),
+      find.descendant(
+        of: find.byType(AppBar),
+        matching: find.byType(TextField),
+      ),
       findsOneWidget,
     );
     await tester.enterText(find.byType(TextField), '瓶蓋');
@@ -573,6 +600,39 @@ void main() {
     await tester.pump();
     expect(find.text('有新版本,更新中…'), findsOneWidget);
     expect(find.text('幾秒後會自動重新載入'), findsOneWidget);
+  });
+
+  testWidgets('範本教案:詳情頁顯示參考來源與「不是原文轉載」的說明', (tester) async {
+    await pumpApp(tester);
+    await openDetailBySearch(tester, '玉米');
+    expect(find.text('摸摸看,是玉米!'), findsWidgets);
+    await tester.drag(find.byType(CustomScrollView), const Offset(0, -3000));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('參考來源:農業部食農教育'), findsOneWidget);
+    expect(find.text('本篇是參考後重新設計的內容,不是原文轉載。'), findsOneWidget);
+    expect(find.text('開啟原始資料'), findsOneWidget);
+  });
+
+  test('範本教案資料:每篇都有來源、指標不超過 3 條、內容含教學目標', () {
+    expect(seedLessons.length, 10);
+    for (final lesson in seedLessons) {
+      expect(lesson.type, ResourceType.lessonPlan);
+      expect(lesson.sourceName, isNotNull, reason: lesson.title);
+      expect(
+        lesson.indicatorCodes.length,
+        inInclusiveRange(1, 3),
+        reason: lesson.title,
+      );
+      for (final code in lesson.indicatorCodes) {
+        expect(
+          CurriculumService.indicator(code),
+          isNotNull,
+          reason: '${lesson.title} 的指標 $code 不存在',
+        );
+      }
+      expect(lesson.content, contains('教學目標'), reason: lesson.title);
+      expect(lesson.content, contains('小提醒'), reason: lesson.title);
+    }
   });
 
   testWidgets('收藏後出現在收藏頁', (tester) async {
@@ -613,8 +673,9 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          resourceRepositoryProvider
-              .overrideWithValue(_FakeVideoRepo(myUploads: [pending])),
+          resourceRepositoryProvider.overrideWithValue(
+            _FakeVideoRepo(myUploads: [pending]),
+          ),
           authRepositoryProvider.overrideWithValue(_FakeAuthRepo()),
         ],
         child: const TeacherApp(),
@@ -881,8 +942,10 @@ void main() {
     expect(find.textContaining('整理材料'), findsOneWidget);
     expect(find.byIcon(Icons.playlist_add_check), findsOneWidget);
     expect(find.byType(Badge), findsOneWidget);
-    expect(find.descendant(of: find.byType(Badge), matching: find.text('1')),
-        findsOneWidget);
+    expect(
+      find.descendant(of: find.byType(Badge), matching: find.text('1')),
+      findsOneWidget,
+    );
 
     await tester.tap(find.byIcon(Icons.arrow_back));
     await tester.pumpAndSettle();
@@ -919,9 +982,19 @@ void main() {
     await tester.tap(find.text('開學適應'));
     await tester.pumpAndSettle();
 
-    expect(find.text('共 3 筆資源'), findsOneWidget);
-    expect(find.text('安靜排隊救急口令集'), findsOneWidget);
+    expect(find.text('共 4 筆資源'), findsOneWidget); // 3 筆原有 + 範本教案「我的心情天氣」
     expect(find.text('清除篩選'), findsOneWidget);
+    // 最新的排最前面;舊資源在清單下方(延遲建構),捲到才看得到
+    expect(find.text('我的心情天氣'), findsOneWidget);
+    await tester.scrollUntilVisible(
+      find.text('安靜排隊救急口令集'),
+      300,
+      scrollable: find.descendant(
+        of: find.byType(EntranceWindow),
+        matching: find.byType(Scrollable),
+      ),
+    );
+    expect(find.text('安靜排隊救急口令集'), findsOneWidget);
   });
 
   testWidgets('詳情頁分享面板:LINE 排第一,複製的文字含標題與連結', (tester) async {
@@ -935,8 +1008,12 @@ void main() {
         return null;
       },
     );
-    addTearDown(() => tester.binding.defaultBinaryMessenger
-        .setMockMethodCallHandler(SystemChannels.platform, null));
+    addTearDown(
+      () => tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+        SystemChannels.platform,
+        null,
+      ),
+    );
 
     await pumpApp(tester);
     await openDetailBySearch(tester, '瓶蓋');
@@ -1075,11 +1152,16 @@ class _FakeAuthRepo implements AuthRepository {
   Stream<AppUser?> authStateChanges() => Stream<AppUser?>.value(_user);
 
   @override
-  Future<void> signInWithPassword(
-      {required String email, required String password}) async {}
+  Future<void> signInWithPassword({
+    required String email,
+    required String password,
+  }) async {}
 
   @override
-  Future<void> signUp({required String email, required String password}) async {}
+  Future<void> signUp({
+    required String email,
+    required String password,
+  }) async {}
 
   @override
   Future<void> sendPasswordReset(String email) async {}
@@ -1097,8 +1179,8 @@ class _FakeVideoRepo implements ResourceRepository {
     this.admin = false,
     this.adminCheckFails = false,
     this.delay = Duration.zero,
-  })  : pending = [...pending],
-        unpublished = [...unpublished];
+  }) : pending = [...pending],
+       unpublished = [...unpublished];
 
   /// 模擬網路慢:列表要等這麼久才回來
   final Duration delay;
@@ -1131,8 +1213,9 @@ class _FakeVideoRepo implements ResourceRepository {
       _video;
 
   @override
-  Future<List<Resource>> fetchResources(
-      {ResourceFilter filter = const ResourceFilter()}) async {
+  Future<List<Resource>> fetchResources({
+    ResourceFilter filter = const ResourceFilter(),
+  }) async {
     await Future<void>.delayed(delay);
     return [_video];
   }
@@ -1182,8 +1265,11 @@ class _FakeVideoRepo implements ResourceRepository {
   Future<List<Resource>> fetchPendingReviews() async => List.of(pending);
 
   @override
-  Future<void> reviewResource(String id,
-      {required bool approve, String? note}) async {
+  Future<void> reviewResource(
+    String id, {
+    required bool approve,
+    String? note,
+  }) async {
     reviewed.add((id, approve, note));
     pending.removeWhere((r) => r.id == id);
   }
