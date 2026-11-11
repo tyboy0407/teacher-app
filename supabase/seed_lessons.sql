@@ -8,7 +8,7 @@
 insert into public.resources
   (title, summary, type, age_stages, domains, indicator_codes, themes,
    content, duration_minutes, is_featured, source_name, source_url,
-   published, review_status, created_at)
+   cover_url, steps, published, review_status, created_at)
 select
   '摸摸看,是玉米!',
   '從神秘箱開始,用摸、看、剝、印認識玉米,最後用玉米滾出一張畫。',
@@ -48,6 +48,8 @@ select
   true,
   '農業部食農教育教學資源平臺〈食時好玉米〉(真愛國際教育機構,幼兒園小班)',
   'https://fae.moa.gov.tw/files/TeachingPlan/732/A01_1.pdf',
+  'asset:assets/lessons/seed-101-cover.svg',
+  '[{"title": "引起動機", "description": "神秘箱摸一摸:硬的還是軟的?一粒一粒的是什麼?", "image": "asset:assets/lessons/seed-101-1.svg"}, {"title": "發展活動", "description": "剝玉米、比顏色,再用玉米滾顏料印出花紋。", "image": "asset:assets/lessons/seed-101-2.svg"}, {"title": "綜合活動", "description": "作品掛起來一起欣賞,說說自己印出來像什麼。", "image": "asset:assets/lessons/seed-101-3.svg"}]'::jsonb,
   true,
   'approved',
   timestamptz '2026-11-10 09:00:00+08'
@@ -55,10 +57,17 @@ where not exists (
   select 1 from public.resources where title = '摸摸看,是玉米!'
 );
 
+-- 已經新增過的舊版本:補上封面與流程圖示(不覆蓋之後換上的實拍照片)
+update public.resources
+set cover_url = 'asset:assets/lessons/seed-101-cover.svg',
+    steps = '[{"title": "引起動機", "description": "神秘箱摸一摸:硬的還是軟的?一粒一粒的是什麼?", "image": "asset:assets/lessons/seed-101-1.svg"}, {"title": "發展活動", "description": "剝玉米、比顏色,再用玉米滾顏料印出花紋。", "image": "asset:assets/lessons/seed-101-2.svg"}, {"title": "綜合活動", "description": "作品掛起來一起欣賞,說說自己印出來像什麼。", "image": "asset:assets/lessons/seed-101-3.svg"}]'::jsonb
+where title = '摸摸看,是玉米!'
+  and (cover_url is null or cover_url like 'asset:%');
+
 insert into public.resources
   (title, summary, type, age_stages, domains, indicator_codes, themes,
    content, duration_minutes, is_featured, source_name, source_url,
-   published, review_status, created_at)
+   cover_url, steps, published, review_status, created_at)
 select
   '大海裡有誰?',
   '從一本海洋圖畫書出發,討論海裡的動物和我們的關係,合作畫出一片班級的海。',
@@ -98,6 +107,8 @@ select
   false,
   '臺灣海洋教育中心 幼兒園海洋教育教案〈我知道的大海〉(中大班)',
   'https://tmec.ntou.edu.tw/var/file/16/1016/attach/85/pta_35102_2264817_96315.pdf',
+  'asset:assets/lessons/seed-102-cover.svg',
+  '[{"title": "引起動機", "description": "聽海浪聲,閉上眼睛猜猜這是哪裡。", "image": "asset:assets/lessons/seed-102-1.svg"}, {"title": "發展活動", "description": "共讀海洋圖畫書:如果你是牠,會有什麼感覺?", "image": "asset:assets/lessons/seed-102-2.svg"}, {"title": "綜合活動", "description": "分組在藍色海報上畫出班級的大海,互相參觀。", "image": "asset:assets/lessons/seed-102-3.svg"}]'::jsonb,
   true,
   'approved',
   timestamptz '2026-11-09 09:00:00+08'
@@ -105,10 +116,17 @@ where not exists (
   select 1 from public.resources where title = '大海裡有誰?'
 );
 
+-- 已經新增過的舊版本:補上封面與流程圖示(不覆蓋之後換上的實拍照片)
+update public.resources
+set cover_url = 'asset:assets/lessons/seed-102-cover.svg',
+    steps = '[{"title": "引起動機", "description": "聽海浪聲,閉上眼睛猜猜這是哪裡。", "image": "asset:assets/lessons/seed-102-1.svg"}, {"title": "發展活動", "description": "共讀海洋圖畫書:如果你是牠,會有什麼感覺?", "image": "asset:assets/lessons/seed-102-2.svg"}, {"title": "綜合活動", "description": "分組在藍色海報上畫出班級的大海,互相參觀。", "image": "asset:assets/lessons/seed-102-3.svg"}]'::jsonb
+where title = '大海裡有誰?'
+  and (cover_url is null or cover_url like 'asset:%');
+
 insert into public.resources
   (title, summary, type, age_stages, domains, indicator_codes, themes,
    content, duration_minutes, is_featured, source_name, source_url,
-   published, review_status, created_at)
+   cover_url, steps, published, review_status, created_at)
 select
   '是誰咬了大餅?',
   '用一塊缺了一口的大餅當線索,邊猜邊說故事,練習大聲問問題和重述情節。',
@@ -148,6 +166,8 @@ select
   false,
   '北京開放大學學前教育優秀案例〈小班語言領域《誰咬了我的大餅》〉(付佳)',
   'https://fmp.ouchn.edu.cn/webroot/vod/jiaoyusizheng/%E5%B0%8F%E7%8F%AD%E8%AF%AD%E8%A8%80%E6%95%99%E8%82%B2%E6%B4%BB%E5%8A%A8%E3%80%8A%E8%B0%81%E5%92%AC%E4%BA%86%E6%88%91%E7%9A%84%E5%A4%A7%E9%A5%BC%E3%80%8B%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%A1%88%EF%BC%88%E5%8C%97%E4%BA%AC%E5%88%86%E9%83%A8%E4%BB%98%E4%BD%B3).pdf',
+  'asset:assets/lessons/seed-103-cover.svg',
+  '[{"title": "引起動機", "description": "小豬的大餅被咬了一口!是誰咬的?", "image": "asset:assets/lessons/seed-103-1.svg"}, {"title": "發展活動", "description": "把缺口疊在一起比一比,每種動物的牙印都不一樣。", "image": "asset:assets/lessons/seed-103-2.svg"}, {"title": "綜合活動", "description": "看著圖卡的順序,全班一起把故事再說一次。", "image": "asset:assets/lessons/seed-103-3.svg"}]'::jsonb,
   true,
   'approved',
   timestamptz '2026-11-08 09:00:00+08'
@@ -155,10 +175,17 @@ where not exists (
   select 1 from public.resources where title = '是誰咬了大餅?'
 );
 
+-- 已經新增過的舊版本:補上封面與流程圖示(不覆蓋之後換上的實拍照片)
+update public.resources
+set cover_url = 'asset:assets/lessons/seed-103-cover.svg',
+    steps = '[{"title": "引起動機", "description": "小豬的大餅被咬了一口!是誰咬的?", "image": "asset:assets/lessons/seed-103-1.svg"}, {"title": "發展活動", "description": "把缺口疊在一起比一比,每種動物的牙印都不一樣。", "image": "asset:assets/lessons/seed-103-2.svg"}, {"title": "綜合活動", "description": "看著圖卡的順序,全班一起把故事再說一次。", "image": "asset:assets/lessons/seed-103-3.svg"}]'::jsonb
+where title = '是誰咬了大餅?'
+  and (cover_url is null or cover_url like 'asset:%');
+
 insert into public.resources
   (title, summary, type, age_stages, domains, indicator_codes, themes,
    content, duration_minutes, is_featured, source_name, source_url,
-   published, review_status, created_at)
+   cover_url, steps, published, review_status, created_at)
 select
   '我的心情天氣',
   '用晴天、下雨、打雷來說自己的心情,認識開心、難過、生氣,並練習一個讓自己舒服一點的方法。',
@@ -198,6 +225,8 @@ select
   true,
   '臺北市立育航幼兒園 孫慧如〈三歲幼兒情緒教育起步走〉',
   'https://www.yhkg.tp.edu.tw/static/pdf/tar/%E4%B8%89%E6%AD%B2%E5%B9%BC%E5%85%92%E6%83%85%E7%B7%92%E6%95%99%E8%82%B2%E8%B5%B7%E6%AD%A5%E8%B5%B0.pdf',
+  'asset:assets/lessons/seed-104-cover.svg',
+  '[{"title": "引起動機", "description": "老師做表情,猜猜現在是什麼天氣:晴天、下雨還是打雷?", "image": "asset:assets/lessons/seed-104-1.svg"}, {"title": "發展活動", "description": "照鏡子做出太陽臉、下雨臉、打雷臉,再練習深呼吸。", "image": "asset:assets/lessons/seed-104-2.svg"}, {"title": "綜合活動", "description": "把名字夾到心情天氣板上,說說今天的心情。", "image": "asset:assets/lessons/seed-104-3.svg"}]'::jsonb,
   true,
   'approved',
   timestamptz '2026-11-07 09:00:00+08'
@@ -205,10 +234,17 @@ where not exists (
   select 1 from public.resources where title = '我的心情天氣'
 );
 
+-- 已經新增過的舊版本:補上封面與流程圖示(不覆蓋之後換上的實拍照片)
+update public.resources
+set cover_url = 'asset:assets/lessons/seed-104-cover.svg',
+    steps = '[{"title": "引起動機", "description": "老師做表情,猜猜現在是什麼天氣:晴天、下雨還是打雷?", "image": "asset:assets/lessons/seed-104-1.svg"}, {"title": "發展活動", "description": "照鏡子做出太陽臉、下雨臉、打雷臉,再練習深呼吸。", "image": "asset:assets/lessons/seed-104-2.svg"}, {"title": "綜合活動", "description": "把名字夾到心情天氣板上,說說今天的心情。", "image": "asset:assets/lessons/seed-104-3.svg"}]'::jsonb
+where title = '我的心情天氣'
+  and (cover_url is null or cover_url like 'asset:%');
+
 insert into public.resources
   (title, summary, type, age_stages, domains, indicator_codes, themes,
    content, duration_minutes, is_featured, source_name, source_url,
-   published, review_status, created_at)
+   cover_url, steps, published, review_status, created_at)
 select
   '謝謝你,抱一個',
   '找出身邊每天幫助我們的人,做一張感謝小卡親手送出去,練習把謝謝說出口。',
@@ -248,6 +284,8 @@ select
   false,
   '臺北市立萬華幼兒園 主題活動設計〈感恩的季節〉(余秋圜)',
   'https://www-ws.gov.taipei/001/Upload/public/Attachment/33128394047.pdf',
+  'asset:assets/lessons/seed-105-cover.svg',
+  '[{"title": "引起動機", "description": "是誰幫了我?從照片找出每天照顧我們的人。", "image": "asset:assets/lessons/seed-105-1.svg"}, {"title": "發展活動", "description": "畫一張感謝小卡,老師幫忙寫下想說的話。", "image": "asset:assets/lessons/seed-105-2.svg"}, {"title": "綜合活動", "description": "親手把卡片送出去,看著對方說「謝謝你」。", "image": "asset:assets/lessons/seed-105-3.svg"}]'::jsonb,
   true,
   'approved',
   timestamptz '2026-11-06 09:00:00+08'
@@ -255,10 +293,17 @@ where not exists (
   select 1 from public.resources where title = '謝謝你,抱一個'
 );
 
+-- 已經新增過的舊版本:補上封面與流程圖示(不覆蓋之後換上的實拍照片)
+update public.resources
+set cover_url = 'asset:assets/lessons/seed-105-cover.svg',
+    steps = '[{"title": "引起動機", "description": "是誰幫了我?從照片找出每天照顧我們的人。", "image": "asset:assets/lessons/seed-105-1.svg"}, {"title": "發展活動", "description": "畫一張感謝小卡,老師幫忙寫下想說的話。", "image": "asset:assets/lessons/seed-105-2.svg"}, {"title": "綜合活動", "description": "親手把卡片送出去,看著對方說「謝謝你」。", "image": "asset:assets/lessons/seed-105-3.svg"}]'::jsonb
+where title = '謝謝你,抱一個'
+  and (cover_url is null or cover_url like 'asset:%');
+
 insert into public.resources
   (title, summary, type, age_stages, domains, indicator_codes, themes,
    content, duration_minutes, is_featured, source_name, source_url,
-   published, review_status, created_at)
+   cover_url, steps, published, review_status, created_at)
 select
   '春聯小畫家',
   '認識春聯上的吉祥話,用紅紙和粗筆寫畫一張自己的春聯,貼在教室一起迎新年。',
@@ -298,6 +343,8 @@ select
   false,
   '教育大市集〈歡喜過新年〉(高雄市忠孝國小附設幼兒園 翁意婷、黃秀珠、阮玉文)',
   'https://market.cloud.edu.tw/resources/web/1649752',
+  'asset:assets/lessons/seed-106-cover.svg',
+  '[{"title": "引起動機", "description": "認識春聯上的字;「福」為什麼要倒著貼?", "image": "asset:assets/lessons/seed-106-1.svg"}, {"title": "發展活動", "description": "在紅紙上用粗筆寫一個字,或把祝福畫成圖。", "image": "asset:assets/lessons/seed-106-2.svg"}, {"title": "綜合活動", "description": "一起把春聯貼在教室,介紹要送給誰。", "image": "asset:assets/lessons/seed-106-3.svg"}]'::jsonb,
   true,
   'approved',
   timestamptz '2026-11-05 09:00:00+08'
@@ -305,10 +352,17 @@ where not exists (
   select 1 from public.resources where title = '春聯小畫家'
 );
 
+-- 已經新增過的舊版本:補上封面與流程圖示(不覆蓋之後換上的實拍照片)
+update public.resources
+set cover_url = 'asset:assets/lessons/seed-106-cover.svg',
+    steps = '[{"title": "引起動機", "description": "認識春聯上的字;「福」為什麼要倒著貼?", "image": "asset:assets/lessons/seed-106-1.svg"}, {"title": "發展活動", "description": "在紅紙上用粗筆寫一個字,或把祝福畫成圖。", "image": "asset:assets/lessons/seed-106-2.svg"}, {"title": "綜合活動", "description": "一起把春聯貼在教室,介紹要送給誰。", "image": "asset:assets/lessons/seed-106-3.svg"}]'::jsonb
+where title = '春聯小畫家'
+  and (cover_url is null or cover_url like 'asset:%');
+
 insert into public.resources
   (title, summary, type, age_stages, domains, indicator_codes, themes,
    content, duration_minutes, is_featured, source_name, source_url,
-   published, review_status, created_at)
+   cover_url, steps, published, review_status, created_at)
 select
   '年獸來了!',
   '把年獸的故事演出來:用身體變年獸、用鍋蓋和鈴鼓把牠趕跑,認識紅色、鞭炮和守歲的由來。',
@@ -348,6 +402,8 @@ select
   false,
   '教育大市集〈歡喜過新年〉(高雄市忠孝國小附設幼兒園 翁意婷、黃秀珠、阮玉文)',
   'https://market.cloud.edu.tw/resources/web/1649752',
+  'asset:assets/lessons/seed-107-cover.svg',
+  '[{"title": "引起動機", "description": "關燈說故事:年獸最怕哪三樣東西?", "image": "asset:assets/lessons/seed-107-1.svg"}, {"title": "發展活動", "description": "跟著鼓聲變身年獸:慢慢走、快快跑、定格。", "image": "asset:assets/lessons/seed-107-2.svg"}, {"title": "綜合活動", "description": "村民揮紅布、敲鍋蓋,一起把年獸趕回山上。", "image": "asset:assets/lessons/seed-107-3.svg"}]'::jsonb,
   true,
   'approved',
   timestamptz '2026-11-04 09:00:00+08'
@@ -355,10 +411,17 @@ where not exists (
   select 1 from public.resources where title = '年獸來了!'
 );
 
+-- 已經新增過的舊版本:補上封面與流程圖示(不覆蓋之後換上的實拍照片)
+update public.resources
+set cover_url = 'asset:assets/lessons/seed-107-cover.svg',
+    steps = '[{"title": "引起動機", "description": "關燈說故事:年獸最怕哪三樣東西?", "image": "asset:assets/lessons/seed-107-1.svg"}, {"title": "發展活動", "description": "跟著鼓聲變身年獸:慢慢走、快快跑、定格。", "image": "asset:assets/lessons/seed-107-2.svg"}, {"title": "綜合活動", "description": "村民揮紅布、敲鍋蓋,一起把年獸趕回山上。", "image": "asset:assets/lessons/seed-107-3.svg"}]'::jsonb
+where title = '年獸來了!'
+  and (cover_url is null or cover_url like 'asset:%');
+
 insert into public.resources
   (title, summary, type, age_stages, domains, indicator_codes, themes,
    content, duration_minutes, is_featured, source_name, source_url,
-   published, review_status, created_at)
+   cover_url, steps, published, review_status, created_at)
 select
   '校門口的交通小調查',
   '到校門口數一數經過的車,用貼紙做成統計圖,討論哪一種最多、為什麼。',
@@ -398,6 +461,8 @@ select
   false,
   '教育部《幼兒園教保活動課程—課程發展參考實例》〈生活中的交通工具〉',
   null,
+  'asset:assets/lessons/seed-108-cover.svg',
+  '[{"title": "引起動機", "description": "你今天怎麼來學校?站到圖卡後面排排看。", "image": "asset:assets/lessons/seed-108-1.svg"}, {"title": "發展活動", "description": "到校門口分組記錄:看到一輛就畫一條線。", "image": "asset:assets/lessons/seed-108-2.svg"}, {"title": "綜合活動", "description": "把記錄換成圓點貼紙,做成全班的統計圖。", "image": "asset:assets/lessons/seed-108-3.svg"}]'::jsonb,
   true,
   'approved',
   timestamptz '2026-11-03 09:00:00+08'
@@ -405,10 +470,17 @@ where not exists (
   select 1 from public.resources where title = '校門口的交通小調查'
 );
 
+-- 已經新增過的舊版本:補上封面與流程圖示(不覆蓋之後換上的實拍照片)
+update public.resources
+set cover_url = 'asset:assets/lessons/seed-108-cover.svg',
+    steps = '[{"title": "引起動機", "description": "你今天怎麼來學校?站到圖卡後面排排看。", "image": "asset:assets/lessons/seed-108-1.svg"}, {"title": "發展活動", "description": "到校門口分組記錄:看到一輛就畫一條線。", "image": "asset:assets/lessons/seed-108-2.svg"}, {"title": "綜合活動", "description": "把記錄換成圓點貼紙,做成全班的統計圖。", "image": "asset:assets/lessons/seed-108-3.svg"}]'::jsonb
+where title = '校門口的交通小調查'
+  and (cover_url is null or cover_url like 'asset:%');
+
 insert into public.resources
   (title, summary, type, age_stages, domains, indicator_codes, themes,
    content, duration_minutes, is_featured, source_name, source_url,
-   published, review_status, created_at)
+   cover_url, steps, published, review_status, created_at)
 select
   '我長大了!',
   '比一比小時候和現在的自己,找出一件「我現在會做了」的事,做成成長小書的一頁。',
@@ -448,6 +520,8 @@ select
   false,
   '教育部《幼兒園教保活動課程—課程發展參考實例》〈期待我長大〉',
   null,
+  'asset:assets/lessons/seed-109-cover.svg',
+  '[{"title": "引起動機", "description": "猜猜這張嬰兒照是誰?小襪子還穿得下嗎?", "image": "asset:assets/lessons/seed-109-1.svg"}, {"title": "發展活動", "description": "靠著牆量身高,比比小時候和現在哪裡不一樣。", "image": "asset:assets/lessons/seed-109-2.svg"}, {"title": "綜合活動", "description": "畫下「我現在會做的一件事」,做成成長小書。", "image": "asset:assets/lessons/seed-109-3.svg"}]'::jsonb,
   true,
   'approved',
   timestamptz '2026-11-02 09:00:00+08'
@@ -455,10 +529,17 @@ where not exists (
   select 1 from public.resources where title = '我長大了!'
 );
 
+-- 已經新增過的舊版本:補上封面與流程圖示(不覆蓋之後換上的實拍照片)
+update public.resources
+set cover_url = 'asset:assets/lessons/seed-109-cover.svg',
+    steps = '[{"title": "引起動機", "description": "猜猜這張嬰兒照是誰?小襪子還穿得下嗎?", "image": "asset:assets/lessons/seed-109-1.svg"}, {"title": "發展活動", "description": "靠著牆量身高,比比小時候和現在哪裡不一樣。", "image": "asset:assets/lessons/seed-109-2.svg"}, {"title": "綜合活動", "description": "畫下「我現在會做的一件事」,做成成長小書。", "image": "asset:assets/lessons/seed-109-3.svg"}]'::jsonb
+where title = '我長大了!'
+  and (cover_url is null or cover_url like 'asset:%');
+
 insert into public.resources
   (title, summary, type, age_stages, domains, indicator_codes, themes,
    content, duration_minutes, is_featured, source_name, source_url,
-   published, review_status, created_at)
+   cover_url, steps, published, review_status, created_at)
 select
   '雪花定格舞',
   '冬天或下雨天在教室裡動起來:跟著音樂當雪花飄、音樂一停就結冰,練平衡也練煞車。',
@@ -498,12 +579,21 @@ select
   false,
   'Good2Know Network〈Cold Weather Activities: Indoor Movement Ideas for Young Children〉',
   'https://good2knownetwork.org/cold-weather-activities-indoor-movement-ideas-for-young-children/',
+  'asset:assets/lessons/seed-110-cover.svg',
+  '[{"title": "引起動機", "description": "搓搓手:冬天哪裡最冷?雪花是怎麼飄的?", "image": "asset:assets/lessons/seed-110-1.svg"}, {"title": "發展活動", "description": "音樂響起當雪花飄,音樂一停就結冰定格。", "image": "asset:assets/lessons/seed-110-2.svg"}, {"title": "綜合活動", "description": "雪花慢慢落地融化,躺著摸摸自己的心跳。", "image": "asset:assets/lessons/seed-110-3.svg"}]'::jsonb,
   true,
   'approved',
   timestamptz '2026-11-01 09:00:00+08'
 where not exists (
   select 1 from public.resources where title = '雪花定格舞'
 );
+
+-- 已經新增過的舊版本:補上封面與流程圖示(不覆蓋之後換上的實拍照片)
+update public.resources
+set cover_url = 'asset:assets/lessons/seed-110-cover.svg',
+    steps = '[{"title": "引起動機", "description": "搓搓手:冬天哪裡最冷?雪花是怎麼飄的?", "image": "asset:assets/lessons/seed-110-1.svg"}, {"title": "發展活動", "description": "音樂響起當雪花飄,音樂一停就結冰定格。", "image": "asset:assets/lessons/seed-110-2.svg"}, {"title": "綜合活動", "description": "雪花慢慢落地融化,躺著摸摸自己的心跳。", "image": "asset:assets/lessons/seed-110-3.svg"}]'::jsonb
+where title = '雪花定格舞'
+  and (cover_url is null or cover_url like 'asset:%');
 
 -- 標籤
 insert into public.tags (name) values

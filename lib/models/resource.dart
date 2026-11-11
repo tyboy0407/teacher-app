@@ -2,14 +2,22 @@ import 'taxonomy.dart';
 
 /// 製作步驟
 class ResourceStep {
-  const ResourceStep({required this.title, this.description = ''});
+  const ResourceStep({
+    required this.title,
+    this.description = '',
+    this.imageUrl,
+  });
 
   final String title;
   final String description;
 
+  /// 這個步驟的圖示(選填);網址格式見 ResourceImage
+  final String? imageUrl;
+
   factory ResourceStep.fromJson(Map<String, dynamic> json) => ResourceStep(
     title: json['title'] as String? ?? '',
     description: json['description'] as String? ?? '',
+    imageUrl: json['image'] as String?,
   );
 }
 

@@ -72,7 +72,7 @@ class HomePage extends ConsumerWidget {
               ),
               const _SectionHeader('精選推薦'),
               SizedBox(
-                height: 212,
+                height: 244,
                 child: featured.when(
                   data: (resources) => EntranceWindow(
                     builder: (context, entrance) => ListView.separated(

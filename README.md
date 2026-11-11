@@ -71,6 +71,7 @@ supabase/
 scripts/
   build_curriculum.py   解析官方課綱 PDF → 產生課綱資料檔(Dart/SQL/核對清單)
   build_lesson_seeds.py 範本教案的單一來源 → 產生 App 內建資料、SQL 種子與來源清單
+  build_lesson_art.py   範本教案的插圖(封面 + 三張流程圖示)→ assets/lessons/*.svg;圖形零件與場景在 scripts/lesson_art/
 docs/
   content-guidelines.md   內容錄入規範(給錄入內容的老師)
   curriculum-review.md    課綱指標逐條核對清單(含官方 PDF 頁碼)

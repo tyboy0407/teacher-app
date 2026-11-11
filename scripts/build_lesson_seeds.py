@@ -14,6 +14,7 @@
 """
 from __future__ import annotations
 
+import json
 import re
 import sys
 from pathlib import Path
@@ -446,6 +447,77 @@ LESSONS = [
 ]
 
 
+# 每篇三張流程圖示的說明(圖在 assets/lessons/{id}-1/2/3.svg,由 build_lesson_art.py 產生)
+STEP_TITLES = ["引起動機", "發展活動", "綜合活動"]
+STEPS = {
+    "seed-101": [
+        "神秘箱摸一摸:硬的還是軟的?一粒一粒的是什麼?",
+        "剝玉米、比顏色,再用玉米滾顏料印出花紋。",
+        "作品掛起來一起欣賞,說說自己印出來像什麼。",
+    ],
+    "seed-102": [
+        "聽海浪聲,閉上眼睛猜猜這是哪裡。",
+        "共讀海洋圖畫書:如果你是牠,會有什麼感覺?",
+        "分組在藍色海報上畫出班級的大海,互相參觀。",
+    ],
+    "seed-103": [
+        "小豬的大餅被咬了一口!是誰咬的?",
+        "把缺口疊在一起比一比,每種動物的牙印都不一樣。",
+        "看著圖卡的順序,全班一起把故事再說一次。",
+    ],
+    "seed-104": [
+        "老師做表情,猜猜現在是什麼天氣:晴天、下雨還是打雷?",
+        "照鏡子做出太陽臉、下雨臉、打雷臉,再練習深呼吸。",
+        "把名字夾到心情天氣板上,說說今天的心情。",
+    ],
+    "seed-105": [
+        "是誰幫了我?從照片找出每天照顧我們的人。",
+        "畫一張感謝小卡,老師幫忙寫下想說的話。",
+        "親手把卡片送出去,看著對方說「謝謝你」。",
+    ],
+    "seed-106": [
+        "認識春聯上的字;「福」為什麼要倒著貼?",
+        "在紅紙上用粗筆寫一個字,或把祝福畫成圖。",
+        "一起把春聯貼在教室,介紹要送給誰。",
+    ],
+    "seed-107": [
+        "關燈說故事:年獸最怕哪三樣東西?",
+        "跟著鼓聲變身年獸:慢慢走、快快跑、定格。",
+        "村民揮紅布、敲鍋蓋,一起把年獸趕回山上。",
+    ],
+    "seed-108": [
+        "你今天怎麼來學校?站到圖卡後面排排看。",
+        "到校門口分組記錄:看到一輛就畫一條線。",
+        "把記錄換成圓點貼紙,做成全班的統計圖。",
+    ],
+    "seed-109": [
+        "猜猜這張嬰兒照是誰?小襪子還穿得下嗎?",
+        "靠著牆量身高,比比小時候和現在哪裡不一樣。",
+        "畫下「我現在會做的一件事」,做成成長小書。",
+    ],
+    "seed-110": [
+        "搓搓手:冬天哪裡最冷?雪花是怎麼飄的?",
+        "音樂響起當雪花飄,音樂一停就結冰定格。",
+        "雪花慢慢落地融化,躺著摸摸自己的心跳。",
+    ],
+}
+
+
+def cover_url(lesson_id: str) -> str:
+    return f"asset:assets/lessons/{lesson_id}-cover.svg"
+
+
+def step_rows(lesson_id: str) -> list[dict]:
+    return [
+        {
+            "title": STEP_TITLES[i],
+            "description": text,
+            "image": f"asset:assets/lessons/{lesson_id}-{i + 1}.svg",
+        }
+        for i, text in enumerate(STEPS[lesson_id])
+    ]
+
+
 # ---------- 檢查 ----------
 
 def load_indicator_codes() -> set[str]:
@@ -474,6 +546,12 @@ def validate() -> None:
         for age in lesson["ages"]:
             if age not in AGE:
                 errors.append(f"{lesson['id']}: 未知的年齡 {age}")
+        if len(STEPS.get(lesson["id"], [])) != 3:
+            errors.append(f"{lesson['id']}: 流程圖示說明要剛好 3 則")
+        for suffix in ("cover", "1", "2", "3"):
+            art = ROOT / "assets" / "lessons" / f"{lesson['id']}-{suffix}.svg"
+            if not art.exists():
+                errors.append(f"{lesson['id']}: 缺插圖 {art.name}(先跑 build_lesson_art.py)")
     if errors:
         sys.exit("\n".join(errors))
 
@@ -528,6 +606,13 @@ def build_dart() -> str:
             f"    tags: {dart_list(lesson['tags'])},",
             f"    themes: {dart_list(lesson['themes'])},",
             f"    indicatorCodes: {dart_list(lesson['indicators'])},",
+            f"    coverUrl: {dart_str(cover_url(lesson['id']))},",
+            "    steps: const [",
+            *[
+                f"      ResourceStep(title: {dart_str(row['title'])}, description: {dart_str(row['description'])}, imageUrl: {dart_str(row['image'])}),"
+                for row in step_rows(lesson["id"])
+            ],
+            "    ],",
             f"    content: {dart_str(lesson['content'])},",
             f"    durationMinutes: {lesson['minutes']},",
             f"    isFeatured: {'true' if lesson['featured'] else 'false'},",
@@ -567,7 +652,7 @@ def build_sql() -> str:
             "insert into public.resources",
             "  (title, summary, type, age_stages, domains, indicator_codes, themes,",
             "   content, duration_minutes, is_featured, source_name, source_url,",
-            "   published, review_status, created_at)",
+            "   cover_url, steps, published, review_status, created_at)",
             "select",
             f"  {sql_str(lesson['title'])},",
             f"  {sql_str(lesson['summary'])},",
@@ -581,12 +666,21 @@ def build_sql() -> str:
             f"  {'true' if lesson['featured'] else 'false'},",
             f"  {sql_str(lesson['source_name'])},",
             f"  {sql_str(lesson['source_url'])},",
+            f"  {sql_str(cover_url(lesson['id']))},",
+            f"  {sql_str(json.dumps(step_rows(lesson['id']), ensure_ascii=False))}::jsonb,",
             "  true,",
             "  'approved',",
             f"  timestamptz '{lesson['created']} 09:00:00+08'",
             "where not exists (",
             f"  select 1 from public.resources where title = {sql_str(lesson['title'])}",
             ");",
+            "",
+            "-- 已經新增過的舊版本:補上封面與流程圖示(不覆蓋之後換上的實拍照片)",
+            "update public.resources",
+            f"set cover_url = {sql_str(cover_url(lesson['id']))},",
+            f"    steps = {sql_str(json.dumps(step_rows(lesson['id']), ensure_ascii=False))}::jsonb",
+            f"where title = {sql_str(lesson['title'])}",
+            "  and (cover_url is null or cover_url like 'asset:%');",
             "",
         ]
     tags = sorted({t for lesson in LESSONS for t in lesson["tags"]})

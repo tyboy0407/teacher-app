@@ -1,9 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../core/theme.dart';
 import '../models/resource.dart';
 import 'paper.dart';
+import 'resource_image.dart';
 
 /// 資源封面:有圖片網址就顯示圖片,否則用領域色調出來的淡色塊。
 /// 列表卡片上放一個小圖示(資源類型);詳情頁([sticker] 為真)放一張圓形貼紙。
@@ -22,21 +22,15 @@ class ResourceCover extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final url = resource.coverUrl;
+    final tint = _TintCover(
+      resource: resource,
+      iconSize: iconSize,
+      sticker: sticker,
+    );
     if (url != null && url.isNotEmpty) {
-      return CachedNetworkImage(
-        imageUrl: url,
-        fit: BoxFit.cover,
-        placeholder: (context, _) => Container(
-          color: Theme.of(context).colorScheme.surfaceContainerHighest,
-        ),
-        errorWidget: (context, _, _) => _TintCover(
-          resource: resource,
-          iconSize: iconSize,
-          sticker: sticker,
-        ),
-      );
+      return ResourceImage(url: url, fallback: tint);
     }
-    return _TintCover(resource: resource, iconSize: iconSize, sticker: sticker);
+    return tint;
   }
 }
 

@@ -22,6 +22,7 @@ import '../../widgets/error_retry.dart';
 import '../../widgets/favorite_button.dart';
 import '../../widgets/paper.dart';
 import '../../widgets/resource_cover.dart';
+import '../../widgets/resource_image.dart';
 import '../../widgets/review_status_chip.dart';
 
 class ResourceDetailPage extends ConsumerWidget {
@@ -393,7 +394,10 @@ class _DetailView extends ConsumerWidget {
                     ),
                   if (resource.steps.isNotEmpty)
                     _Section(
-                      title: '製作步驟',
+                      // 教案的步驟是「活動流程」:引起動機、發展、綜合,各配一張圖示
+                      title: resource.type == ResourceType.lessonPlan
+                          ? '活動流程'
+                          : '製作步驟',
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -424,6 +428,24 @@ class _DetailView extends ConsumerWidget {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
+                                        if (resource.steps[i].imageUrl != null)
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              bottom: 8,
+                                            ),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              child: AspectRatio(
+                                                aspectRatio: 4 / 3,
+                                                child: ResourceImage(
+                                                  url: resource
+                                                      .steps[i]
+                                                      .imageUrl!,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
                                         Text(
                                           resource.steps[i].title,
                                           style: theme.textTheme.titleSmall

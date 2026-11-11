@@ -44,6 +44,7 @@ dependencies:
   url_launcher: ^6.3.2
   image_picker: ^1.2.3
   web: ^1.1.1
+  flutter_svg: ^2.3.3
 
 dev_dependencies:
   flutter_test:
@@ -66,6 +67,10 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  # 範本教案的插圖(由 scripts/build_lesson_art.py 產生)
+  assets:
+    - assets/lessons/
 
   fonts:
     - family: Huninn

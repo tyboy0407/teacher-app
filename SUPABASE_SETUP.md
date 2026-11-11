@@ -19,7 +19,7 @@ App 預設使用**內建示範資料**,不用任何設定就能跑起來。
 6. (選用)再貼上 [`supabase/seed.sql`](supabase/seed.sql) 執行,會匯入與 App 內建相同的 14 筆種子內容
 7. 再貼上 [`supabase/schema_v4.sql`](supabase/schema_v4.sql) 執行,加入**主題/節慶**欄位(並補上示範內容的主題)
 8. 最後貼上 [`supabase/schema_v5.sql`](supabase/schema_v5.sql) 執行,加入管理者**下架 / 重新上架 / 刪除**函式
-9. (選用)貼上 [`supabase/seed_lessons.sql`](supabase/seed_lessons.sql) 執行,加入 10 篇**範本教案**(小/中/大班;可重複執行,同標題不會重複新增)。教案的參考來源見 [docs/lesson-sources.md](docs/lesson-sources.md)
+9. (選用)貼上 [`supabase/seed_lessons.sql`](supabase/seed_lessons.sql) 執行,加入 10 篇**範本教案**(小/中/大班,含封面與活動流程圖示;可重複執行,同標題不會重複新增,已新增過的會補上圖)。教案的參考來源見 [docs/lesson-sources.md](docs/lesson-sources.md)
 
 > 註冊流程預設會寄 Email 驗證信;測試期想省略,可到 **Authentication → Sign In / Providers → Email** 關閉「Confirm email」。
 

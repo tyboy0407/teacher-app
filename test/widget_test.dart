@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,6 +24,7 @@ import 'package:teacher_app/widgets/entrance.dart';
 import 'package:teacher_app/widgets/skeleton.dart';
 import 'package:teacher_app/widgets/favorite_button.dart';
 import 'package:teacher_app/widgets/resource_card.dart';
+import 'package:teacher_app/widgets/resource_image.dart';
 
 Future<void> pumpApp(WidgetTester tester) async {
   await tester.pumpWidget(const ProviderScope(child: TeacherApp()));
@@ -632,6 +635,44 @@ void main() {
       }
       expect(lesson.content, contains('教學目標'), reason: lesson.title);
       expect(lesson.content, contains('小提醒'), reason: lesson.title);
+    }
+  });
+
+  testWidgets('範本教案:詳情頁有「活動流程」三張圖示與說明', (tester) async {
+    await pumpApp(tester);
+    await openDetailBySearch(tester, '年獸');
+    await tester.scrollUntilVisible(
+      find.text('活動流程'),
+      300,
+      scrollable: find.descendant(
+        of: find.byType(CustomScrollView),
+        matching: find.byType(Scrollable),
+      ),
+    );
+    expect(find.text('活動流程'), findsOneWidget);
+    expect(find.text('製作步驟'), findsNothing);
+    await tester.drag(find.byType(CustomScrollView), const Offset(0, -500));
+    await tester.pumpAndSettle();
+    expect(find.text('引起動機'), findsOneWidget);
+    expect(find.textContaining('年獸最怕哪三樣東西'), findsOneWidget);
+    // 封面 + 流程圖示都用內建插圖
+    expect(find.byType(ResourceImage), findsWidgets);
+  });
+
+  test('範本教案資料:每篇都有內建封面與三張流程圖,檔案存在', () {
+    for (final lesson in seedLessons) {
+      expect(
+        ResourceImage.isBundled(lesson.coverUrl),
+        isTrue,
+        reason: lesson.title,
+      );
+      expect(lesson.steps.length, 3, reason: lesson.title);
+      final urls = [lesson.coverUrl!, ...lesson.steps.map((s) => s.imageUrl!)];
+      for (final url in urls) {
+        final path = url.substring(ResourceImage.assetScheme.length);
+        expect(File(path).existsSync(), isTrue, reason: '缺檔 $path');
+        expect(File(path).readAsStringSync(), startsWith('<svg'));
+      }
     }
   });
 

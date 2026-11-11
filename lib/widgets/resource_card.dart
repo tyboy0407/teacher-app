@@ -137,7 +137,7 @@ class FeaturedResourceCard extends StatelessWidget {
                 children: [
                   // 沒有照片時封面壓矮,把空間還給標題
                   AspectRatio(
-                    aspectRatio: resource.hasCover ? 16 / 9 : 2.6,
+                    aspectRatio: resource.hasCover ? 2.0 : 2.6,
                     child: ResourceCover(
                       resource: resource,
                       iconSize: resource.hasCover ? 34 : 26,
